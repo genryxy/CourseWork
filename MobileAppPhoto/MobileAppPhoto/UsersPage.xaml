@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MobileAppPhoto.UsersPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <StackLayout>
+        <ListView
+            x:Name="UsersView"
+            ItemsSource="{Binding Path=Users}"
+            ListView.RowHeight="150">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Vertical">
+                            <Entry IsEnabled="False" Text="{Binding Id}" />
+                            <Entry Text="{Binding CompanyName}" />
+                            <Entry Text="{Binding PhysicalAddress}" />
+                            <Entry Text="{Binding Country}" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <StackLayout>
+            <Button x:Name="btnTakePhoto" Text="Take Photo" />
+            <Image x:Name="image" />
+        </StackLayout>
+    </StackLayout>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Name="Add"
+            Activated="OnAddClick"
+            Order="Secondary"
+            Priority="0" />
+        <ToolbarItem
+            Name="Remove"
+            Activated="OnRemoveClick"
+            Order="Secondary"
+            Priority="1" />
+        <ToolbarItem
+            Name="Remove all"
+            Activated="OnRemoveAllClick"
+            Order="Secondary"
+            Priority="2" />
+        <ToolbarItem
+            Name="Save"
+            Activated="OnSaveClick"
+            Order="Secondary"
+            Priority="3" />
+    </ContentPage.ToolbarItems>
+</ContentPage>

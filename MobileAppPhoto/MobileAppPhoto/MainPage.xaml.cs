@@ -14,7 +14,8 @@ namespace MobileAppPhoto
         public MainPage()
         {
             InitializeComponent();
-                        
+            
+            // сделать фотографию
             btnTakePhoto.Clicked += async (sender, args) =>
             {
 
@@ -32,6 +33,7 @@ namespace MobileAppPhoto
                     CustomPhotoSize = 50,
                     PhotoSize = PhotoSize.MaxWidthHeight,
                     MaxWidthHeight = 2000,
+                    Name = DateTime.Now + "_app.jpg",
                     DefaultCamera = CameraDevice.Front
                 });
 
@@ -40,14 +42,17 @@ namespace MobileAppPhoto
 
                 await DisplayAlert("File Location", file.Path, "OK");
 
+                image.Source = ImageSource.FromFile(file.Path);
+                /*
                 image.Source = ImageSource.FromStream(() =>
                 {
                     var stream = file.GetStream();
                     file.Dispose();
                     return stream;
-                });
+                });*/
             };
 
+            // выбрать существующую фотографию
             btnPickPhoto.Clicked += async (sender, args) =>
             {
                 if (!CrossMedia.Current.IsPickPhotoSupported)

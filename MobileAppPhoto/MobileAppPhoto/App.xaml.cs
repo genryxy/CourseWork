@@ -11,6 +11,7 @@ namespace MobileAppPhoto
         {
             InitializeComponent();
 
+            //MainPage = new NavigationPage(new UsersPage());
             MainPage = new MainPage();
         }
 
