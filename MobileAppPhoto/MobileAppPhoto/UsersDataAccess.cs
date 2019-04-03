@@ -31,20 +31,23 @@ namespace MobileAppPhoto
 
             if (!database.Table<User>().Any())
             {
-                AddNewUser();
+                AddNewUser("nothing", "noText");
             }
         }
+
+        public int CountUsers { get => Users.Count; }
+        public string this[int index] { get => Users[Users.Count - 1].PhysicalAddress; }
 
         /// <summary>
         /// Добавляет новый объект User в набор Users. Предотвращает связывание с пустым набором.
         /// </summary>
-        public void AddNewUser()
+        public void AddNewUser(string filePath, string detectText)
         {
             Users.Add(new User
             {
                 Country = "Russia",
                 CompanyName = "compName",
-                PhysicalAddress = "address"
+                PhysicalAddress = $"{filePath}"
             });
         }
 
@@ -89,6 +92,7 @@ namespace MobileAppPhoto
             }
         }
 
+        #region Методы сохранения записей в БД
         /// <summary>
         /// Вставка или обновление одного экземпляра объекта User в зависимости от наличия у него идентификатора класса User
         /// </summary>
@@ -130,7 +134,9 @@ namespace MobileAppPhoto
                 }
             }
         }
+        #endregion
 
+        #region Методы удаления записей из БД
         /// <summary>
         /// Удаляет указанный экземпляр из БД и списка Users
         /// </summary>
@@ -163,5 +169,6 @@ namespace MobileAppPhoto
             Users = null;
             Users = new ObservableCollection<User>(database.Table<User>());
         }
+        #endregion
     }
 }

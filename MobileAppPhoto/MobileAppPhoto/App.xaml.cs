@@ -11,10 +11,14 @@ namespace MobileAppPhoto
         {
             InitializeComponent();
 
-            //MainPage = new NavigationPage(new UsersPage());
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new UsersPage());
+            //MainPage = new MainPage();
         }
 
+        public void OnChangePage()
+        {
+
+        }
         protected override void OnStart()
         {
             // Handle when your app starts

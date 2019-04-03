@@ -15,6 +15,8 @@ namespace MobileAppPhoto
     public partial class UsersPage : ContentPage
     {
         private UsersDataAccess dataAccess;
+        private delegate void ChangePageHandler();
+        private event ChangePageHandler ChangePage;
 
         public UsersPage()
         {
@@ -23,41 +25,50 @@ namespace MobileAppPhoto
             // Экземпляр UserDataAccessClass, используемый для связывания с данными и доступа к данным
             dataAccess = new UsersDataAccess();
 
-            // сделать фотографию
-            btnTakePhoto.Clicked += async (sender, args) =>
+            // Привязать событие к нажатию кнопки для фотографирования
+            btnTakePhoto.Clicked += BtnTakePhoto_Clicked;
+        }
+
+        private async void BtnTakePhoto_Clicked(object sender, EventArgs e)
+        {
+            if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
             {
+                await DisplayAlert("No Camera", ":( No camera available.", "OK");
+                return;
+            }
 
-                if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
-                {
-                    await DisplayAlert("No Camera", ":( No camera available.", "OK");
-                    return;
-                }
+            var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+            {
+                Directory = "Test",
+                SaveToAlbum = true,
+                CompressionQuality = 75,
+                CustomPhotoSize = 50,
+                PhotoSize = PhotoSize.MaxWidthHeight,
+                MaxWidthHeight = 2000,
+                Name = DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + "_app.jpg",
+                DefaultCamera = CameraDevice.Front
+            });
 
-                var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
-                {
-                    Directory = "Test",
-                    SaveToAlbum = true,
-                    CompressionQuality = 75,
-                    CustomPhotoSize = 50,
-                    PhotoSize = PhotoSize.MaxWidthHeight,
-                    MaxWidthHeight = 2000,
-                    Name = DateTime.Now + "_app.jpg",
-                    DefaultCamera = CameraDevice.Front
-                });
+            if (file == null)
+                return;
+            var googleVision = new GoogleVisonAPI(file.Path);
+            await DisplayAlert("File Location", file.Path, "OK");
 
-                if (file == null)
-                    return;
+            //image.Source = ImageSource.FromFile(file.Path);
 
-                await DisplayAlert("File Location", file.Path, "OK");               
+            dataAccess.AddNewUser(file.Path, googleVision.DetectTextFromImage());
+            //await DisplayAlert("File Location", dataAccess[0], "OK");
+            image.Source = ImageSource.FromFile(dataAccess[0]);
 
-                image.Source = ImageSource.FromFile(file.Path);
-                /*image.Source = ImageSource.FromStream(() =>
-                {
-                    var stream = file.GetStream();
-                    file.Dispose();
-                    return stream;
-                });*/
-            };
+            //ChangePage += new App().OnChangePage;
+            //ChangePage?.Invoke();
+
+            /*image.Source = ImageSource.FromStream(() =>
+            {
+                var stream = file.GetStream();
+                file.Dispose();
+                return stream;
+            });*/
         }
 
         /// <summary>
@@ -87,7 +98,7 @@ namespace MobileAppPhoto
         /// <param name="e"></param>
         private void OnAddClick(object sender, EventArgs e)
         {
-            dataAccess.AddNewUser();
+            dataAccess.AddNewUser("nothing", "noText");
         }
 
         /// <summary>
