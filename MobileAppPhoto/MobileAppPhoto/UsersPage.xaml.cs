@@ -57,7 +57,6 @@ namespace MobileAppPhoto
             //image.Source = ImageSource.FromFile(file.Path);
 
             dataAccess.AddNewUser(file.Path, googleVision.DetectTextFromImage());
-            //await DisplayAlert("File Location", dataAccess[0], "OK");
             image.Source = ImageSource.FromFile(dataAccess[0]);
 
             //ChangePage += new App().OnChangePage;

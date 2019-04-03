@@ -46,7 +46,7 @@ namespace MobileAppPhoto
             Users.Add(new User
             {
                 Country = "Russia",
-                CompanyName = "compName",
+                CompanyName = $"{detectText}",
                 PhysicalAddress = $"{filePath}"
             });
         }
