@@ -49,7 +49,7 @@ namespace MobileAppPhoto
         /// Название продукта
         /// </summary>
         [NotNull]
-        [Column("Name")]
+        //[Column("Name")]
         public string ProductName
         {
             get => _productName;
@@ -64,7 +64,7 @@ namespace MobileAppPhoto
         /// Состав продукта
         /// </summary>
         [NotNull]
-        [Column("Composition")]
+        //[Column("Composition")]
         public string ProductComposition
         {
             get => _productComposition;

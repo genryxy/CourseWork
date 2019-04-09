@@ -31,7 +31,7 @@ namespace MobileAppPhoto
         /// <returns> null - отсутствует, иначе - найденное слово </returns>
         public string SearchWordInHashset(string detectText)
         {
-            string[] arrWords = detectText.Split(new string[] { " ", ":", "." },
+            string[] arrWords = detectText.Split(new string[] { " ", ":", ".", "\n", "\t"},
                 StringSplitOptions.RemoveEmptyEntries);
             foreach (var word in arrWords)
             {

@@ -36,7 +36,7 @@ namespace MobileAppPhoto
         }
 
         public int CountRecords { get => Records.Count; }
-        public string this[int index] { get => Records[Records.Count - 1].PhysicalAddress; }
+        public string this[int index] { get => Records[Records.Count - 1].PathToImageName; }
 
         /// <summary>
         /// Добавляет новый объект Record в набор Records. Предотвращает связывание с пустым набором.

@@ -15,7 +15,7 @@
                         <StackLayout Orientation="Vertical">
                             <Entry IsEnabled="False" Text="{Binding Id}" />
                             <Entry Text="{Binding ProductName}" />
-                            <Entry Text="{Binding PhysicalAddress}" />
+                            <Entry Text="{Binding ProductComposition}" />
                             <Entry Text="{Binding Country}" />
                         </StackLayout>
                     </ViewCell>
@@ -23,7 +23,7 @@
             </ListView.ItemTemplate>
         </ListView>
         <StackLayout>
-            <Button x:Name="btnTakePhoto" Text="Take Photo" />
+            <Button x:Name="btnTakePhoto" Text="Сфотографировать" />
             <Image x:Name="image" />
         </StackLayout>
     </StackLayout>

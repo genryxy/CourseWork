@@ -14,7 +14,7 @@ namespace MobileAppPhoto
         GoogleCredential credential;
         Channel channel;
 
-        public event Func<string> CheckTextLanguage;
+        //public event Func<string> CheckTextLanguage;
 
         /// <summary>
         /// Путь до фотографии
@@ -45,11 +45,11 @@ namespace MobileAppPhoto
                 if (msg == string.Empty)
                 {
                     // Проверям язык текста с фотографии
-                    if (text.Locale == "ru")
-                    {
+                    //if (text.Locale == "ru")
+                    //{
                         return text.Description;
-                    }
-                    msg = CheckTextLanguage?.Invoke();
+                    //}
+                    //msg = CheckTextLanguage?.Invoke();
                 }
                 break;
             }
