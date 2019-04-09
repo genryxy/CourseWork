@@ -13,28 +13,46 @@ namespace MobileAppPhoto
     {
         GoogleCredential credential;
         Channel channel;
+
+        public event Func<string> CheckTextLanguage;
+
         /// <summary>
         /// Путь до фотографии
         /// </summary>
-        public string PathToImage { get; private set; }
+        public string PathToImage { get; set; }
 
-        public GoogleVisonAPI(string pathToImage)
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        public GoogleVisonAPI()
         {
-            PathToImage = pathToImage;
             GetCredentials();
         }
 
         /// <summary>
         /// Распознаёт текст с фотографии
         /// </summary>
-        /// <returns> распозаннный текст </returns>
+        /// <returns> распознанный текст </returns>
         public string DetectTextFromImage()
         {
-            //var client = ImageAnnotatorClient.Create();
             var client = ImageAnnotatorClient.Create(channel);
             var image = Image.FromFile(PathToImage);
-            IReadOnlyList<EntityAnnotation> textAnnotations = client.DetectText(image);
-            string msg = textAnnotations.ToString();
+            IReadOnlyList<EntityAnnotation> textAnnotations = client.DetectText(image);            
+            string msg = string.Empty; 
+           
+            foreach (EntityAnnotation text in textAnnotations)
+            {
+                if (msg == string.Empty)
+                {
+                    // Проверям язык текста с фотографии
+                    if (text.Locale == "ru")
+                    {
+                        return text.Description;
+                    }
+                    msg = CheckTextLanguage?.Invoke();
+                }
+                break;
+            }
             return msg;
         }
 
@@ -44,16 +62,10 @@ namespace MobileAppPhoto
         private void GetCredentials()
         {
             AssetManager assets = Android.App.Application.Context.Assets;
-            var asset = Android.App.Application.Context.Assets.Open("hseOcrPrivateKey.json");
-
-            credential = GoogleCredential.FromStream(asset);
+            var stream = Android.App.Application.Context.Assets.Open("hseOcrPrivateKey.json");
+            credential = GoogleCredential.FromStream(stream);
             channel = new Channel(ImageAnnotatorClient.DefaultEndpoint.Host,
                 ImageAnnotatorClient.DefaultEndpoint.Port, credential.ToChannelCredentials());
         }
     }
 }
-
-
-
-//string workingDirectory = MobileAppPhoto.Properties.Resources.hseOcrPrivateKey;
-//credential = GoogleCredential.FromFile(path2);

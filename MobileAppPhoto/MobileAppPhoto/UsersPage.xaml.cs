@@ -14,7 +14,10 @@ namespace MobileAppPhoto
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UsersPage : ContentPage
     {
-        private UsersDataAccess dataAccess;
+        private RecordsDataAccess dataAccess;
+        private GoogleVisonAPI googleVision;
+        private ProductName productName;
+        private ProductComposition productComposition;
         private delegate void ChangePageHandler();
         private event ChangePageHandler ChangePage;
 
@@ -23,21 +26,30 @@ namespace MobileAppPhoto
             InitializeComponent();
 
             // Экземпляр UserDataAccessClass, используемый для связывания с данными и доступа к данным
-            dataAccess = new UsersDataAccess();
+            dataAccess = new RecordsDataAccess();
+            googleVision = new GoogleVisonAPI();
+            productName = new ProductName();
+            productComposition = new ProductComposition();
 
-            // Привязать событие к нажатию кнопки для фотографирования
+            googleVision.CheckTextLanguage += OnCheckTextLanguage;
             btnTakePhoto.Clicked += BtnTakePhoto_Clicked;
         }
 
         private async void BtnTakePhoto_Clicked(object sender, EventArgs e)
         {
+            string strProductName = "Название продукта", strProductCompos = "Состав продукта", text;
+
+            // Проверка наличия камеры
             if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
             {
-                await DisplayAlert("No Camera", ":( No camera available.", "OK");
+                await DisplayAlert("No Camera", "Unfortunately, no camera available.", "OK");
                 return;
             }
 
-            var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+            await DisplayAlert("Оповещение", "Сделайте фотографию так, чтобы её большая часть содержала " +
+                "название продукта", "ОК");
+            // Процесс фотографирования с последующим сохранением с указанными параметрами
+            var fileProdName = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
             {
                 Directory = "Test",
                 SaveToAlbum = true,
@@ -49,25 +61,94 @@ namespace MobileAppPhoto
                 DefaultCamera = CameraDevice.Front
             });
 
-            if (file == null)
+            // Была ли сделана фотография
+            if (fileProdName == null)
+            {
                 return;
-            var googleVision = new GoogleVisonAPI(file.Path);
-            await DisplayAlert("File Location", file.Path, "OK");
+            }
+            googleVision.PathToImage = fileProdName.Path;
 
+            await DisplayAlert("File Location", fileProdName.Path, "OK");
+
+            text = googleVision.DetectTextFromImage();
+            if (text == OnCheckTextLanguage())
+            {
+                await DisplayAlert("Оповещение", OnCheckTextLanguage(), "OK");
+            }
+            else
+            {
+                //  Найдено ли слово, явлвяющееся названием продукта, в распознанном тексте
+                if ((strProductName = productName.SearchWordInHashset(text)) == null)
+                {
+                    // TODO предложить ввести текст (возможно вызвать событие)
+                    // добавить в множество названий введенное название
+                }
+                else
+                {
+                    // TODO вывести распознанное слово
+                    // дать возможность исправить
+                }
+            }
             //image.Source = ImageSource.FromFile(file.Path);
-
-            dataAccess.AddNewUser(file.Path, googleVision.DetectTextFromImage());
             image.Source = ImageSource.FromFile(dataAccess[0]);
+
+
+            await DisplayAlert("Оповещение", "Сделайте фотографию так, чтобы на ней" +
+                " был виден состава продукта", "ОК");
+            // Процесс фотографирования с последующим сохранением с указанными параметрами
+            var fileProdCompos = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+            {
+                Directory = "Test",
+                SaveToAlbum = true,
+                CompressionQuality = 75,
+                CustomPhotoSize = 50,
+                PhotoSize = PhotoSize.MaxWidthHeight,
+                MaxWidthHeight = 2000,
+                Name = DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + "_app.jpg",
+                DefaultCamera = CameraDevice.Front
+            });
+            if (fileProdCompos == null)
+            {
+                return;
+            }
+            googleVision.PathToImage = fileProdCompos.Path;
+
+            text = googleVision.DetectTextFromImage();
+            if (text == OnCheckTextLanguage())
+            {
+                await DisplayAlert("Оповещение", OnCheckTextLanguage(), "OK");
+            }
+            else
+            {
+                strProductCompos = productComposition.SearchKeyWords(text);
+                //  Распознавание состава продукта
+                if (productComposition.IsNeedEdit)
+                {
+                    // TODO предложить ввести текст (возможно вызвать событие)
+                    // добавить в множество названий введенное название
+                }
+                else
+                {
+                    // TODO вывести распознанное слово
+                    // дать возможность исправить
+                }
+            }
+
+            dataAccess.AddNewRecord("allText, пока резерв", strProductName, strProductCompos,
+                fileProdName.Path, fileProdCompos.Path);
+            //dataAccess.AddNewRecord(file.Path, googleVision.DetectTextFromImage().ToString());
 
             //ChangePage += new App().OnChangePage;
             //ChangePage?.Invoke();
 
+            #region Альтернативный вывод фотки
             /*image.Source = ImageSource.FromStream(() =>
             {
                 var stream = file.GetStream();
                 file.Dispose();
                 return stream;
             });*/
+            #endregion
         }
 
         /// <summary>
@@ -80,6 +161,11 @@ namespace MobileAppPhoto
             BindingContext = dataAccess;
         }
 
+        private string OnCheckTextLanguage()
+        {
+            return "Текст на фотографии должен быть на русском языке.";
+        }
+
         /// <summary>
         /// Сохраняем любые отложенные изменения
         /// </summary>
@@ -87,7 +173,7 @@ namespace MobileAppPhoto
         /// <param name="e"></param>
         private void OnSaveClick(object sender, EventArgs e)
         {
-            dataAccess.SaveAllUSers();
+            dataAccess.SaveAllRecords();
         }
 
         /// <summary>
@@ -97,20 +183,20 @@ namespace MobileAppPhoto
         /// <param name="e"></param>
         private void OnAddClick(object sender, EventArgs e)
         {
-            dataAccess.AddNewUser("nothing", "noText");
+            //dataAccess.AddNewRecord("nothing", "noText");
         }
 
         /// <summary>
-        /// Удаляем текущего пользователя. Если он есть в базе данных, то будет удален и оттуда.
+        /// Удаляем текущую запись. Если он есть в базе данных, то будет удален и оттуда.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnRemoveClick(object sender, EventArgs e)
         {
-            var currentUser = UsersView.SelectedItem as User;
-            if (currentUser != null)
+            var currentRecord = RecordsView.SelectedItem as Record;
+            if (currentRecord != null)
             {
-                dataAccess.DeleteUser(currentUser);
+                dataAccess.DeleteRecord(currentRecord);
             }
         }
 
@@ -121,14 +207,14 @@ namespace MobileAppPhoto
         /// <param name="e"></param>
         private async void OnRemoveAllClick(object sender, EventArgs e)
         {
-            if (dataAccess.Users.Any())
+            if (dataAccess.Records.Any())
             {
                 var result = await DisplayAlert("Подтверждение",
                     "Вы уверены? Данные нельзя будет восстановить.", "Ok", "Cancel");
 
                 if (result)
                 {
-                    dataAccess.DeleteAllUsers();
+                    dataAccess.DeleteAllRecords();
                     BindingContext = dataAccess;
                 }
             }

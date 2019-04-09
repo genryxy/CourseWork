@@ -6,15 +6,15 @@
 
     <StackLayout>
         <ListView
-            x:Name="UsersView"
-            ItemsSource="{Binding Path=Users}"
+            x:Name="RecordsView"
+            ItemsSource="{Binding Path=Records}"
             ListView.RowHeight="150">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Vertical">
                             <Entry IsEnabled="False" Text="{Binding Id}" />
-                            <Entry Text="{Binding CompanyName}" />
+                            <Entry Text="{Binding ProductName}" />
                             <Entry Text="{Binding PhysicalAddress}" />
                             <Entry Text="{Binding Country}" />
                         </StackLayout>
