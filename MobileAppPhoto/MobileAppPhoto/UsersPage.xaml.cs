@@ -14,6 +14,15 @@ namespace MobileAppPhoto
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UsersPage : ContentPage
     {
+        private const string notify = "Оповещение";
+        private const string warning = "Предупреждение!";
+        private const string confirmation = "ОК";
+        private const string internetAccess = "Необходимо подключение к интернету";
+        private const string notAccessPick = "К сожалению, выбор фотографий невозможен";
+        private const string notAccessCamera = "К сожалению, камера недоступна";
+        private const string photoNameRequirement = "Основная часть фотографии должна включать название продукта";
+        private const string photoComposRequirement = "Основная часть фотографии должна включать состав продукта";
+
         private RecordsDataAccess dataAccess;
         private GoogleVisonAPI googleVision;
         private ProductName productName;
@@ -26,122 +35,157 @@ namespace MobileAppPhoto
         {
             InitializeComponent();
 
-            // Экземпляр UserDataAccessClass, используемый для связывания с данными и доступа к данным
+            // Экземпляр RecordDataAccess Class, используемый для связывания с данными и доступа к данным
             dataAccess = new RecordsDataAccess();
             googleVision = new GoogleVisonAPI();
             productName = new ProductName();
             productComposition = new ProductComposition();
 
-            //googleVision.CheckTextLanguage += OnCheckTextLanguage;
             btnTakePhoto.Clicked += BtnTakePhoto_Clicked;
+            btnPickPhoto.Clicked += BtnPickPhoto_Clicked;
         }
 
         private async void BtnTakePhoto_Clicked(object sender, EventArgs e)
         {
             if (!CheckConnection())
             {
-                await DisplayAlert("Предупреждение", "Необходимо подключение к интернету", "OK");
+                await DisplayAlert(warning, internetAccess, confirmation);
+                return;
             }
-            else
+            string text;
+            strProductName = "НазваниеПродукта";
+            strProductCompos = "белки:1.5;жиры:2,7;углеводы:15;";
+
+            // Проверка доступности камеры
+            if (!CrossMedia.Current.IsCameraAvailable)
             {
-                string text;
-                strProductName = "Название продукта";
-                strProductCompos = "Состав: 1.5; :2,7;углеводы:15;";
-
-
-                // Проверка наличия камеры
-                if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
-                {
-                    await DisplayAlert("Предупреждение", "К сожалению, камера недоступна.", "OK");
-                    return;
-                }
-
-                await DisplayAlert("Оповещение", "Сделайте фотографию так, чтобы её большая часть содержала " +
-                    "название продукта", "ОК");
-                // Процесс фотографирования с последующим сохранением с указанными параметрами
-                fileProdName = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
-                {
-                    Directory = "Test",
-                    SaveToAlbum = true,
-                    CompressionQuality = 75,
-                    CustomPhotoSize = 50,
-                    PhotoSize = PhotoSize.MaxWidthHeight,
-                    MaxWidthHeight = 2000,
-                    Name = DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + "_app.jpg",
-                    DefaultCamera = CameraDevice.Front
-                });
-
-                // Была ли сделана фотография
-                if (fileProdName == null)
-                {
-                    return;
-                }
-                googleVision.PathToImage = fileProdName.Path;
-
-                await DisplayAlert("File Location", fileProdName.Path, "OK");
-
-                text = googleVision.DetectTextFromImage();
-                //if (text == OnCheckTextLanguage())
-                //{
-                //     await DisplayAlert("Оповещение", OnCheckTextLanguage(), "OK");
-                //     return;
-                //}
-                //else
-                // {
-                //  Найдено ли слово, явлвяющееся названием продукта, в распознанном тексте
-                strProductName = productName.SearchWordInHashset(text);
-                //}
-
-                await DisplayAlert("Оповещение", "Сделайте фотографию так, чтобы на ней" +
-                    " был виден состава продукта", "ОК");
-                // Процесс фотографирования с последующим сохранением с указанными параметрами
-                fileProdCompos = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
-                {
-                    Directory = "Test",
-                    SaveToAlbum = true,
-                    CompressionQuality = 75,
-                    CustomPhotoSize = 50,
-                    PhotoSize = PhotoSize.MaxWidthHeight,
-                    MaxWidthHeight = 2000,
-                    Name = DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + "_app.jpg",
-                    DefaultCamera = CameraDevice.Front
-                });
-                if (fileProdCompos == null)
-                {
-                    return;
-                }
-                googleVision.PathToImage = fileProdCompos.Path;
-
-                text = googleVision.DetectTextFromImage();
-                //if (text == OnCheckTextLanguage())
-                //{
-                //    await DisplayAlert("Оповещение", OnCheckTextLanguage(), "OK");
-                //    return;
-                //}
-                //else
-                //{
-                //  Распознавание состава продукта
-                strProductCompos = productComposition.SearchKeyWords(text);
-                //}
-                await Navigation.PushAsync(edtPage = new EditPage(strProductName, strProductCompos, OnGetPreviousPage));
-                await DisplayAlert("Оповещение", edtPage.ProdName + " " + edtPage.ProdCompos, "OK");
-
-                #region Альтернативный вывод фотки
-                /*image.Source = ImageSource.FromStream(() =>
-                {
-                    var stream = file.GetStream();
-                    file.Dispose();
-                    return stream;
-                });*/
-                #endregion
+                await DisplayAlert(warning, notAccessCamera, confirmation);
+                return;
             }
+
+            await DisplayAlert(notify, photoNameRequirement, confirmation);
+            fileProdName = await GetMediaFileAsync();
+            // Была ли сделана фотография
+            if (fileProdName == null)
+                return;
+
+
+            googleVision.PathToImage = fileProdName.Path;
+            text = googleVision.DetectTextFromImage();
+            strProductName = productName.SearchWordInHashset(text);
+
+            await DisplayAlert(notify, photoComposRequirement, confirmation);
+            fileProdCompos = await GetMediaFileAsync();
+            // Была ли сделана фотография
+            if (fileProdCompos == null)
+                return;
+
+            googleVision.PathToImage = fileProdCompos.Path;
+            text = googleVision.DetectTextFromImage();
+            strProductCompos = productComposition.SearchValuesCompos(text);
+
+            await Navigation.PushAsync(edtPage = new EditPage(strProductName, strProductCompos, OnGetPreviousPage));
+            await DisplayAlert(notify, edtPage.ProdName + " " + edtPage.ProdCompos, confirmation);
+
+            #region Альтернативный вывод фотки
+            /*image.Source = ImageSource.FromStream(() =>
+            {
+                var stream = file.GetStream();
+                file.Dispose();
+                return stream;
+            });*/
+            #endregion
+
         }
-        private async void OnGetPreviousPage()
+
+        private async void BtnPickPhoto_Clicked(object sender, EventArgs e)
         {
-            dataAccess.AddNewRecord("allText, пока резерв", edtPage.ProdName, edtPage.ProdCompos,
+            if (!CheckConnection())
+            {
+                await DisplayAlert(warning, internetAccess, confirmation);
+                return;
+            }
+
+            string text;
+            strProductName = "НазваниеПродукта";
+            strProductCompos = "белки:1.5;жиры:2,7;углеводы:15;";
+
+            // Проверка доступности выбора фотографий
+            if (!CrossMedia.Current.IsTakePhotoSupported)
+            {
+                await DisplayAlert(warning, notAccessPick, confirmation);
+                return;
+            }
+
+            await DisplayAlert(notify, photoNameRequirement, confirmation);
+            fileProdName = await PickMediaFileAsync();
+            // Была ли сделана фотография
+            if (fileProdName == null)
+                return;
+
+            googleVision.PathToImage = fileProdName.Path;
+            text = googleVision.DetectTextFromImage();
+            strProductName = productName.SearchWordInHashset(text);
+
+            await DisplayAlert(notify, photoComposRequirement, confirmation);
+            fileProdCompos = await PickMediaFileAsync();
+            // Была ли сделана фотография
+            if (fileProdCompos == null)
+                return;
+
+            googleVision.PathToImage = fileProdCompos.Path;
+            text = googleVision.DetectTextFromImage();
+            strProductCompos = productComposition.SearchValuesCompos(text);
+
+            await Navigation.PushAsync(edtPage = new EditPage(strProductName, strProductCompos, OnGetPreviousPage));
+            await DisplayAlert(notify, edtPage.ProdName + " " + edtPage.ProdCompos, confirmation);
+
+        }
+
+        /// <summary>
+        /// Открывает камеру и позволяет пользователю сфотографировать, затем сохраняет файл в указанную директорию
+        /// </summary>
+        /// <returns> созданная фотография </returns>
+        private async Task<MediaFile> GetMediaFileAsync()
+        {
+            var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+            {
+                Directory = "Test",
+                SaveToAlbum = true,
+                CompressionQuality = 75,
+                CustomPhotoSize = 50,
+                PhotoSize = PhotoSize.MaxWidthHeight,
+                MaxWidthHeight = 2000,
+                Name = DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + "_app.jpg",
+                DefaultCamera = CameraDevice.Front
+            });
+            return file;
+        }
+
+        /// <summary>
+        /// Позволяет выбрать фотографию из существующих
+        /// </summary>
+        /// <returns> выбранная фотография </returns>
+        private async Task<MediaFile> PickMediaFileAsync()
+        {
+            var file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
+            {
+                PhotoSize = PhotoSize.Medium,
+
+            });
+            return file;
+        }
+
+
+        /// <summary>
+        /// Обработчик события. Добавляет запись в БД по окончании редактирования.
+        /// </summary>
+        private void OnGetPreviousPage()
+        {
+            dataAccess.AddNewRecord(edtPage.ProdName, edtPage.ProdCompos,
                 fileProdName.Path, fileProdCompos.Path);
+            OnSaveClick(this, new EventArgs());
             //"path1", "path2");
-            await DisplayAlert("Оповещение", "Прошло", "OK");
         }
 
         /// <summary>
@@ -154,18 +198,11 @@ namespace MobileAppPhoto
             BindingContext = dataAccess;
             if (dataAccess != null && dataAccess.CountRecords > 0)
             {
-                image.Source = ImageSource.FromFile(dataAccess[0]);
+                imageName.Source = ImageSource.FromFile(dataAccess.GetInfoRecord()[0]);
+                imageCompos.Source = ImageSource.FromFile(dataAccess.GetInfoRecord()[1]);
+                date.Text = dataAccess.GetInfoRecord()[2];
             }
         }
-
-        /// <summary>
-        /// Обработчик события для вывода информации о языке текста
-        /// </summary>
-        /// <returns> </returns>
-        //private string OnCheckTextLanguage()
-        //{
-        //    return "Текст на фотографии должен быть на русском языке.";
-        //}
 
         /// <summary>
         /// Сохраняем любые отложенные изменения

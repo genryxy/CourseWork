@@ -8,23 +8,36 @@
         <ListView
             x:Name="RecordsView"
             ItemsSource="{Binding Path=Records}"
-            ListView.RowHeight="150">
+            ListView.RowHeight="200">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Vertical">
-                            <Entry IsEnabled="False" Text="{Binding Id}" />
+                            <Entry
+                                IsEnabled="False"
+                                Text="{Binding Id}"
+                                TextColor="DarkSlateGray" />
+                            <Entry
+                                IsEnabled="False"
+                                Text="{Binding DateOfPhoto}"
+                                TextColor="DarkSlateGray" />
                             <Entry Text="{Binding ProductName}" />
                             <Entry Text="{Binding ProductComposition}" />
-                            <Entry Text="{Binding Country}" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <ScrollView>
+            <StackLayout>
+                <Label x:Name="date" />
+                <Image x:Name="imageName" />
+                <Image x:Name="imageCompos" />
+            </StackLayout>
+        </ScrollView>
         <StackLayout>
             <Button x:Name="btnTakePhoto" Text="Сфотографировать" />
-            <Image x:Name="image" />
+            <Button x:Name="btnPickPhoto" Text="Выбрать 2 фотографии"/>
         </StackLayout>
     </StackLayout>
 

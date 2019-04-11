@@ -37,19 +37,14 @@ namespace MobileAppPhoto
         {
             var client = ImageAnnotatorClient.Create(channel);
             var image = Image.FromFile(PathToImage);
-            IReadOnlyList<EntityAnnotation> textAnnotations = client.DetectText(image);            
-            string msg = string.Empty; 
-           
+            IReadOnlyList<EntityAnnotation> textAnnotations = client.DetectText(image);
+            string msg = string.Empty;
+
             foreach (EntityAnnotation text in textAnnotations)
             {
                 if (msg == string.Empty)
                 {
-                    // Проверям язык текста с фотографии
-                    //if (text.Locale == "ru")
-                    //{
-                        return text.Description;
-                    //}
-                    //msg = CheckTextLanguage?.Invoke();
+                    return text.Description;
                 }
                 break;
             }

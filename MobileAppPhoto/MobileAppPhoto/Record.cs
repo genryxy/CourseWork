@@ -12,7 +12,6 @@ namespace MobileAppPhoto
         private int _id;
         private string _productName;
         private string _productComposition;
-        private string _physicalAddress;
         private string _pathToImageComposition;
         private string _pathToImageName;
         private DateTime _date;
@@ -74,19 +73,7 @@ namespace MobileAppPhoto
                 OnPropertyChanged(nameof(ProductComposition));
             }
         }
-
-        // меняет название столбца
-        //[Column("Address")]
-        public string PhysicalAddress
-        {
-            get => _physicalAddress;
-            set
-            {
-                _physicalAddress = value;
-                OnPropertyChanged(nameof(PhysicalAddress));
-            }
-        }
-                
+                     
         /// <summary>
         /// Путь до фотографии, на которой находится состав продукта
         /// </summary>

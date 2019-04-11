@@ -8,6 +8,7 @@ namespace MobileAppPhoto
 {
     public class ProductName
     {
+        // Не забыть при загрузке файла в свойствах поменять "Действие при сборке" на "Andoid asset"
         private AssetManager assets = Android.App.Application.Context.Assets;
         private Stream stream = Android.App.Application.Context.Assets.Open("productName.txt");
 
@@ -37,10 +38,10 @@ namespace MobileAppPhoto
             {
                 if (AllName.Contains(word.ToLower().Trim()))
                 {
-                    return word;
+                    return word.ToLower().Trim();
                 }
             }
-            return null;
+            return "Название";
         }
 
         /// <summary>

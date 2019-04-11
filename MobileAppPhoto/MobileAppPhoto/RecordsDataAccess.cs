@@ -36,17 +36,23 @@ namespace MobileAppPhoto
         }
 
         public int CountRecords { get => Records.Count; }
-        public string this[int index] { get => Records[Records.Count - 1].PathToImageName; }
+       
+        public List<string> GetInfoRecord()
+        {
+            var tempRecord = Records[Records.Count - 1];
+            return new List<string>(new string[] {tempRecord.PathToImageName,
+                tempRecord.PathToImageComposition, tempRecord.DateOfPhoto.ToString("hh:mm:ss_dd.MM.yyyy")
+            });
+        }
 
         /// <summary>
-        /// Добавляет новый объект Record в набор Records. Предотвращает связывание с пустым набором.
+        /// Добавляет новый объект Record в набор Records.
         /// </summary>
-        public void AddNewRecord(string detectText, string name, string composition, string pathToName, string pathToComposition)
+        public void AddNewRecord(string name, string composition, string pathToName, string pathToComposition)
         {
             Records.Add(new Record
             {
                 DateOfPhoto = DateTime.Now,
-                PhysicalAddress = detectText,
                 ProductName = name,
                 ProductComposition = composition,
                 PathToImageName = pathToName,
