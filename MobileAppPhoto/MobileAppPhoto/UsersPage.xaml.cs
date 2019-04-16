@@ -29,6 +29,7 @@ namespace MobileAppPhoto
         private ProductComposition productComposition;
         private MediaFile fileProdName, fileProdCompos;
         private EditPage edtPage;
+        private DatabasePage dbPage;
         private string strProductName = "Название продукта", strProductCompos = "Состав: продукта; :;углеводы:15;";
 
         public UsersPage()
@@ -84,7 +85,7 @@ namespace MobileAppPhoto
             text = googleVision.DetectTextFromImage();
             strProductCompos = productComposition.SearchValuesCompos(text);
 
-            await Navigation.PushAsync(edtPage = new EditPage(strProductName, strProductCompos, OnGetPreviousPage));
+            await Navigation.PushAsync(edtPage = new EditPage(strProductName, strProductCompos, OnSaveRecord));
             await DisplayAlert(notify, edtPage.ProdName + " " + edtPage.ProdCompos, confirmation);
 
             #region Альтернативный вывод фотки
@@ -117,7 +118,7 @@ namespace MobileAppPhoto
                 return;
             }
 
-            await DisplayAlert(notify, photoNameRequirement, confirmation);
+            /*await DisplayAlert(notify, photoNameRequirement, confirmation);
             fileProdName = await PickMediaFileAsync();
             // Была ли сделана фотография
             if (fileProdName == null)
@@ -137,9 +138,9 @@ namespace MobileAppPhoto
             text = googleVision.DetectTextFromImage();
             strProductCompos = productComposition.SearchValuesCompos(text);
 
-            await Navigation.PushAsync(edtPage = new EditPage(strProductName, strProductCompos, OnGetPreviousPage));
-            await DisplayAlert(notify, edtPage.ProdName + " " + edtPage.ProdCompos, confirmation);
-
+            await Navigation.PushAsync(edtPage = new EditPage(strProductName, strProductCompos, OnSaveRecord));
+            await DisplayAlert(notify, edtPage.ProdName + " " + edtPage.ProdCompos, confirmation);*/
+            await Navigation.PushAsync(dbPage = new DatabasePage(dataAccess, dataAccess.CountRecords, OnViewRecords));
         }
 
         /// <summary>
@@ -180,12 +181,17 @@ namespace MobileAppPhoto
         /// <summary>
         /// Обработчик события. Добавляет запись в БД по окончании редактирования.
         /// </summary>
-        private void OnGetPreviousPage()
+        private void OnSaveRecord()
         {
             dataAccess.AddNewRecord(edtPage.ProdName, edtPage.ProdCompos,
                 fileProdName.Path, fileProdCompos.Path);
             OnSaveClick(this, new EventArgs());
             //"path1", "path2");
+        }
+
+        private void OnViewRecords()
+        {
+            // do sth
         }
 
         /// <summary>
@@ -204,6 +210,33 @@ namespace MobileAppPhoto
             }
         }
 
+        #region Просмотр записей БД
+        private async void OnViewOneClick(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(dbPage = new DatabasePage(dataAccess, 1, OnViewRecords));
+        }
+
+        private async void OnViewTwoClick(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(dbPage = new DatabasePage(dataAccess, 2, OnViewRecords));
+        }
+
+        private async void OnViewThreeClick(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(dbPage = new DatabasePage(dataAccess, 3, OnViewRecords));
+        }
+
+        private async void OnViewFourClick(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(dbPage = new DatabasePage(dataAccess, 4, OnViewRecords));
+        }
+
+        private async void OnViewAllClick(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(dbPage = new DatabasePage(dataAccess, dataAccess.CountRecords, OnViewRecords));
+        }
+        #endregion
+
         /// <summary>
         /// Сохраняем любые отложенные изменения
         /// </summary>
@@ -213,7 +246,7 @@ namespace MobileAppPhoto
         {
             dataAccess.SaveAllRecords();
         }
-
+        /*
         /// <summary>
         /// Добавляем нового пользователя в набор Records
         /// </summary>
@@ -247,8 +280,8 @@ namespace MobileAppPhoto
         {
             if (dataAccess.Records.Any())
             {
-                var result = await DisplayAlert("Подтверждение",
-                    "Вы уверены? Данные нельзя будет восстановить.", "Ok", "Cancel");
+                var result = await DisplayAlert(approvement,
+                    "Вы уверены? Данные нельзя будет восстановить.", confirmation, "Cancel");
 
                 if (result)
                 {
@@ -257,6 +290,7 @@ namespace MobileAppPhoto
                 }
             }
         }
+        */
 
         /// <summary>
         /// Проверяет состояние подключения

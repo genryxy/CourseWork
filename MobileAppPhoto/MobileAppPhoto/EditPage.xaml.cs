@@ -15,15 +15,16 @@ namespace MobileAppPhoto
     {
         Entry _nameEntry, _proteinsEntry, _fatsEntry, _carbsEntry;
         Label _currStatus;
+
         public string ProdName {get; private set;}
         public string ProdCompos { get; private set; }
 
         public event Action getPreviousPage;
-        public EditPage (string prodName, string prodCompos, Action OnGetPreviousPage)
+        public EditPage (string prodName, string prodCompos, Action onGetPreviousPage)
 		{
 			InitializeComponent ();
 
-            getPreviousPage += OnGetPreviousPage;
+            getPreviousPage += onGetPreviousPage;
             ProdName = prodName;
             ProdCompos = prodCompos;
             StackLayout stackLayout = new StackLayout();
@@ -47,7 +48,7 @@ namespace MobileAppPhoto
             Label fatsHeader = new Label { Text = "Жиры", BackgroundColor = Color.LightGray };
             Label carbsHeader = new Label { Text = "Углеводы", BackgroundColor = Color.LightGray };
             _currStatus = new Label { Text = "Значения белков, жиров и углеводов должны быть числом",
-                BackgroundColor = Color.IndianRed, IsVisible = false, FontSize = 20 };
+                TextColor = Color.Red, IsVisible = false, FontSize = 20 };
 
             string[] composValues = prodCompos.Split(new char[] {';', ':'});
             _nameEntry = new Entry { Text = prodName};
@@ -70,10 +71,15 @@ namespace MobileAppPhoto
             stackLayout.Children.Add(btnConfirmEdit);
             stackLayout.Children.Add(_currStatus);
 
-            Content = stackLayout;
-            
+            Content = stackLayout;            
         }
 
+        /// <summary>
+        /// Обработчик события. При получении подтверждении на сохранение проверяет введенные
+        /// данные. Если всё корректно, то изменения сохраняются.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void BtnConfirmEdit_Clicked(object sender, EventArgs e)
         {
             if(DoubleNotNullEntryCheck(_proteinsEntry, e) || DoubleNotNullEntryCheck(_fatsEntry, e) ||
@@ -90,6 +96,12 @@ namespace MobileAppPhoto
             }
         }
 
+        /// <summary>
+        /// Проверяет ячейку на число и не пустоту
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <returns> true - введено число, false - иная последовательность </returns>
         private bool DoubleNotNullEntryCheck(object sender, EventArgs e)
         {
             var currentEntry = (Entry)sender;

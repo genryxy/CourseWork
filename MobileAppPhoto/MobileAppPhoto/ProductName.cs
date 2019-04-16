@@ -41,7 +41,7 @@ namespace MobileAppPhoto
                     return word.ToLower().Trim();
                 }
             }
-            return "Название";
+            return "название";
         }
 
         /// <summary>

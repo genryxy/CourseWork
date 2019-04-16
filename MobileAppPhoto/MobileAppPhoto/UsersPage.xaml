@@ -37,30 +37,46 @@
         </ScrollView>
         <StackLayout>
             <Button x:Name="btnTakePhoto" Text="Сфотографировать" />
-            <Button x:Name="btnPickPhoto" Text="Выбрать 2 фотографии"/>
+            <Button x:Name="btnPickPhoto" Text="Выбрать 2 фотографии" />
         </StackLayout>
     </StackLayout>
 
     <ContentPage.ToolbarItems>
         <ToolbarItem
-            Name="Add"
-            Activated="OnAddClick"
+            Name="ViewOne"
+            Activated="OnViewOneClick"
             Order="Secondary"
-            Priority="0" />
+            Priority="0"
+            Text="Просмотреть последнюю запись" />
         <ToolbarItem
-            Name="Remove"
-            Activated="OnRemoveClick"
+            Name="ViewTwo"
+            Activated="OnViewTwoClick"
             Order="Secondary"
-            Priority="1" />
+            Priority="1"
+            Text="Просмотреть последние 2 записи" />
         <ToolbarItem
-            Name="Remove all"
-            Activated="OnRemoveAllClick"
+            Name="ViewThree"
+            Activated="OnViewThreeClick"
             Order="Secondary"
-            Priority="2" />
+            Priority="2"
+            Text="Просмотреть последние 3 записи" />
+        <ToolbarItem
+            Name="ViewFour"
+            Activated="OnViewFourClick"
+            Order="Secondary"
+            Priority="3"
+            Text="Просмотреть последние 4 записи" />
+        <ToolbarItem
+            Name="ViewAll"
+            Activated="OnViewAllClick"
+            Order="Secondary"
+            Priority="4"
+            Text="Просмотреть все записи" />
         <ToolbarItem
             Name="Save"
             Activated="OnSaveClick"
             Order="Secondary"
-            Priority="3" />
+            Priority="5"
+            Text="Сохранить" />
     </ContentPage.ToolbarItems>
 </ContentPage>
