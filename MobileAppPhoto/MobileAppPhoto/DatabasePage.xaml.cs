@@ -21,6 +21,12 @@ namespace MobileAppPhoto
         private int Left { get; } = 10;
         public event Action getPreviousPage;
 
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="dataAccess"> ссылка на экзмепляр класса RecordsDataAccess для работы с БД </param>
+        /// <param name="countRecords"> количество выводимых записей </param>
+        /// <param name="onGetPreviousPage"> ссылка на метод, выполняемый при закрытии страницы </param>
         public DatabasePage(RecordsDataAccess dataAccess, int countRecords, Action onGetPreviousPage)
         {
             InitializeComponent();

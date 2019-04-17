@@ -46,6 +46,11 @@ namespace MobileAppPhoto
             btnPickPhoto.Clicked += BtnPickPhoto_Clicked;
         }
 
+        /// <summary>
+        /// Обработчик события. Позволяет сделать 2 фотографии.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void BtnTakePhoto_Clicked(object sender, EventArgs e)
         {
             if (!CheckConnection())
@@ -69,8 +74,7 @@ namespace MobileAppPhoto
             // Была ли сделана фотография
             if (fileProdName == null)
                 return;
-
-
+            
             googleVision.PathToImage = fileProdName.Path;
             text = googleVision.DetectTextFromImage();
             strProductName = productName.SearchWordInHashset(text);
@@ -99,6 +103,11 @@ namespace MobileAppPhoto
 
         }
 
+        /// <summary>
+        /// Обработчик события. Позволяет выбрать 2 фотографии из существующих.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void BtnPickPhoto_Clicked(object sender, EventArgs e)
         {
             if (!CheckConnection())
@@ -118,7 +127,7 @@ namespace MobileAppPhoto
                 return;
             }
 
-            /*await DisplayAlert(notify, photoNameRequirement, confirmation);
+            await DisplayAlert(notify, photoNameRequirement, confirmation);
             fileProdName = await PickMediaFileAsync();
             // Была ли сделана фотография
             if (fileProdName == null)
@@ -139,8 +148,7 @@ namespace MobileAppPhoto
             strProductCompos = productComposition.SearchValuesCompos(text);
 
             await Navigation.PushAsync(edtPage = new EditPage(strProductName, strProductCompos, OnSaveRecord));
-            await DisplayAlert(notify, edtPage.ProdName + " " + edtPage.ProdCompos, confirmation);*/
-            await Navigation.PushAsync(dbPage = new DatabasePage(dataAccess, dataAccess.CountRecords, OnViewRecords));
+            await DisplayAlert(notify, edtPage.ProdName + " " + edtPage.ProdCompos, confirmation);
         }
 
         /// <summary>
