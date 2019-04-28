@@ -30,6 +30,7 @@ namespace MobileAppPhoto
         public DatabasePage(RecordsDataAccess dataAccess, int countRecords, Action onGetPreviousPage)
         {
             InitializeComponent();
+            BackgroundColor = Color.White;
             DataAccess = dataAccess;
             getPreviousPage += onGetPreviousPage;
             ScrollView scrollView = new ScrollView();
@@ -48,17 +49,17 @@ namespace MobileAppPhoto
             var bound = Math.Min(records.Count, countRecords);
             for (int i = 0; i < bound; i++)
             {
-                Entry entryId = new Entry { Text = $"{records[records.Count - i - 1].Id}", IsEnabled = false };
-                Entry entryDate = new Entry { Text = $"{records[records.Count - i - 1].DateOfPhoto}", IsEnabled = false };
-                Entry entryName = new Entry { Text = $"{records[records.Count - i - 1].ProductName}", IsEnabled = false };
-                Entry entryCompos = new Entry { Text = $"{records[records.Count - i - 1].ProductComposition}", IsEnabled = false };
-                Label labelSpace = new Label { BackgroundColor = Color.DarkGray };
+                Label lblId = new Label { Text = $"{records[records.Count - i - 1].Id}", FontSize = 20, TextColor = Color.Black };
+                Label lblDate = new Label { Text = $"Дата: {records[records.Count - i - 1].DateOfPhoto}", FontSize = 20, TextColor = Color.Black };
+                Label lblName = new Label { Text = $"Название: {records[records.Count - i - 1].ProductName}", FontSize = 20, TextColor = Color.Black };
+                Label lblCompos = new Label { Text = $"Состав: {records[records.Count - i - 1].ProductComposition}", FontSize = 20, TextColor = Color.Black };
+                Label lblSpace = new Label { BackgroundColor = Color.LightGray };
 
-                stackLayoutEntries.Children.Add(entryId);
-                stackLayoutEntries.Children.Add(entryDate);
-                stackLayoutEntries.Children.Add(entryName);
-                stackLayoutEntries.Children.Add(entryCompos);
-                stackLayoutEntries.Children.Add(labelSpace);
+                stackLayoutEntries.Children.Add(lblId);
+                stackLayoutEntries.Children.Add(lblDate);
+                stackLayoutEntries.Children.Add(lblName);
+                stackLayoutEntries.Children.Add(lblCompos);
+                stackLayoutEntries.Children.Add(lblSpace);
             }
             scrollView.Content = stackLayoutEntries;
             stackLayoutAll.Children.Add(scrollView);
@@ -70,7 +71,7 @@ namespace MobileAppPhoto
                 stackLayoutAll.Children.Add(numberErr);
             }
             stackLayoutAll.Children.Add(btnReturn);           
-
+           
             Content = stackLayoutAll;
         }
 

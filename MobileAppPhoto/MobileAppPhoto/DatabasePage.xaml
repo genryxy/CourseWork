@@ -1,19 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MobileAppPhoto.DatabasePage">
-    <ContentPage.ToolbarItems>        
+<ContentPage
+    x:Class="MobileAppPhoto.DatabasePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Просмотр результатов"
+    NavigationPage.HasNavigationBar="True">
+    <ContentPage.ToolbarItems>
         <ToolbarItem
-            Text="Удалить запись"
             Name="Remove"
             Activated="OnRemoveClick"
             Order="Secondary"
-            Priority="1" />
+            Priority="1"
+            Text="Удалить запись" />
         <ToolbarItem
-            Text="Удалить все записи"
             Name="Remove all"
             Activated="OnRemoveAllClick"
             Order="Secondary"
-            Priority="2" />
+            Priority="2"
+            Text="Удалить все записи" />
     </ContentPage.ToolbarItems>
 </ContentPage>

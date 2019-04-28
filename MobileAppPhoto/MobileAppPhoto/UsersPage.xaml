@@ -2,7 +2,8 @@
 <ContentPage
     x:Class="MobileAppPhoto.UsersPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Главная страница">
 
     <StackLayout>
         <ListView
@@ -47,7 +48,13 @@
             Activated="OnViewOneClick"
             Order="Secondary"
             Priority="0"
-            Text="Просмотреть последнюю запись" />
+            Text="Просмотреть последнюю запись">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="Android, UWP" Value="statistic.png" />
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
         <ToolbarItem
             Name="ViewTwo"
             Activated="OnViewTwoClick"

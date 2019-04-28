@@ -24,9 +24,11 @@ namespace MobileAppPhoto
 		{
 			InitializeComponent ();
 
+            BackgroundColor = Color.White;
             getPreviousPage += onGetPreviousPage;
             ProdName = prodName;
             ProdCompos = prodCompos;
+            ScrollView scrollView = new ScrollView();
             StackLayout stackLayout = new StackLayout();
             Grid grid = new Grid
             {
@@ -71,7 +73,8 @@ namespace MobileAppPhoto
             stackLayout.Children.Add(btnConfirmEdit);
             stackLayout.Children.Add(_currStatus);
 
-            Content = stackLayout;            
+            scrollView.Content = stackLayout;
+            Content = scrollView;            
         }
 
         /// <summary>

@@ -26,7 +26,7 @@ namespace MobileAppPhoto
         /// <returns> возвращает строку со значениями белков, жиров, углеводов </returns>
         public string SearchValuesCompos(string detectText)
         {
-            var words = detectText.Split(new string[] {"", "не ", " ", ":", "\t", "\n", "г,", "г.", "-", "t",
+            var words = detectText.Split(new string[] {"не ", " ", ":", "\t", "\n", "г,", "г.", "-", "t",
                 "r", ";", "более", "менее", "больше", "меньше", "превышает", "ниже", "превышать"}, StringSplitOptions.RemoveEmptyEntries);
             string temp = string.Empty, answ = string.Empty;
             for (int i = 0; i < words.Length; i++)
@@ -50,10 +50,10 @@ namespace MobileAppPhoto
                 }                       
             }
 
-            // Добавляет к результату символы для разделения, если не весь состав был записан
+            // Добавляет к результату символы для разделения, если не все значения были записаны.
             while(answ.Split(':').Length != 4)
             {
-                answ += ":2,4;";
+                answ += ":0;";
             }
             return answ;
         }

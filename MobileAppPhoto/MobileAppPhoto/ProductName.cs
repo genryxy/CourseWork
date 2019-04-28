@@ -32,16 +32,25 @@ namespace MobileAppPhoto
         /// <returns> null - отсутствует, иначе - найденное слово </returns>
         public string SearchWordInHashset(string detectText)
         {
-            string[] arrWords = detectText.Split(new string[] { " ", ":", ".", "\n", "\t"},
+            string[] arrWords = detectText.Split(new string[] { " ", ":", ".", "\n", "\t" },
                 StringSplitOptions.RemoveEmptyEntries);
+            string res = string.Empty;
+            // Вывод текста без проверки наличия в файле с названиями продуктов.
             foreach (var word in arrWords)
+            {
+                res += word.ToLower().Trim() + " ";
+            }
+
+            // Проверка наличия названия продукта в файле с названиями продуктов.
+            /*foreach (var word in arrWords)
             {
                 if (AllName.Contains(word.ToLower().Trim()))
                 {
                     return word.ToLower().Trim();
                 }
             }
-            return "название";
+            return "название";*/
+            return res;
         }
 
         /// <summary>
@@ -60,7 +69,7 @@ namespace MobileAppPhoto
                     }
                 }
             }
-            catch(Exception e) { }
+            catch (Exception e) { }
         }
 
     }

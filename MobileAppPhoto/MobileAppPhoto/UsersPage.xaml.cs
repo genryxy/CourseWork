@@ -14,6 +14,7 @@ namespace MobileAppPhoto
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UsersPage : ContentPage
     {
+        #region Константные строки
         private const string notify = "Оповещение";
         private const string warning = "Предупреждение!";
         private const string confirmation = "ОК";
@@ -22,6 +23,7 @@ namespace MobileAppPhoto
         private const string notAccessCamera = "К сожалению, камера недоступна";
         private const string photoNameRequirement = "Основная часть фотографии должна включать название продукта";
         private const string photoComposRequirement = "Основная часть фотографии должна включать состав продукта";
+        #endregion
 
         private RecordsDataAccess dataAccess;
         private GoogleVisonAPI googleVision;
@@ -30,11 +32,12 @@ namespace MobileAppPhoto
         private MediaFile fileProdName, fileProdCompos;
         private EditPage edtPage;
         private DatabasePage dbPage;
-        private string strProductName = "Название продукта", strProductCompos = "Состав: продукта; :;углеводы:15;";
+        private string strProductName = "НазваниеПродукта", strProductCompos = ":;:;:;";
 
         public UsersPage()
         {
             InitializeComponent();
+            BackgroundColor = Color.White;
 
             // Экземпляр RecordDataAccess Class, используемый для связывания с данными и доступа к данным
             dataAccess = new RecordsDataAccess();
@@ -60,7 +63,7 @@ namespace MobileAppPhoto
             }
             string text;
             strProductName = "НазваниеПродукта";
-            strProductCompos = "белки:1.5;жиры:2,7;углеводы:15;";
+            strProductCompos = ":;:;:;";
 
             // Проверка доступности камеры
             if (!CrossMedia.Current.IsCameraAvailable)
@@ -118,7 +121,7 @@ namespace MobileAppPhoto
 
             string text;
             strProductName = "НазваниеПродукта";
-            strProductCompos = "белки:1.5;жиры:2,7;углеводы:15;";
+            strProductCompos = ":;:;:;";
 
             // Проверка доступности выбора фотографий
             if (!CrossMedia.Current.IsTakePhotoSupported)
@@ -136,7 +139,7 @@ namespace MobileAppPhoto
             googleVision.PathToImage = fileProdName.Path;
             text = googleVision.DetectTextFromImage();
             strProductName = productName.SearchWordInHashset(text);
-
+            
             await DisplayAlert(notify, photoComposRequirement, confirmation);
             fileProdCompos = await PickMediaFileAsync();
             // Была ли сделана фотография
