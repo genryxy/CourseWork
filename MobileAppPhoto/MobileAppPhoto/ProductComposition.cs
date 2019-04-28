@@ -53,7 +53,7 @@ namespace MobileAppPhoto
             // Добавляет к результату символы для разделения, если не все значения были записаны.
             while(answ.Split(':').Length != 4)
             {
-                answ += ":0;";
+                answ += "_:0;";
             }
             return answ;
         }

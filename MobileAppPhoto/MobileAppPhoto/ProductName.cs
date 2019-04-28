@@ -40,6 +40,10 @@ namespace MobileAppPhoto
             {
                 res += word.ToLower().Trim() + " ";
             }
+            if (res == " ")
+            {
+                res = "_";
+            }
 
             // Проверка наличия названия продукта в файле с названиями продуктов.
             /*foreach (var word in arrWords)

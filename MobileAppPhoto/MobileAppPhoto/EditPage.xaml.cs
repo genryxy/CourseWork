@@ -15,6 +15,7 @@ namespace MobileAppPhoto
     {
         Entry _nameEntry, _proteinsEntry, _fatsEntry, _carbsEntry;
         Label _currStatus;
+        string[] compositonValues, correctOrderValues = new string[3]; 
 
         public string ProdName {get; private set;}
         public string ProdCompos { get; private set; }
@@ -52,11 +53,12 @@ namespace MobileAppPhoto
             _currStatus = new Label { Text = "Значения белков, жиров и углеводов должны быть числом",
                 TextColor = Color.Red, IsVisible = false, FontSize = 20 };
 
-            string[] composValues = prodCompos.Split(new char[] {';', ':'});
-            _nameEntry = new Entry { Text = prodName};
-            _proteinsEntry = new Entry { Text = composValues[1], Placeholder = "белки" };
-            _fatsEntry = new Entry { Text = composValues[3], Placeholder = "жиры" };
-            _carbsEntry = new Entry { Text = composValues[5], Placeholder = "углеводы" };
+            compositonValues = prodCompos.Split(new string[] {";", ":"}, StringSplitOptions.RemoveEmptyEntries);
+            WriteValuesInCorrectOrder(compositonValues, correctOrderValues);
+            _nameEntry = new Entry { Text = prodName, TextColor = Color.Black };
+            _proteinsEntry = new Entry { Text = correctOrderValues[0], Placeholder = "белки", TextColor = Color.Black };
+            _fatsEntry = new Entry { Text = correctOrderValues[1], Placeholder = "жиры", TextColor = Color.Black };
+            _carbsEntry = new Entry { Text = correctOrderValues[2], Placeholder = "углеводы", TextColor = Color.Black };
             Button btnConfirmEdit = new Button { Text = "Сохранить изменения", BackgroundColor = Color.Gray};
             btnConfirmEdit.Clicked += BtnConfirmEdit_Clicked;
 
@@ -75,6 +77,35 @@ namespace MobileAppPhoto
 
             scrollView.Content = stackLayout;
             Content = scrollView;            
+        }
+
+        /// <summary>
+        /// Записывает значения пищевой ценности в следующем порядке: белки, жиры, углеводы.
+        /// </summary>
+        /// <param name="compositionValues">исходный массив</param>
+        /// <param name="correctOrderValues">массив значений в правильном порядке</param>
+        private void WriteValuesInCorrectOrder(string[] compositionValues, string[] correctOrderValues)
+        {
+            for (int i = 0; i < compositionValues.Length % 7; i += 2)
+            {
+                string str = compositionValues[i].ToLower().Trim();
+                if(str.Contains("бел"))
+                {
+                    correctOrderValues[0] = compositionValues[i + 1];
+                }
+                else if (str.Contains("жи"))
+                {
+                    correctOrderValues[1] = compositionValues[i + 1];
+                }
+                else if(str != "_")
+                {
+                    correctOrderValues[2] = compositionValues[i + 1];
+                }
+                else
+                {
+                    correctOrderValues[i / 2] = compositionValues[i + 1]; 
+                }
+            }
         }
 
         /// <summary>

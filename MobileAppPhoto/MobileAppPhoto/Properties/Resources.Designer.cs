@@ -63,9 +63,9 @@ namespace MobileAppPhoto.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Byte[].
         /// </summary>
-        internal static byte[] edit {
+        internal static byte[] delete {
             get {
-                object obj = ResourceManager.GetObject("edit", resourceCulture);
+                object obj = ResourceManager.GetObject("delete", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -73,19 +73,9 @@ namespace MobileAppPhoto.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Byte[].
         /// </summary>
-        internal static byte[] logo {
+        internal static byte[] info {
             get {
-                object obj = ResourceManager.GetObject("logo", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Byte[].
-        /// </summary>
-        internal static byte[] statistic {
-            get {
-                object obj = ResourceManager.GetObject("statistic", resourceCulture);
+                object obj = ResourceManager.GetObject("info", resourceCulture);
                 return ((byte[])(obj));
             }
         }

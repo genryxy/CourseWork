@@ -12,8 +12,7 @@ namespace MobileAppPhoto
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DatabasePage : ContentPage
     {
-        private const string back = "Вернуться на главную страницу";
-        private const string approvement = "Подтверждение";
+        private const string back = "Вернуться на главную страницу";        
         private const string confirmation = "ОК";
 
         private int Top { get; set; }
@@ -36,8 +35,7 @@ namespace MobileAppPhoto
             ScrollView scrollView = new ScrollView();
             StackLayout stackLayoutEntries = new StackLayout();
             StackLayout stackLayoutAll = new StackLayout();
-            ListView listView = new ListView(); // TODO можно выбирать
-
+            
             Label numberErr = new Label
             {
                 Text = "Было выведено меньшее количество записей, так как в базе " +
@@ -84,41 +82,6 @@ namespace MobileAppPhoto
         {
             getPreviousPage?.Invoke();
             await Navigation.PopAsync();
-        }
-
-        /// <summary>
-        /// Удаляем текущую запись. Если она есть в базе данных, то будет удален и оттуда.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnRemoveClick(object sender, EventArgs e)
-        {
-            var currentRecord = //RecordsView.SelectedItem as Record;
-                new Record();
-            if (currentRecord != null)
-            {
-                DataAccess.DeleteRecord(currentRecord);
-            }
-        }
-
-        /// <summary>
-        /// Удаляет всех пользователей. Используется объект DisplayAlert, чтобы запросить подтверждение у пользователя.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void OnRemoveAllClick(object sender, EventArgs e)
-        {
-            if (DataAccess.Records.Any())
-            {
-                var result = await DisplayAlert(approvement,
-                    "Вы уверены? Данные нельзя будет восстановить.", confirmation, "Cancel");
-
-                if (result)
-                {
-                    DataAccess.DeleteAllRecords();
-                    BindingContext = DataAccess;
-                }
-            }
-        }
+        }       
     }
 }

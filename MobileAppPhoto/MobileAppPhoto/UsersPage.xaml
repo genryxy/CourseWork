@@ -2,33 +2,34 @@
 <ContentPage
     x:Class="MobileAppPhoto.UsersPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Главная страница">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <StackLayout>
         <ListView
             x:Name="RecordsView"
+            BackgroundColor="LightGray"
             ItemsSource="{Binding Path=Records}"
             ListView.RowHeight="200">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Vertical">
-                            <Entry
-                                IsEnabled="False"
-                                Text="{Binding Id}"
-                                TextColor="DarkSlateGray" />
-                            <Entry
-                                IsEnabled="False"
-                                Text="{Binding DateOfPhoto}"
-                                TextColor="DarkSlateGray" />
-                            <Entry Text="{Binding ProductName}" />
-                            <Entry Text="{Binding ProductComposition}" />
+                            <Label Text="{Binding Id}" TextColor="Black" />
+                            <Label Text="{Binding DateOfPhoto}" TextColor="Black" />
+                            <Entry Text="{Binding ProductName}" TextColor="Black" />
+                            <Entry Text="{Binding ProductComposition}" TextColor="Black" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Label
+            x:Name="lblWaiting"
+            FontSize="Medium"
+            HorizontalTextAlignment="Center"
+            IsVisible="False"
+            Text="Подождите, фотография обрабатывается"
+            TextColor="Red" />
         <ScrollView>
             <StackLayout>
                 <Label x:Name="date" />
@@ -44,46 +45,60 @@
 
     <ContentPage.ToolbarItems>
         <ToolbarItem
-            Name="ViewOne"
+            x:Name="ViewOne"
             Activated="OnViewOneClick"
             Order="Secondary"
             Priority="0"
-            Text="Просмотреть последнюю запись">
-            <ToolbarItem.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="Android, UWP" Value="statistic.png" />
-                </OnPlatform>
-            </ToolbarItem.Icon>
-        </ToolbarItem>
+            Text="Посмотреть последнюю запись" />
         <ToolbarItem
-            Name="ViewTwo"
+            x:Name="ViewTwo"
             Activated="OnViewTwoClick"
             Order="Secondary"
             Priority="1"
-            Text="Просмотреть последние 2 записи" />
+            Text="Посмотреть последние 2 записи" />
         <ToolbarItem
-            Name="ViewThree"
+            x:Name="ViewThree"
             Activated="OnViewThreeClick"
             Order="Secondary"
             Priority="2"
-            Text="Просмотреть последние 3 записи" />
+            Text="Посмотреть последние 3 записи" />
         <ToolbarItem
-            Name="ViewFour"
+            x:Name="ViewFour"
             Activated="OnViewFourClick"
             Order="Secondary"
             Priority="3"
-            Text="Просмотреть последние 4 записи" />
+            Text="Посмотреть последние 4 записи" />
         <ToolbarItem
-            Name="ViewAll"
+            x:Name="ViewAll"
             Activated="OnViewAllClick"
             Order="Secondary"
             Priority="4"
-            Text="Просмотреть все записи" />
+            Text="Посмотреть все записи" />
         <ToolbarItem
-            Name="Save"
+            x:Name="Save"
             Activated="OnSaveClick"
             Order="Secondary"
             Priority="5"
-            Text="Сохранить" />
+            Text="Сохранить изменения" />
+        <ToolbarItem
+            x:Name="Remove"
+            Activated="OnRemoveClick"
+            Icon="delete.png"
+            Order="Primary"
+            Priority="6"
+            Text="Удалить запись" />
+        <ToolbarItem
+            x:Name="RemoveAll"
+            Activated="OnRemoveAllClick"
+            Order="Secondary"
+            Priority="7"
+            Text="Удалить все записи" />
+        <ToolbarItem
+            x:Name="GetInfo"
+            Activated="OnGetInfoClick"
+            Icon="info.png"
+            Order="Primary"
+            Priority="8"
+            Text="Получить справку" />
     </ContentPage.ToolbarItems>
 </ContentPage>
