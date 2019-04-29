@@ -9,15 +9,17 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+// Перейти на MasterDetailPage!!!
+
 namespace MobileAppPhoto
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class UsersPage : ContentPage
+    public partial class UsersPage : MasterDetailPage
     {
         #region Константные строки
-        private const string approvement = "Подтверждение";
+        private const string confirmation = "Подтверждение";
         private const string cancel = "Отмена";
-        private const string confirmation = "ОК";
+        private const string ok = "ОК";
         private const string fullRemoval = "Вы уверены? Данные нельзя будет восстановить.";
         private const string internetAccess = "Необходимо подключение к интернету";
         private const string notAccessPick = "К сожалению, выбор фотографий невозможен";
@@ -47,9 +49,6 @@ namespace MobileAppPhoto
             googleVision = new GoogleVisonAPI();
             productName = new ProductName();
             productComposition = new ProductComposition();
-
-            btnTakePhoto.Clicked += BtnTakePhoto_Clicked;
-            btnPickPhoto.Clicked += BtnPickPhoto_Clicked;
         }
 
         /// <summary>
@@ -61,7 +60,7 @@ namespace MobileAppPhoto
         {
             if (!CheckConnection())
             {
-                await DisplayAlert(warning, internetAccess, confirmation);
+                await DisplayAlert(warning, internetAccess, ok);
                 return;
             }
             string text;
@@ -71,11 +70,11 @@ namespace MobileAppPhoto
             // Проверка доступности камеры
             if (!CrossMedia.Current.IsCameraAvailable)
             {
-                await DisplayAlert(warning, notAccessCamera, confirmation);
+                await DisplayAlert(warning, notAccessCamera, ok);
                 return;
             }
 
-            await DisplayAlert(notify, photoNameRequirement, confirmation);
+            await DisplayAlert(notify, photoNameRequirement, ok);
             fileProdName = await GetMediaFileAsync();
             // Была ли сделана фотография
             if (fileProdName == null)
@@ -89,7 +88,7 @@ namespace MobileAppPhoto
             text = googleVision.DetectTextFromImage();
             strProductName = productName.SearchWordInHashset(text);
 
-            await DisplayAlert(notify, photoComposRequirement, confirmation);
+            await DisplayAlert(notify, photoComposRequirement, ok);
             fileProdCompos = await GetMediaFileAsync();
             // Была ли сделана фотография
             if (fileProdCompos == null)
@@ -104,7 +103,7 @@ namespace MobileAppPhoto
 
             await Navigation.PushAsync(edtPage = new EditPage(strProductName, strProductCompos, OnSaveRecord));
             WaitProcessingPhoto(true);
-            await DisplayAlert(notify, edtPage.ProdName + " " + edtPage.ProdCompos, confirmation);
+            await DisplayAlert(notify, edtPage.ProdName + " " + edtPage.ProdCompos, ok);
 
             #region Альтернативный вывод фотки
             /*image.Source = ImageSource.FromStream(() =>
@@ -118,7 +117,7 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Обработчик события. Позволяет выбрать 2 фотографии из существующих.
+        /// Обработчик события. Даёт возможность выбрать 2 фотографии из существующих.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -126,7 +125,7 @@ namespace MobileAppPhoto
         {
             if (!CheckConnection())
             {
-                await DisplayAlert(warning, internetAccess, confirmation);
+                await DisplayAlert(warning, internetAccess, ok);
                 return;
             }
 
@@ -137,11 +136,11 @@ namespace MobileAppPhoto
             // Проверка доступности выбора фотографий
             if (!CrossMedia.Current.IsTakePhotoSupported)
             {
-                await DisplayAlert(warning, notAccessPick, confirmation);
+                await DisplayAlert(warning, notAccessPick, ok);
                 return;
             }
 
-            await DisplayAlert(notify, photoNameRequirement, confirmation);
+            await DisplayAlert(notify, photoNameRequirement, ok);
             fileProdName = await PickMediaFileAsync();
             // Была ли выбрана фотография
             if (fileProdName == null)
@@ -154,7 +153,7 @@ namespace MobileAppPhoto
             text = googleVision.DetectTextFromImage();
             strProductName = productName.SearchWordInHashset(text);
             
-            await DisplayAlert(notify, photoComposRequirement, confirmation);
+            await DisplayAlert(notify, photoComposRequirement, ok);
             fileProdCompos = await PickMediaFileAsync();
             // Была ли выбрана фотография
             if (fileProdCompos == null)
@@ -169,7 +168,7 @@ namespace MobileAppPhoto
             
             await Navigation.PushAsync(edtPage = new EditPage(strProductName, strProductCompos, OnSaveRecord));
             WaitProcessingPhoto(true);
-            await DisplayAlert(notify, edtPage.ProdName + " " + edtPage.ProdCompos, confirmation);
+            await DisplayAlert(notify, edtPage.ProdName + " " + edtPage.ProdCompos, ok);
         }
 
         /// <summary>
@@ -194,7 +193,7 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Позволяет выбрать фотографию из существующих
+        /// Даёт возможность выбрать фотографию из существующих
         /// </summary>
         /// <returns> выбранная фотография </returns>
         private async Task<MediaFile> PickMediaFileAsync()
@@ -237,9 +236,13 @@ namespace MobileAppPhoto
             ViewTwo.IsEnabled = isEnabled;
             ViewThree.IsEnabled = isEnabled;
             ViewFour.IsEnabled = isEnabled;
-            ViewAll.IsEnabled = isEnabled;
+            btnViewAll.IsEnabled = isEnabled;
+            btnGetHelp.IsEnabled = isEnabled;
+            btnGetInfo.IsEnabled = isEnabled;
+            btnChangeSettings.IsEnabled = isEnabled;
             Remove.IsEnabled = isEnabled;
-            RemoveAll.IsEnabled = isEnabled;
+            btnGetInfo.IsEnabled = isEnabled;
+            btnRemoveAll.IsEnabled = isEnabled;
             Save.IsEnabled = isEnabled;
         }
 
@@ -257,11 +260,6 @@ namespace MobileAppPhoto
                 imageCompos.Source = ImageSource.FromFile(dataAccess.GetInfoRecord()[1]);
                 date.Text = dataAccess.GetInfoRecord()[2];
             }
-        }
-
-        private async void OnGetInfoClick(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new InfoPage());
         }
 
         #region Просмотр записей БД
@@ -285,10 +283,6 @@ namespace MobileAppPhoto
             await Navigation.PushAsync(dbPage = new DatabasePage(dataAccess, 4, OnViewRecords));
         }
 
-        private async void OnViewAllClick(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(dbPage = new DatabasePage(dataAccess, dataAccess.CountRecords, OnViewRecords));
-        }
         #endregion
 
         /// <summary>
@@ -306,13 +300,54 @@ namespace MobileAppPhoto
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnRemoveClick(object sender, EventArgs e)
+        private async void OnRemoveClick(object sender, EventArgs e)
         {
             var currentRecord = RecordsView.SelectedItem as Record;
             if (currentRecord != null)
             {
-                dataAccess.DeleteRecord(currentRecord);
+                var result = await DisplayAlert(confirmation, fullRemoval, ok, cancel);
+                if (result)
+                {
+                    dataAccess.DeleteRecord(currentRecord);
+                }
             }
+        }
+
+        /// <summary>
+        /// Получить дополнительную информацию о приложении
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void BtnGetInfo_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new InfoPage());
+        }
+
+        // TODO
+        private void BtnChangeSettings_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Просмотреть все записи, которые содержатся в БД
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void BtnViewAll_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(dbPage = new DatabasePage(dataAccess, dataAccess.CountRecords, OnViewRecords));
+
+        }
+
+        /// <summary>
+        /// Получить инструкцию по использованию приложением
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnGetHelp_Clicked(object sender, EventArgs e)
+        {
+
         }
 
         /// <summary>
@@ -320,11 +355,11 @@ namespace MobileAppPhoto
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void OnRemoveAllClick(object sender, EventArgs e)
+        private async void BtnRemoveAll_Clicked(object sender, EventArgs e)
         {
             if (dataAccess.Records.Any())
             {
-                var result = await DisplayAlert(approvement, fullRemoval, confirmation, cancel);
+                var result = await DisplayAlert(confirmation, fullRemoval, ok, cancel);
 
                 if (result)
                 {
@@ -332,8 +367,9 @@ namespace MobileAppPhoto
                     BindingContext = dataAccess;
                 }
             }
+            OnAppearing();
         }
-        
+
 
         /// <summary>
         /// Проверяет состояние подключения к интернету.

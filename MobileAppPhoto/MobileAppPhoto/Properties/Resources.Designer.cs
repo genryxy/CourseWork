@@ -73,9 +73,59 @@ namespace MobileAppPhoto.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Byte[].
         /// </summary>
+        internal static byte[] deleteAll {
+            get {
+                object obj = ResourceManager.GetObject("deleteAll", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] help {
+            get {
+                object obj = ResourceManager.GetObject("help", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
         internal static byte[] info {
             get {
                 object obj = ResourceManager.GetObject("info", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] save {
+            get {
+                object obj = ResourceManager.GetObject("save", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] settings {
+            get {
+                object obj = ResourceManager.GetObject("settings", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] statistic {
+            get {
+                object obj = ResourceManager.GetObject("statistic", resourceCulture);
                 return ((byte[])(obj));
             }
         }

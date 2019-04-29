@@ -1,104 +1,187 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
+<MasterDetailPage
     x:Class="MobileAppPhoto.UsersPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    NavigationPage.HasNavigationBar="True">
 
-    <StackLayout>
-        <ListView
-            x:Name="RecordsView"
-            BackgroundColor="LightGray"
-            ItemsSource="{Binding Path=Records}"
-            ListView.RowHeight="200">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Orientation="Vertical">
-                            <Label Text="{Binding Id}" TextColor="Black" />
-                            <Label Text="{Binding DateOfPhoto}" TextColor="Black" />
-                            <Entry Text="{Binding ProductName}" TextColor="Black" />
-                            <Entry Text="{Binding ProductComposition}" TextColor="Black" />
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <Label
-            x:Name="lblWaiting"
-            FontSize="Medium"
-            HorizontalTextAlignment="Center"
-            IsVisible="False"
-            Text="Подождите, фотография обрабатывается"
-            TextColor="Red" />
-        <ScrollView>
+    <MasterDetailPage.Detail Title="Главная">
+        <ContentPage Title="Главная" BackgroundColor="White">
             <StackLayout>
-                <Label x:Name="date" />
-                <Image x:Name="imageName" />
-                <Image x:Name="imageCompos" />
+                <ListView
+                    x:Name="RecordsView"
+                    BackgroundColor="LightGray"
+                    ItemsSource="{Binding Path=Records}"
+                    ListView.RowHeight="120">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Vertical">
+                                    <Label Text="{Binding Id}" TextColor="Black" />
+                                    <Label Text="{Binding DateOfPhoto}" TextColor="Black" />
+                                    <Entry Text="{Binding ProductName}" TextColor="Black" />
+                                    <Entry Text="{Binding ProductComposition}" TextColor="Black" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Label
+                    x:Name="lblWaiting"
+                    FontSize="Medium"
+                    HorizontalTextAlignment="Center"
+                    IsVisible="False"
+                    Text="Подождите, фотография обрабатывается"
+                    TextColor="Red" />
+                <ScrollView>
+                    <StackLayout>
+                        <Label x:Name="date" />
+                        <Image x:Name="imageName" />
+                        <Image x:Name="imageCompos" />
+                    </StackLayout>
+                </ScrollView>
+                <StackLayout>
+                    <Button
+                        x:Name="btnTakePhoto"
+                        BackgroundColor="#BDC3C7"
+                        Clicked="BtnTakePhoto_Clicked"
+                        Text="Сфотографировать" />
+                    <Button
+                        x:Name="btnPickPhoto"
+                        BackgroundColor="#BDC3C7"
+                        Clicked="BtnPickPhoto_Clicked"
+                        Text="Выбрать 2 фотографии" />
+                </StackLayout>
             </StackLayout>
-        </ScrollView>
-        <StackLayout>
-            <Button x:Name="btnTakePhoto" Text="Сфотографировать" />
-            <Button x:Name="btnPickPhoto" Text="Выбрать 2 фотографии" />
-        </StackLayout>
-    </StackLayout>
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem
-            x:Name="ViewOne"
-            Activated="OnViewOneClick"
-            Order="Secondary"
-            Priority="0"
-            Text="Посмотреть последнюю запись" />
-        <ToolbarItem
-            x:Name="ViewTwo"
-            Activated="OnViewTwoClick"
-            Order="Secondary"
-            Priority="1"
-            Text="Посмотреть последние 2 записи" />
-        <ToolbarItem
-            x:Name="ViewThree"
-            Activated="OnViewThreeClick"
-            Order="Secondary"
-            Priority="2"
-            Text="Посмотреть последние 3 записи" />
-        <ToolbarItem
-            x:Name="ViewFour"
-            Activated="OnViewFourClick"
-            Order="Secondary"
-            Priority="3"
-            Text="Посмотреть последние 4 записи" />
-        <ToolbarItem
-            x:Name="ViewAll"
-            Activated="OnViewAllClick"
-            Order="Secondary"
-            Priority="4"
-            Text="Посмотреть все записи" />
-        <ToolbarItem
-            x:Name="Save"
-            Activated="OnSaveClick"
-            Order="Secondary"
-            Priority="5"
-            Text="Сохранить изменения" />
-        <ToolbarItem
-            x:Name="Remove"
-            Activated="OnRemoveClick"
-            Icon="delete.png"
-            Order="Primary"
-            Priority="6"
-            Text="Удалить запись" />
-        <ToolbarItem
-            x:Name="RemoveAll"
-            Activated="OnRemoveAllClick"
-            Order="Secondary"
-            Priority="7"
-            Text="Удалить все записи" />
-        <ToolbarItem
-            x:Name="GetInfo"
-            Activated="OnGetInfoClick"
-            Icon="info.png"
-            Order="Primary"
-            Priority="8"
-            Text="Получить справку" />
-    </ContentPage.ToolbarItems>
-</ContentPage>
+            <ContentPage.ToolbarItems>
+                <ToolbarItem
+                    x:Name="ViewOne"
+                    Activated="OnViewOneClick"
+                    Order="Secondary"
+                    Priority="0"
+                    Text="Посмотреть последнюю запись" />
+                <ToolbarItem
+                    x:Name="ViewTwo"
+                    Activated="OnViewTwoClick"
+                    Order="Secondary"
+                    Priority="1"
+                    Text="Посмотреть последние 2 записи" />
+                <ToolbarItem
+                    x:Name="ViewThree"
+                    Activated="OnViewThreeClick"
+                    Order="Secondary"
+                    Priority="2"
+                    Text="Посмотреть последние 3 записи" />
+                <ToolbarItem
+                    x:Name="ViewFour"
+                    Activated="OnViewFourClick"
+                    Order="Secondary"
+                    Priority="3"
+                    Text="Посмотреть последние 4 записи" />
+                <ToolbarItem
+                    x:Name="Save"
+                    Activated="OnSaveClick"
+                    Icon="save.png"
+                    Order="Primary"
+                    Priority="4"
+                    Text="Сохранить изменения" />
+                <ToolbarItem
+                    x:Name="Remove"
+                    Activated="OnRemoveClick"
+                    Icon="delete.png"
+                    Order="Primary"
+                    Priority="5"
+                    Text="Удалить запись" />
+            </ContentPage.ToolbarItems>
+        </ContentPage>
+    </MasterDetailPage.Detail>
+
+    <MasterDetailPage.Master Title="Меню">
+        <ContentPage
+            Title="Меню"
+            Padding="10"
+            BackgroundColor="#F8F9F9">
+            <ContentPage.Content>
+                <ScrollView>
+                    <StackLayout Margin="5,30,5,5">
+                        <Label Text="Меню" HorizontalOptions="Start" FontSize="Medium" TextColor="Black"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.25*" />
+                                <ColumnDefinition Width="0.75*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Image
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Source="settings.png" />
+                            <Button
+                                x:Name="btnChangeSettings"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                BackgroundColor="#BDC3C7"
+                                Clicked="BtnChangeSettings_Clicked"
+                                Text="Настройки"
+                                TextColor="Black" />
+                            <Image
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Source="statistic.png" />
+                            <Button
+                                x:Name="btnViewAll"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                BackgroundColor="#BDC3C7"
+                                Clicked="BtnViewAll_Clicked"
+                                Text="Посмотреть все записи"
+                                TextColor="Black" />
+                            <Image
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Source="deleteAll.png" />
+                            <Button
+                                x:Name="btnRemoveAll"
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                BackgroundColor="#BDC3C7"
+                                Clicked="BtnRemoveAll_Clicked"
+                                Text="Удалить все записи"
+                                TextColor="Black" />
+                            <Image
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                Source="help.png" />
+                            <Button
+                                x:Name="btnGetHelp"
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                BackgroundColor="#BDC3C7"
+                                Clicked="BtnGetHelp_Clicked"
+                                Text="Справка"
+                                TextColor="Black" />
+                            <Image
+                                Grid.Row="4"
+                                Grid.Column="0"
+                                Source="info.png" />
+                            <Button
+                                x:Name="btnGetInfo"
+                                Grid.Row="4"
+                                Grid.Column="1"
+                                BackgroundColor="#BDC3C7"
+                                Clicked="BtnGetInfo_Clicked"
+                                Text="О приложении"
+                                TextColor="Black" />
+                        </Grid>
+                    </StackLayout>
+                </ScrollView>
+            </ContentPage.Content>
+        </ContentPage>
+    </MasterDetailPage.Master>
+</MasterDetailPage>
