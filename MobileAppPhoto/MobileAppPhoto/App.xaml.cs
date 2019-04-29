@@ -11,7 +11,7 @@ namespace MobileAppPhoto
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new UsersPage());
+            MainPage = new NavigationPage(new UsersPage()) { BarBackgroundColor = Color.FromHex("#AAB7B8") };
             //MainPage = new MainPage();
         }
 

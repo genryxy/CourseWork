@@ -3,35 +3,21 @@
     x:Class="MobileAppPhoto.InfoPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    BackgroundColor="White">
+    Title="Информация"
+    BackgroundColor="White"
+    NavigationPage.HasNavigationBar="True">
+
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.2*" />
-                        <ColumnDefinition Width="0.8*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <Image
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Source="delete.jpg" />
-                    <Label
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        FontSize="Medium"
-                        Text="При нажатии происходит удаление выбранной записи"
-                        TextColor="Black" />
-                </Grid>
-
-                <Label FontSize="Medium" TextColor="Black" Style="CaptionStyle">
+                <Label
+                    FontSize="Medium"
+                    Style="CaptionStyle"
+                    TextColor="Black">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="{x:Static x:Environment.NewLine}" Style="TitleStyle"/>
-                            <Span Text="О разработчике:" />
+                            <Span Text="{x:Static x:Environment.NewLine}" />
+                            <Span FontAttributes="Bold" Text="О разработчике:" Style="TitleStyle" FontSize="Medium"/>
                             <Span Text="{x:Static x:Environment.NewLine}" />
                             <Span Text="Краснов Александр, студент 1-ого курса НИУ ВШЭ, группа БПИ186" />
                             <Span Text="{x:Static x:Environment.NewLine}" />
@@ -41,6 +27,7 @@
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
+                <Image Source="cat.jpg" HorizontalOptions="CenterAndExpand" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

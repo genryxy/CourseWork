@@ -10,9 +10,9 @@
             <StackLayout>
                 <ListView
                     x:Name="RecordsView"
-                    BackgroundColor="LightGray"
+                    BackgroundColor="#EAEDED"
                     ItemsSource="{Binding Path=Records}"
-                    ListView.RowHeight="120">
+                    ListView.RowHeight="150">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -105,7 +105,11 @@
             <ContentPage.Content>
                 <ScrollView>
                     <StackLayout Margin="5,30,5,5">
-                        <Label Text="Меню" HorizontalOptions="Start" FontSize="Medium" TextColor="Black"/>
+                        <Label
+                            FontSize="Medium"
+                            HorizontalOptions="Start"
+                            Text="Меню"
+                            TextColor="Black" />
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.25*" />

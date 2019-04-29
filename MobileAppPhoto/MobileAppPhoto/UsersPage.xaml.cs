@@ -345,9 +345,9 @@ namespace MobileAppPhoto
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void BtnGetHelp_Clicked(object sender, EventArgs e)
+        private async void BtnGetHelp_Clicked(object sender, EventArgs e)
         {
-
+            await Navigation.PushAsync(new HelpPage());
         }
 
         /// <summary>

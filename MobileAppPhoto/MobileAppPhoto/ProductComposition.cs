@@ -9,9 +9,8 @@ namespace MobileAppPhoto
         /// <summary>
         /// Слова, которые могу обозначать пищевую ценность. 
         /// </summary>
-        private HashSet<string> composition = new HashSet<string>(new string[] { "белки",
-            "белков", "белка", "жиры", "жиров", "жира", "углеводы", "углеводов", "углевода", "бел", "углево",
-            "жи", "угле", "уг"});
+        private HashSet<string> composition = new HashSet<string>(new string[] { "белки", "белков", "белок", "жир",
+            "белка", "жиры", "жиров", "жира", "углеводы", "углеводов", "углевода", "бел", "углево", "угле"});
 
         /// <summary>
         /// Конструктор

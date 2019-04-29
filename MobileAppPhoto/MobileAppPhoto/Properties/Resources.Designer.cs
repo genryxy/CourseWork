@@ -63,6 +63,16 @@ namespace MobileAppPhoto.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Byte[].
         /// </summary>
+        internal static byte[] cat {
+            get {
+                object obj = ResourceManager.GetObject("cat", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
         internal static byte[] delete {
             get {
                 object obj = ResourceManager.GetObject("delete", resourceCulture);

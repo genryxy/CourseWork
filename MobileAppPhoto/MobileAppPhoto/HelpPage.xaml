@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MobileAppPhoto.HelpPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Помощь"
+    NavigationPage.HasNavigationBar="True"
+    BackgroundColor="White">
+
+    <ContentPage.Content>
+        <ScrollView>            
+            <StackLayout Padding="5">
+                <Label
+                    FontSize="Medium"
+                    Style="CaptionStyle"
+                    TextColor="Black">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Как загрузить фотографии?" Style="TitleStyle" FontAttributes="Bold" TextDecorations="Underline" FontSize="Medium"/>
+                            <Span Text="{x:Static x:Environment.NewLine}" />
+                            <Span Text="1 способ. " FontAttributes="Bold" FontSize="Medium"/>
+                            <Span Text="Для загрузки двух фотографий необходимо нажать на кнопку «Сфотографировать» (будет 
+                                  использована камера устройства). Далее следовать указаниям, которые появляются на экране." />
+                            <Span Text="{x:Static x:Environment.NewLine}" />
+                            <Span Text="2 способ. " FontAttributes="Bold" FontSize="Medium"/>
+                            <Span Text="Для загрузки двух фотографий необходимо нажать на кнопку «Выбрать 2 фотографии» (выбор
+                                  из существующих). Далее следовать указаниям, которые появляются на экране." />
+                            <Span Text="{x:Static x:Environment.NewLine}" />                           
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>                
+                <StackLayout Spacing="10" Orientation="Horizontal">
+                    <Label Text="Обозначение" FontSize="Medium" FontAttributes="Bold" TextDecorations="Underline" TextColor="Black"  />
+                    <Label Text="Описание" FontSize="Medium" FontAttributes="Bold" TextDecorations="Underline" TextColor="Black" />
+                </StackLayout>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.2*" />
+                        <ColumnDefinition Width="0.8*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.8*" />
+                        <RowDefinition Height="0.8*" />
+                        <RowDefinition Height="0.8*" />
+                        <RowDefinition Height="0.8*" />
+                        <RowDefinition Height="0.8*" />
+                    </Grid.RowDefinitions>
+                    <Image
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Source="delete.png" />
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontSize="Medium"
+                        Text="Необходимо выбрать удаляемую запись на главной странице
+                        (если запись выбрана, то фон станет оранжевым). При нажатии на кнопку 
+                        происходит удаление выбранной записи. Удалённые данные нельзя восстановить!"
+                        TextColor="Black" />
+                    <Image
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Source="deleteAll.png" />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        FontSize="Medium"
+                        Text="Кнопка находится в разделе «Меню». При нажатии происходит удаление
+                        всех записей из базы данных. Удалённые данные нельзя восстановить!"
+                        TextColor="Black" />
+                    <Image
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Source="settings.png" />
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        FontSize="Medium"
+                        Text="Есть возможность выбрать, какой API использовать 
+                        для извлечения текста с фотографий. Google Vision API vs Microsoft Cognitive Service"
+                        TextColor="Black" />
+                    <Image
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Source="save.png" />
+                    <Label
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        FontSize="Medium"
+                        Text="Вы можете вносить изменения в записи, которые выведены на главной странице.
+                        Для сохранения внесённых изменений необходимо нажать на кнопку-дискету. (приведена слева)"
+                        TextColor="Black" />
+                    <Image
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Source="statistic.png" />
+                    <Label
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        FontSize="Medium"
+                        Text="Выводит информацию о всех записях в базе данных. Кнопка находится в меню. Кроме того,
+                        есть возможность посмотреть последнюю и последние 2/3/4 записи. Для этого нужно
+                        нажать на кнопку ⋮ в правой верхней части экрана на главной странице."
+                        TextColor="Black" />
+                </Grid>                
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
