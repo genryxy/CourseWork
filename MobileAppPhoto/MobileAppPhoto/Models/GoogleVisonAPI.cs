@@ -35,19 +35,22 @@ namespace MobileAppPhoto
         /// <returns> распознанный текст </returns>
         public string DetectTextFromImage()
         {
-            var client = ImageAnnotatorClient.Create(channel);
-            var image = Image.FromFile(PathToImage);
-            IReadOnlyList<EntityAnnotation> textAnnotations = client.DetectText(image);
             string msg = string.Empty;
-
-            foreach (EntityAnnotation text in textAnnotations)
+            try
             {
-                if (msg == string.Empty)
+                var client = ImageAnnotatorClient.Create(channel);
+                var image = Image.FromFile(PathToImage);
+                IReadOnlyList<EntityAnnotation> textAnnotations = client.DetectText(image);
+
+                foreach (EntityAnnotation text in textAnnotations)
                 {
-                    return text.Description;
+                    if (msg == string.Empty)
+                    {
+                        return text.Description;
+                    }
+                    break;
                 }
-                break;
-            }
+            } catch(Exception) { }
             return msg;
         }
 
@@ -56,11 +59,14 @@ namespace MobileAppPhoto
         /// </summary>
         private void GetCredentials()
         {
-            AssetManager assets = Android.App.Application.Context.Assets;
-            var stream = Android.App.Application.Context.Assets.Open("hseOcrPrivateKey.json");
-            credential = GoogleCredential.FromStream(stream);
-            channel = new Channel(ImageAnnotatorClient.DefaultEndpoint.Host,
-                ImageAnnotatorClient.DefaultEndpoint.Port, credential.ToChannelCredentials());
+            try
+            {
+                AssetManager assets = Android.App.Application.Context.Assets;
+                var stream = Android.App.Application.Context.Assets.Open("hseOcrPrivateKey.json");
+                credential = GoogleCredential.FromStream(stream);
+                channel = new Channel(ImageAnnotatorClient.DefaultEndpoint.Host,
+                    ImageAnnotatorClient.DefaultEndpoint.Port, credential.ToChannelCredentials());
+            } catch(Exception) { }
         }
     }
 }

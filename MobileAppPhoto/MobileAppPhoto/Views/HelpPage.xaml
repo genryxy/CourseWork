@@ -101,13 +101,12 @@
                         Text="Выводит информацию о всех записях в базе данных. Кнопка находится в меню. Кроме того,
                         есть возможность посмотреть последнюю и последние 2/3/4 записи. Для этого нужно
                         нажать на кнопку ⋮ в правой верхней части экрана на главной странице."
-                        TextColor="Black" />                   
+                        TextColor="Black" />
                 </Grid>
                 <Button
-                    x:Name="btnReturn"                               
-                    HorizontalOptions="Center"
+                    x:Name="BtnReturn"                               
                     BackgroundColor="{StaticResource btnGray}"
-                    Clicked="btnReturn_Clicked"                       
+                    Clicked="BtnReturn_Clicked"                       
                     TextColor="{StaticResource textBlue}"
                     Text="Вернуться на главную страницу" />
             </StackLayout>            

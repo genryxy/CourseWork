@@ -2,14 +2,11 @@
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-// Перейти на MasterDetailPage!!!
 
 namespace MobileAppPhoto
 {
@@ -39,6 +36,7 @@ namespace MobileAppPhoto
         private DatabasePage dbPage;
         private SettingsPage settingPage;
         private string strProductName = "НазваниеПродукта", strProductCompos = "_:0;_:0;_:0;";
+        private string selectedAPI = "Google API";
 
         public UsersPage()
         {
@@ -202,8 +200,7 @@ namespace MobileAppPhoto
             WaitProcessingPhoto(false);
             var file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
             {
-                PhotoSize = PhotoSize.Medium,
-
+                PhotoSize = PhotoSize.Medium
             });
             return file;
         }
@@ -244,7 +241,6 @@ namespace MobileAppPhoto
             Remove.IsEnabled = isEnabled;
             btnGetInfo.IsEnabled = isEnabled;
             btnRemoveAll.IsEnabled = isEnabled;
-            Save.IsEnabled = isEnabled;
         }
 
         /// <summary>
@@ -260,6 +256,13 @@ namespace MobileAppPhoto
                 imageName.Source = ImageSource.FromFile(dataAccess.GetInfoRecord()[0]);
                 imageCompos.Source = ImageSource.FromFile(dataAccess.GetInfoRecord()[1]);
                 date.Text = dataAccess.GetInfoRecord()[2];
+            }
+            else
+            {
+                imageName.Source = null;
+                imageCompos.Source = null;
+                date.Text = null;
+                InitializeComponent();
             }
         }
 
@@ -303,6 +306,7 @@ namespace MobileAppPhoto
         /// <param name="e"></param>
         private async void OnRemoveClick(object sender, EventArgs e)
         {
+            await DisplayAlert("check", settingPage?.SelectedAPI,"ok");
             var currentRecord = RecordsView.SelectedItem as Record;
             if (currentRecord != null)
             {
@@ -324,15 +328,18 @@ namespace MobileAppPhoto
             await Navigation.PushAsync(new InfoPage());
         }
 
-        // TODO
+        /// <summary>
+        /// Открыть страницу для изменения настроек
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void BtnChangeSettings_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(settingPage = new SettingsPage());
-            //await DisplayAlert("check", settingPage.SelectedAPI, "ok");           
         }
 
         /// <summary>
-        /// Просмотреть все записи, которые содержатся в БД
+        /// Посмотреть все записи, которые содержатся в БД
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

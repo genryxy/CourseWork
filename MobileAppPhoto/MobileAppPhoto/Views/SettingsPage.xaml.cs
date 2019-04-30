@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,15 +10,30 @@ namespace MobileAppPhoto
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SettingsPage : ContentPage
     {
+        /// <summary>
+        /// Коллекция возможных вариантов ответа
+        /// </summary>
         private ObservableCollection<Grouping<string, RadioOption>> radioOptions = new ObservableCollection<Grouping<string, RadioOption>>();
 
-        public string SelectedAPI { get; private set; }
+        /// <summary>
+        /// Выбранное при помощи radio button значение 
+        /// </summary>
+        public string SelectedAPI { get; private set; } = "Google API";
+
+        /// <summary>
+        /// Конструктор
+        /// </summary>
         public SettingsPage()
         {
             InitializeComponent();
             Initialize();
         }
 
+        /// <summary>
+        /// Вызывается при нажатии на вариант ответа. Меняет значение свойства IsSelected у элементов.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lstViewRadio_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             if (!(e.Item is RadioOption item))
@@ -39,7 +52,6 @@ namespace MobileAppPhoto
                     SelectedAPI = item.Title;
                 }
             }
-
         }
 
         /// <summary>
@@ -52,9 +64,13 @@ namespace MobileAppPhoto
             lstViewRadio.SelectedItem = null;
         }
 
-        private async void btnSelect_Clicked(object sender, EventArgs e)
+        /// <summary>
+        /// Обработчик события. Возвращает на главную страницу.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void BtnReturn_Clicked(object sender, EventArgs e)
         {
-            await DisplayAlert("Оповещение", "Изменения сохранены", "ок");
             await Navigation.PopAsync();
         }
 

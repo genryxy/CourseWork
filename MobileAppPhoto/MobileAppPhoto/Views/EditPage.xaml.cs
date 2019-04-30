@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -46,10 +42,10 @@ namespace MobileAppPhoto
                 }
             };
 
-            Label nameHeader = new Label { Text = "Название продукта", BackgroundColor = Color.LightGray };
-            Label proteinsHeader = new Label { Text = "Белки", BackgroundColor = Color.LightGray };
-            Label fatsHeader = new Label { Text = "Жиры", BackgroundColor = Color.LightGray };
-            Label carbsHeader = new Label { Text = "Углеводы", BackgroundColor = Color.LightGray };
+            Label nameHeader = new Label { Text = "Название продукта", BackgroundColor = Color.LightGray, TextColor = Color.FromHex("#1B4F72")};
+            Label proteinsHeader = new Label { Text = "Белки", BackgroundColor = Color.LightGray, TextColor = Color.FromHex("#1B4F72") };
+            Label fatsHeader = new Label { Text = "Жиры", BackgroundColor = Color.LightGray, TextColor = Color.FromHex("#1B4F72") };
+            Label carbsHeader = new Label { Text = "Углеводы", BackgroundColor = Color.LightGray, TextColor = Color.FromHex("#1B4F72") };
             _currStatus = new Label { Text = "Значения белков, жиров и углеводов должны быть числом",
                 TextColor = Color.Red, IsVisible = false, FontSize = 20 };
 

@@ -75,6 +75,5 @@ namespace MobileAppPhoto
             }
             catch (Exception e) { }
         }
-
     }
 }

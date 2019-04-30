@@ -9,16 +9,16 @@ namespace MobileAppPhoto
 {
     public class RecordsDataAccess
     {
-        // хранит строку подключения
+        // Хранит строку подключения
         private SQLiteConnection database;
-        // объект для реализации блокировок при операциях над данными БД
+        // Объект для реализации блокировок при операциях над данными БД
         // в целях избежания конфликтов
         private static object collisionLock = new object();
 
         /// <summary>
         /// Позволяет известить внешние объекты о том, что коллекция была изменена.
         /// </summary>
-        public ObservableCollection<Record> Records { get; set; }
+        public ObservableCollection<Record> Records { get; private set; }
 
         /// <summary>
         /// Конструктор
@@ -28,15 +28,17 @@ namespace MobileAppPhoto
             database = DependencyService.Get<IDatabaseConnection>().DbConnection();
             database.CreateTable<Record>();
             Records = new ObservableCollection<Record>(database.Table<Record>());
-
-            /*if (!database.Table<Record>().Any())
-            {
-                AddNewRecord("nothing", "noText");
-            } */
         }
 
+        /// <summary>
+        /// Количество записей
+        /// </summary>
         public int CountRecords { get => Records.Count; }
        
+        /// <summary>
+        /// Метод для получения информации о записи
+        /// </summary>
+        /// <returns> список, включающий пути до фотографий и дату создания фотографии </returns>
         public List<string> GetInfoRecord()
         {
             var tempRecord = Records[Records.Count - 1];
@@ -59,34 +61,6 @@ namespace MobileAppPhoto
                 PathToImageComposition = pathToComposition                
             });
         }
-
-        /// <summary>
-        /// Фильтрация по странам с помощью LINQ-запроса
-        /// </summary>
-        /// <param name="countryName"> название страны </param>
-        /// <returns></returns>
-        public IEnumerable<Record> GetFilteredRecords(string countryName)
-        {
-            lock (collisionLock)
-            {
-                var query = from record in database.Table<Record>()
-                            where record.ProductComposition == countryName
-                            select record;
-                return query.AsEnumerable();
-            }
-        }
-
-        /*
-        // Фильтрация с помощью Query
-        public IEnumerable<Record> GetFilteredCustomers(string countryName)
-        {
-            lock (collisionLock)
-            {
-                return database.Query<Record>(
-                  $"SELECT * FROM Item WHERE Country = '{countryName}'").
-                  AsEnumerable();
-            }
-        }*/
 
         /// <summary>
         /// Получение экземпляра объекта по id

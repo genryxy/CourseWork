@@ -17,7 +17,11 @@
                     <Label.FormattedText>
                         <FormattedString>
                             <Span Text="{x:Static x:Environment.NewLine}" />
-                            <Span FontAttributes="Bold" Text="О разработчике:" Style="TitleStyle" FontSize="Medium"/>
+                            <Span
+                                FontAttributes="Bold"
+                                FontSize="Medium"
+                                Style="TitleStyle"
+                                Text="О разработчике:" />
                             <Span Text="{x:Static x:Environment.NewLine}" />
                             <Span Text="Краснов Александр, студент 1-ого курса НИУ ВШЭ, группа БПИ186" />
                             <Span Text="{x:Static x:Environment.NewLine}" />
@@ -27,7 +31,13 @@
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-                <Image Source="cat.jpg" HorizontalOptions="CenterAndExpand" />
+                <Image HorizontalOptions="CenterAndExpand" Source="cat.jpg" />
+                <Button
+                    x:Name="BtnReturn"
+                    BackgroundColor="{StaticResource btnGray}"
+                    Clicked="BtnReturn_Clicked"
+                    Text="Вернуться на главную страницу"
+                    TextColor="{StaticResource textBlue}" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

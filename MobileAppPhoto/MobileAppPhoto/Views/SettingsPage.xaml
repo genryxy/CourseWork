@@ -4,7 +4,6 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Настройки"
-    Icon="help.png"
     BackgroundColor="White"
     NavigationPage.HasNavigationBar="True">
     <ContentPage.Content>
@@ -70,13 +69,11 @@
                     <ListView.Footer>
                         <StackLayout Margin="10,15">
                             <Button
-                                x:Name="btnSelect"
+                                x:Name="btnReturn"
                                 BackgroundColor="{StaticResource btnGray}"
-                                Clicked="btnSelect_Clicked"
-                                HorizontalOptions="Center"
-                                Text="Выбрать"
-                                TextColor="{StaticResource textBlue}"
-                                WidthRequest="150" />
+                                Clicked="BtnReturn_Clicked"
+                                Text="Вернуться на главную страницу"
+                                TextColor="{StaticResource textBlue}" />
                         </StackLayout>
                     </ListView.Footer>
                 </ListView>
