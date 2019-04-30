@@ -4,8 +4,8 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Помощь"
-    NavigationPage.HasNavigationBar="True"
-    BackgroundColor="White">
+    BackgroundColor="White"
+    NavigationPage.HasNavigationBar="True">
 
     <ContentPage.Content>
         <ScrollView>            
@@ -101,9 +101,16 @@
                         Text="Выводит информацию о всех записях в базе данных. Кнопка находится в меню. Кроме того,
                         есть возможность посмотреть последнюю и последние 2/3/4 записи. Для этого нужно
                         нажать на кнопку ⋮ в правой верхней части экрана на главной странице."
-                        TextColor="Black" />
-                </Grid>                
-            </StackLayout>
+                        TextColor="Black" />                   
+                </Grid>
+                <Button
+                    x:Name="btnReturn"                               
+                    HorizontalOptions="Center"
+                    BackgroundColor="{StaticResource btnGray}"
+                    Clicked="btnReturn_Clicked"                       
+                    TextColor="{StaticResource textBlue}"
+                    Text="Вернуться на главную страницу" />
+            </StackLayout>            
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>

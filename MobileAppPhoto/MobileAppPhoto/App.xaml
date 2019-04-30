@@ -1,8 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Application xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MobileAppPhoto.App">
+<Application
+    x:Class="MobileAppPhoto.App"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <Application.Resources>
-
+        <ResourceDictionary>
+            <!--  Colors  -->
+            <Color x:Key="btnGray">#BDC3C7</Color>
+            <Color x:Key="textBlue">#1B4F72</Color>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

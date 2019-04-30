@@ -43,14 +43,16 @@
                 <StackLayout>
                     <Button
                         x:Name="btnTakePhoto"
-                        BackgroundColor="#BDC3C7"
+                        BackgroundColor="{StaticResource btnGray}"
                         Clicked="BtnTakePhoto_Clicked"
-                        Text="Сфотографировать" />
+                        Text="Сфотографировать"
+                        TextColor="{StaticResource textBlue}" />
                     <Button
                         x:Name="btnPickPhoto"
-                        BackgroundColor="#BDC3C7"
+                        BackgroundColor="{StaticResource btnGray}"
                         Clicked="BtnPickPhoto_Clicked"
-                        Text="Выбрать 2 фотографии" />
+                        Text="Выбрать 2 фотографии"
+                        TextColor="{StaticResource textBlue}" />
                 </StackLayout>
             </StackLayout>
 
@@ -130,7 +132,7 @@
                                 x:Name="btnChangeSettings"
                                 Grid.Row="0"
                                 Grid.Column="1"
-                                BackgroundColor="#BDC3C7"
+                                BackgroundColor="{StaticResource btnGray}"
                                 Clicked="BtnChangeSettings_Clicked"
                                 Text="Настройки"
                                 TextColor="Black" />
@@ -142,7 +144,7 @@
                                 x:Name="btnViewAll"
                                 Grid.Row="1"
                                 Grid.Column="1"
-                                BackgroundColor="#BDC3C7"
+                                BackgroundColor="{StaticResource btnGray}"
                                 Clicked="BtnViewAll_Clicked"
                                 Text="Посмотреть все записи"
                                 TextColor="Black" />
@@ -154,7 +156,7 @@
                                 x:Name="btnRemoveAll"
                                 Grid.Row="2"
                                 Grid.Column="1"
-                                BackgroundColor="#BDC3C7"
+                                BackgroundColor="{StaticResource btnGray}"
                                 Clicked="BtnRemoveAll_Clicked"
                                 Text="Удалить все записи"
                                 TextColor="Black" />
@@ -166,7 +168,7 @@
                                 x:Name="btnGetHelp"
                                 Grid.Row="3"
                                 Grid.Column="1"
-                                BackgroundColor="#BDC3C7"
+                                BackgroundColor="{StaticResource btnGray}"
                                 Clicked="BtnGetHelp_Clicked"
                                 Text="Справка"
                                 TextColor="Black" />
@@ -178,7 +180,7 @@
                                 x:Name="btnGetInfo"
                                 Grid.Row="4"
                                 Grid.Column="1"
-                                BackgroundColor="#BDC3C7"
+                                BackgroundColor="{StaticResource btnGray}"
                                 Clicked="BtnGetInfo_Clicked"
                                 Text="О приложении"
                                 TextColor="Black" />

@@ -62,7 +62,7 @@ namespace MobileAppPhoto
             scrollView.Content = stackLayoutEntries;
             stackLayoutAll.Children.Add(scrollView);
 
-            Button btnReturn = new Button { Text = back, BackgroundColor = Color.Gray};
+            Button btnReturn = new Button { Text = back, BackgroundColor = Color.FromHex("#BDC3C7"), TextColor = Color.FromHex("#1B4F72") };
             btnReturn.Clicked += BtnReturn_Clicked;
             if (records.Count < countRecords)
             {

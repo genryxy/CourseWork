@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MobileAppPhoto.SettingsPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Настройки"
+    Icon="help.png"
+    BackgroundColor="White"
+    NavigationPage.HasNavigationBar="True">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <ListView
+                    x:Name="lstViewRadio"
+                    HasUnevenRows="True"
+                    IsGroupingEnabled="True"
+                    ItemSelected="lstViewRadio_ItemSelected"
+                    ItemTapped="lstViewRadio_ItemTapped">
+                    <!--  Header  -->
+                    <ListView.Header>
+                        <Label
+                            FontSize="Medium"
+                            Text="Выберите API для использования"
+                            TextColor="Black" />
+                    </ListView.Header>
+                    <!--  Group Header  -->
+                    <ListView.GroupHeaderTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout>
+                                    <Label
+                                        Margin="15,0,0,0"
+                                        FontSize="Medium"
+                                        Text="{Binding Key}"
+                                        VerticalOptions="CenterAndExpand" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.GroupHeaderTemplate>
+                    <!--  Item Template  -->
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label
+                                        Margin="15,10"
+                                        FontSize="Large"
+                                        HorizontalOptions="Start"
+                                        Text="{Binding Title}"
+                                        TextColor="Black"
+                                        VerticalTextAlignment="Center" />
+                                    <Grid Margin="10,10" HorizontalOptions="EndAndExpand">
+                                        <Label
+                                            FontSize="Medium"
+                                            Text="○"
+                                            TextColor="Black"
+                                            VerticalTextAlignment="Center" />
+                                        <Label
+                                            FontSize="Medium"
+                                            IsVisible="{Binding IsSelected}"
+                                            Text="●"
+                                            TextColor="Black"
+                                            VerticalTextAlignment="Center" />
+                                    </Grid>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <!--  Footer  -->
+                    <ListView.Footer>
+                        <StackLayout Margin="10,15">
+                            <Button
+                                x:Name="btnSelect"
+                                BackgroundColor="{StaticResource btnGray}"
+                                Clicked="btnSelect_Clicked"
+                                HorizontalOptions="Center"
+                                Text="Выбрать"
+                                TextColor="{StaticResource textBlue}"
+                                WidthRequest="150" />
+                        </StackLayout>
+                    </ListView.Footer>
+                </ListView>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

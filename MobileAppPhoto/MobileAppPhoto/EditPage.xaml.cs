@@ -59,7 +59,7 @@ namespace MobileAppPhoto
             _proteinsEntry = new Entry { Text = correctOrderValues[0], Placeholder = "белки", TextColor = Color.Black };
             _fatsEntry = new Entry { Text = correctOrderValues[1], Placeholder = "жиры", TextColor = Color.Black };
             _carbsEntry = new Entry { Text = correctOrderValues[2], Placeholder = "углеводы", TextColor = Color.Black };
-            Button btnConfirmEdit = new Button { Text = "Сохранить изменения", BackgroundColor = Color.Gray};
+            Button btnConfirmEdit = new Button { Text = "Сохранить изменения", BackgroundColor = Color.FromHex("#BDC3C7"), TextColor = Color.FromHex("#1B4F72")};
             btnConfirmEdit.Clicked += BtnConfirmEdit_Clicked;
 
             grid.Children.Add(nameHeader, 0, 0);

@@ -37,7 +37,8 @@ namespace MobileAppPhoto
         private MediaFile fileProdName, fileProdCompos;
         private EditPage edtPage;
         private DatabasePage dbPage;
-        private string strProductName = "НазваниеПродукта", strProductCompos = ":;:;:;";
+        private SettingsPage settingPage;
+        private string strProductName = "НазваниеПродукта", strProductCompos = "_:0;_:0;_:0;";
 
         public UsersPage()
         {
@@ -324,9 +325,10 @@ namespace MobileAppPhoto
         }
 
         // TODO
-        private void BtnChangeSettings_Clicked(object sender, EventArgs e)
+        private async void BtnChangeSettings_Clicked(object sender, EventArgs e)
         {
-
+            await Navigation.PushAsync(settingPage = new SettingsPage());
+            //await DisplayAlert("check", settingPage.SelectedAPI, "ok");           
         }
 
         /// <summary>

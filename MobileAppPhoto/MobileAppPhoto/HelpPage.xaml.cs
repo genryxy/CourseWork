@@ -16,5 +16,15 @@ namespace MobileAppPhoto
 		{
 			InitializeComponent ();
 		}
-	}
+
+        /// <summary>
+        /// Обработчик события. Возвращает на главную страницу.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void btnReturn_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PopAsync();
+        }
+    }
 }
