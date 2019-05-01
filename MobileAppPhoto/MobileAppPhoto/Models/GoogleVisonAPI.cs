@@ -13,9 +13,7 @@ namespace MobileAppPhoto
     {
         GoogleCredential credential;
         Channel channel;
-
-        //public event Func<string> CheckTextLanguage;
-
+        
         /// <summary>
         /// Путь до фотографии
         /// </summary>
@@ -50,7 +48,8 @@ namespace MobileAppPhoto
                     }
                     break;
                 }
-            } catch(Exception) { }
+            }
+            catch (Exception) { }
             return msg;
         }
 
@@ -61,12 +60,15 @@ namespace MobileAppPhoto
         {
             try
             {
+                // Получение пути до файла
                 AssetManager assets = Android.App.Application.Context.Assets;
                 var stream = Android.App.Application.Context.Assets.Open("hseOcrPrivateKey.json");
+                // Получение прав путём чтения json-файла с приватным ключом
                 credential = GoogleCredential.FromStream(stream);
                 channel = new Channel(ImageAnnotatorClient.DefaultEndpoint.Host,
                     ImageAnnotatorClient.DefaultEndpoint.Port, credential.ToChannelCredentials());
-            } catch(Exception) { }
+            }
+            catch (Exception) { }
         }
     }
 }

@@ -29,9 +29,10 @@ namespace MobileAppPhoto
 
         private RecordsDataAccess dataAccess;
         private GoogleVisonAPI googleVision;
+        private MicrosoftAPI microsoftAPI;
         private ProductName productName;
         private ProductComposition productComposition;
-        private MediaFile fileProdName, fileProdCompos;
+        private MediaFile fileProdName, fileProdComposition;
         private EditPage edtPage;
         private DatabasePage dbPage;
         private SettingsPage settingPage;
@@ -48,8 +49,10 @@ namespace MobileAppPhoto
             googleVision = new GoogleVisonAPI();
             productName = new ProductName();
             productComposition = new ProductComposition();
+            microsoftAPI = new MicrosoftAPI();
         }
 
+        #region Полный цикл работы с фотографиями
         /// <summary>
         /// Обработчик события. Позволяет сделать 2 фотографии.
         /// </summary>
@@ -62,7 +65,7 @@ namespace MobileAppPhoto
                 await DisplayAlert(warning, internetAccess, ok);
                 return;
             }
-            string text;
+            string text = string.Empty;
             strProductName = "НазваниеПродукта";
             strProductCompos = ":;:;:;";
 
@@ -81,38 +84,24 @@ namespace MobileAppPhoto
                 WaitProcessingPhoto(true);
                 return;
             }
-
-            WaitProcessingPhoto(false);
-            googleVision.PathToImage = fileProdName.Path;
-            text = googleVision.DetectTextFromImage();
+            CheckSelectionStatus();
+            MakeAPIRequest(ref text, fileProdName);
             strProductName = productName.SearchWordInHashset(text);
 
             await DisplayAlert(notify, photoComposRequirement, ok);
-            fileProdCompos = await GetMediaFileAsync();
+            fileProdComposition = await GetMediaFileAsync();
             // Была ли сделана фотография
-            if (fileProdCompos == null)
+            if (fileProdComposition == null)
             {
                 WaitProcessingPhoto(true);
                 return;
             }
-
-            googleVision.PathToImage = fileProdCompos.Path;
-            text = googleVision.DetectTextFromImage();
+            MakeAPIRequest(ref text, fileProdComposition);
             strProductCompos = productComposition.SearchValuesCompos(text);
 
             await Navigation.PushAsync(edtPage = new EditPage(strProductName, strProductCompos, OnSaveRecord));
             WaitProcessingPhoto(true);
             await DisplayAlert(notify, edtPage.ProdName + " " + edtPage.ProdCompos, ok);
-
-            #region Альтернативный вывод фотки
-            /*image.Source = ImageSource.FromStream(() =>
-            {
-                var stream = file.GetStream();
-                file.Dispose();
-                return stream;
-            });*/
-            #endregion
-
         }
 
         /// <summary>
@@ -128,7 +117,7 @@ namespace MobileAppPhoto
                 return;
             }
 
-            string text;
+            string text = string.Empty;
             strProductName = "НазваниеПродукта";
             strProductCompos = ":;:;:;";
 
@@ -147,29 +136,46 @@ namespace MobileAppPhoto
                 WaitProcessingPhoto(true);
                 return;
             }
-
-            googleVision.PathToImage = fileProdName.Path;
-            text = googleVision.DetectTextFromImage();
+            CheckSelectionStatus();
+            MakeAPIRequest(ref text, fileProdName);
             strProductName = productName.SearchWordInHashset(text);
-            
+
             await DisplayAlert(notify, photoComposRequirement, ok);
-            fileProdCompos = await PickMediaFileAsync();
+            fileProdComposition = await PickMediaFileAsync();
             // Была ли выбрана фотография
-            if (fileProdCompos == null)
+            if (fileProdComposition == null)
             {
                 WaitProcessingPhoto(true);
                 return;
             }
-
-            googleVision.PathToImage = fileProdCompos.Path;
-            text = googleVision.DetectTextFromImage();
+            MakeAPIRequest(ref text, fileProdComposition);
             strProductCompos = productComposition.SearchValuesCompos(text);
-            
+
             await Navigation.PushAsync(edtPage = new EditPage(strProductName, strProductCompos, OnSaveRecord));
             WaitProcessingPhoto(true);
             await DisplayAlert(notify, edtPage.ProdName + " " + edtPage.ProdCompos, ok);
         }
+        #endregion
 
+        /// <summary>
+        /// Делает соответствующий API запрос в зависимости от значения selectedAPI
+        /// </summary>
+        /// <param name="text"> Текст, извлеченный с фотографии (передаётся с ref) </param>
+        /// <param name="file"> Фотография </param>
+        private void MakeAPIRequest(ref string text, MediaFile file)
+        {
+            if (selectedAPI == "Google API" || selectedAPI.Length > 9)
+            {
+                googleVision.PathToImage = file.Path;
+                text = googleVision.DetectTextFromImage();
+            }
+            else
+            {
+                text = microsoftAPI.DetectTextFromImage(file.Path);
+            }
+        }
+
+        #region Методы для получения фотографии
         /// <summary>
         /// Открывает камеру и позволяет пользователю сфотографировать, затем сохраняет файл в указанную директорию
         /// </summary>
@@ -204,16 +210,17 @@ namespace MobileAppPhoto
             });
             return file;
         }
-
+        #endregion
 
         /// <summary>
-        /// Обработчик события. Добавляет запись в БД по окончании редактирования.
+        /// Проверяет выбранный для использования API
         /// </summary>
-        private void OnSaveRecord()
+        private void CheckSelectionStatus()
         {
-            dataAccess.AddNewRecord(edtPage.ProdName, edtPage.ProdCompos,
-                fileProdName.Path, fileProdCompos.Path);
-            OnSaveClick(this, new EventArgs());
+            if (settingPage != null)
+            {
+                selectedAPI = settingPage.SelectedAPI;
+            }
         }
 
         private void OnViewRecords()
@@ -289,6 +296,17 @@ namespace MobileAppPhoto
 
         #endregion
 
+        #region Обработчики событий
+        /// <summary>
+        /// Обработчик события. Добавляет запись в БД по окончании редактирования.
+        /// </summary>
+        private void OnSaveRecord()
+        {
+            dataAccess.AddNewRecord(edtPage.ProdName, edtPage.ProdCompos,
+                fileProdName.Path, fileProdComposition.Path);
+            OnSaveClick(this, new EventArgs());
+        }
+
         /// <summary>
         /// Сохраняем любые отложенные изменения
         /// </summary>
@@ -298,7 +316,7 @@ namespace MobileAppPhoto
         {
             dataAccess.SaveAllRecords();
         }
-             
+
         /// <summary>
         /// Удаляем текущую запись. Если она есть в базе данных, то будет удален и оттуда.
         /// </summary>
@@ -306,7 +324,6 @@ namespace MobileAppPhoto
         /// <param name="e"></param>
         private async void OnRemoveClick(object sender, EventArgs e)
         {
-            await DisplayAlert("check", settingPage?.SelectedAPI,"ok");
             var currentRecord = RecordsView.SelectedItem as Record;
             if (currentRecord != null)
             {
@@ -378,7 +395,7 @@ namespace MobileAppPhoto
             }
             OnAppearing();
         }
-
+        #endregion
 
         /// <summary>
         /// Проверяет состояние подключения к интернету.

@@ -8,7 +8,7 @@
     NavigationPage.HasNavigationBar="True">
 
     <ContentPage.Content>
-        <ScrollView>            
+        <ScrollView>
             <StackLayout Padding="5">
                 <Label
                     FontSize="Medium"
@@ -16,22 +16,41 @@
                     TextColor="Black">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="Как загрузить фотографии?" Style="TitleStyle" FontAttributes="Bold" TextDecorations="Underline" FontSize="Medium"/>
+                            <Span
+                                FontAttributes="Bold"
+                                FontSize="Medium"
+                                Style="TitleStyle"
+                                Text="Как загрузить фотографии?"
+                                TextDecorations="Underline" />
                             <Span Text="{x:Static x:Environment.NewLine}" />
-                            <Span Text="1 способ. " FontAttributes="Bold" FontSize="Medium"/>
-                            <Span Text="Для загрузки двух фотографий необходимо нажать на кнопку «Сфотографировать» (будет 
-                                  использована камера устройства). Далее следовать указаниям, которые появляются на экране." />
+                            <Span
+                                FontAttributes="Bold"
+                                FontSize="Medium"
+                                Text="1 способ. " />
+                            <Span Text="Для загрузки двух фотографий необходимо нажать на кнопку «Сфотографировать» (будет                                    использована камера устройства). Далее следовать указаниям, которые появляются на экране." />
                             <Span Text="{x:Static x:Environment.NewLine}" />
-                            <Span Text="2 способ. " FontAttributes="Bold" FontSize="Medium"/>
-                            <Span Text="Для загрузки двух фотографий необходимо нажать на кнопку «Выбрать 2 фотографии» (выбор
-                                  из существующих). Далее следовать указаниям, которые появляются на экране." />
-                            <Span Text="{x:Static x:Environment.NewLine}" />                           
+                            <Span
+                                FontAttributes="Bold"
+                                FontSize="Medium"
+                                Text="2 способ. " />
+                            <Span Text="Для загрузки двух фотографий необходимо нажать на кнопку «Выбрать 2 фотографии» (выбор                                   из существующих). Далее следовать указаниям, которые появляются на экране." />
+                            <Span Text="{x:Static x:Environment.NewLine}" />
                         </FormattedString>
                     </Label.FormattedText>
-                </Label>                
-                <StackLayout Spacing="10" Orientation="Horizontal">
-                    <Label Text="Обозначение" FontSize="Medium" FontAttributes="Bold" TextDecorations="Underline" TextColor="Black"  />
-                    <Label Text="Описание" FontSize="Medium" FontAttributes="Bold" TextDecorations="Underline" TextColor="Black" />
+                </Label>
+                <StackLayout Orientation="Horizontal" Spacing="10">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Medium"
+                        Text="Обозначение"
+                        TextColor="Black"
+                        TextDecorations="Underline" />
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Medium"
+                        Text="Описание"
+                        TextColor="Black"
+                        TextDecorations="Underline" />
                 </StackLayout>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -53,9 +72,7 @@
                         Grid.Row="0"
                         Grid.Column="1"
                         FontSize="Medium"
-                        Text="Необходимо выбрать удаляемую запись на главной странице
-                        (если запись выбрана, то фон станет оранжевым). При нажатии на кнопку 
-                        происходит удаление выбранной записи. Удалённые данные нельзя восстановить!"
+                        Text="Необходимо выбрать удаляемую запись на главной странице (если запись выбрана, то фон станет оранжевым). При нажатии на кнопку происходит удаление выбранной записи. Удалённые данные нельзя восстановить!"
                         TextColor="Black" />
                     <Image
                         Grid.Row="1"
@@ -65,8 +82,7 @@
                         Grid.Row="1"
                         Grid.Column="1"
                         FontSize="Medium"
-                        Text="Кнопка находится в разделе «Меню». При нажатии происходит удаление
-                        всех записей из базы данных. Удалённые данные нельзя восстановить!"
+                        Text="Кнопка находится в разделе «Меню». При нажатии происходит удаление всех записей из базы данных. Удалённые данные нельзя восстановить!"
                         TextColor="Black" />
                     <Image
                         Grid.Row="2"
@@ -76,8 +92,7 @@
                         Grid.Row="2"
                         Grid.Column="1"
                         FontSize="Medium"
-                        Text="Есть возможность выбрать, какой API использовать 
-                        для извлечения текста с фотографий. Google Vision API vs Microsoft Cognitive Service"
+                        Text="Есть возможность выбрать, какой API использовать для извлечения текста с фотографий. Google Vision API vs Microsoft Cognitive Service"
                         TextColor="Black" />
                     <Image
                         Grid.Row="3"
@@ -87,8 +102,7 @@
                         Grid.Row="3"
                         Grid.Column="1"
                         FontSize="Medium"
-                        Text="Вы можете вносить изменения в записи, которые выведены на главной странице.
-                        Для сохранения внесённых изменений необходимо нажать на кнопку-дискету. (приведена слева)"
+                        Text="Вы можете вносить изменения в записи, которые выведены на главной странице. Для сохранения внесённых изменений необходимо нажать на кнопку-дискету.(приведена слева)"
                         TextColor="Black" />
                     <Image
                         Grid.Row="4"
@@ -98,18 +112,16 @@
                         Grid.Row="4"
                         Grid.Column="1"
                         FontSize="Medium"
-                        Text="Выводит информацию о всех записях в базе данных. Кнопка находится в меню. Кроме того,
-                        есть возможность посмотреть последнюю и последние 2/3/4 записи. Для этого нужно
-                        нажать на кнопку ⋮ в правой верхней части экрана на главной странице."
+                        Text="Выводит информацию о всех записях в базе данных. Кнопка находится в меню. Кроме того, есть возможность посмотреть последнюю и последние 2/3/4 записи. Для этого нужно нажать на кнопку ⋮ в правой верхней части экрана на главной странице."
                         TextColor="Black" />
                 </Grid>
                 <Button
-                    x:Name="BtnReturn"                               
+                    x:Name="BtnReturn"
                     BackgroundColor="{StaticResource btnGray}"
-                    Clicked="BtnReturn_Clicked"                       
-                    TextColor="{StaticResource textBlue}"
-                    Text="Вернуться на главную страницу" />
-            </StackLayout>            
+                    Clicked="BtnReturn_Clicked"
+                    Text="Вернуться на главную страницу"
+                    TextColor="{StaticResource textBlue}" />
+            </StackLayout>
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>
