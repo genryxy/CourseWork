@@ -5,7 +5,6 @@ using Grpc.Auth;
 using System;
 using System.Collections.Generic;
 using Android.Content.Res;
-using Grpc;
 
 namespace MobileAppPhoto
 {

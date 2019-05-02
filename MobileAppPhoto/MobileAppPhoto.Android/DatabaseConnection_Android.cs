@@ -2,7 +2,7 @@
 using MobileAppPhoto.Droid;
 using SQLite;
 
-// Атрибут Xamarin.Forms.Dependency указывает, что данный класс реализует необходимый интерфейс.
+// Атрибут Xamarin.Forms.Dependency указывает, что данный класс реализует необходимый интерфейс
 [assembly: Xamarin.Forms.Dependency(typeof(DatabaseConnection_Android))]
 namespace MobileAppPhoto.Droid
 {
