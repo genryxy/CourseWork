@@ -9,7 +9,7 @@
 
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout>
+            <StackLayout Padding="7">
                 <Label
                     FontSize="Medium"
                     Style="CaptionStyle"

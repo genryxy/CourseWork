@@ -4,18 +4,17 @@ using Android.Content.PM;
 using Android.OS;
 using Plugin.Permissions;
 using Plugin.CurrentActivity;
-using MobileAppPhoto;
 
-namespace MediaSample.Droid
+namespace MobileAppPhoto.Droid
 {
-    [Activity(Label = "Пищевая ценность", Icon = "@drawable/logo", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Пищевая ценность", Icon = "@drawable/logo", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
     {
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             CrossCurrentActivity.Current.Init(this, bundle);
-            global::Xamarin.Forms.Forms.Init(this, bundle);
+            global::Xamarin.Forms.Forms.Init(this, bundle);            
             LoadApplication(new App());
         }
 
