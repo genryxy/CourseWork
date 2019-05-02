@@ -64,7 +64,8 @@ namespace MobileAppPhoto
             {
                 stackLayoutAll.Children.Add(numberErr);
             }
-            stackLayoutAll.Children.Add(btnReturn);           
+            stackLayoutAll.Children.Add(btnReturn);
+            stackLayoutAll.Padding = 7;
            
             Content = stackLayoutAll;
         }

@@ -8,7 +8,7 @@
     NavigationPage.HasNavigationBar="True">
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout>
+            <StackLayout Padding="7">
                 <ListView
                     x:Name="lstViewRadio"
                     HasUnevenRows="True"
