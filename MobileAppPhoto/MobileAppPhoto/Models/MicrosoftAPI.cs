@@ -15,7 +15,15 @@ namespace MobileAppPhoto
     {
         const string subscriptionKey = "c2271daf468a4c7ca9344bd4ac282fde";
         const string uriBase = "https://westus.api.cognitive.microsoft.com/vision/v1.0/ocr?";
-        const string pathToResultString = "text.txt";
+
+        /// <summary>
+        /// Ответ, записанный в формате JSON.
+        /// </summary>
+        private string DetectedText { get; set; }
+        /// <summary>
+        /// Текст, распознанный с фотографии.
+        /// </summary>
+        public string ResultText { get; private set; }
 
         /// <summary>
         /// Конструктор класса.
@@ -23,10 +31,11 @@ namespace MobileAppPhoto
         public MicrosoftAPI() { }
 
         /// <summary>
-        /// Записывает в файл текст, распознанный с указанного изображения с помощью API REST.
+        /// Записывает в свойство DetectedText текст, распознанный 
+        /// с указанного изображения с помощью API REST.
         /// </summary>
         /// <param name="imageFilePath"> Путь до фотографии. </param>
-        private static async Task MakeOCRRequest(string imageFilePath)
+        public async Task MakeOCRRequest(string imageFilePath)
         {
             try
             {
@@ -46,49 +55,38 @@ namespace MobileAppPhoto
                 {
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                     // Асинхронный вызов REST API метода.
-                    response = await client.PostAsync(uri, content);
+                    response = await client.PostAsync(uri, content).ConfigureAwait(false);
                 }
-
                 string contentString = await response.Content.ReadAsStringAsync();
-                // Записывает ответ в файл в формате JSON.
-                File.WriteAllText(pathToResultString, JToken.Parse(contentString).ToString());
+                DetectedText = JToken.Parse(contentString).ToString();
+                GetWordsFromHttpResponse();
             }
             catch (Exception) { }
         }
 
         /// <summary>
-        /// Читает файл с распознанным текстом (строки в формате JSON).
+        /// Вытаскивает слова из JSON ответа и записывает их в переменную. 
         /// </summary>
-        /// <param name="imageFilePath"> Путь до фотографии. </param>
-        /// <returns> Текст с фотографии. </returns>
-        public string DetectTextFromImage(string imageFilePath)
+        public void GetWordsFromHttpResponse()
         {
-            MakeOCRRequest(imageFilePath).Wait();
-            string res = string.Empty, lineText;
-            try
+            string res = string.Empty;
+            string[] wordsInLine;
+            string[] allLines = DetectedText.Split('\n');
+            foreach (var lineText in allLines)
             {
-                FileStream fs = new FileStream(pathToResultString, FileMode.Open);
-                using (StreamReader sr = new StreamReader(fs))
+                if (lineText.Contains("text"))
                 {
-                    string[] temp;
-                    while (!sr.EndOfStream)
+                    wordsInLine = lineText.Split(new string[] { "\"", ":", " " }, StringSplitOptions.RemoveEmptyEntries);
+                    for (int i = 0; i < wordsInLine.Length; i++)
                     {
-                        if ((lineText = sr.ReadLine()).Contains("text"))
+                        if (wordsInLine[i] == "text" && i + 1 < wordsInLine.Length)
                         {
-                            temp = lineText.Split(new string[] { "\"", ":", " " }, StringSplitOptions.RemoveEmptyEntries);
-                            for (int i = 0; i < temp.Length; i++)
-                            {
-                                if (temp[i] == "text" && i + 1 < temp.Length)
-                                {
-                                    res += temp[i + 1] + " ";
-                                }
-                            }
+                            res += wordsInLine[i + 1] + " ";
                         }
                     }
                 }
             }
-            catch (Exception) { }
-            return res;
+            ResultText = res;
         }
 
         /// <summary>

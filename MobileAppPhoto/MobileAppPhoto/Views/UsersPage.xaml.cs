@@ -373,13 +373,14 @@ namespace MobileAppPhoto
         /// <param name="file"> Фотография. </param>
         private void MakeAPIRequest(ref string text, MediaFile file)
         {
-            if (_selectedAPI == "Google API" || _selectedAPI.Length > 9)
+            if (_selectedAPI == "Google API")
             {
                 text = googleVision.DetectTextFromImage(file.Path);
             }
             else
             {
-                text = microsoftAPI.DetectTextFromImage(file.Path);
+                microsoftAPI.MakeOCRRequest(file.Path).Wait();
+                text = microsoftAPI.ResultText;
             }
         }
 
