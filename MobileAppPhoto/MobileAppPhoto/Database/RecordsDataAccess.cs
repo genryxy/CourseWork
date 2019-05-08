@@ -6,21 +6,25 @@ using Xamarin.Forms;
 
 namespace MobileAppPhoto
 {
+    /// <summary>
+    /// Класс для доступа к данным из БД.
+    /// </summary>
     public class RecordsDataAccess
     {
-        // Хранит строку подключения
+        // Хранит строку подключения к БД.
         private SQLiteConnection database;
         // Объект для реализации блокировок при операциях над данными БД
-        // в целях избежания конфликтов
-        private static object collisionLock = new object();
+        // в целях избежания конфликтов.
+        private static readonly object collisionLock = new object();
 
         /// <summary>
-        /// Позволяет известить внешние объекты о том, что коллекция была изменена.
+        /// Коллекция записей, хранящихся в БД. Тип ObservableCollection 
+        /// позволяет известить внешние объекты о том, что коллекция была изменена.
         /// </summary>
         public ObservableCollection<Record> Records { get; private set; }
 
         /// <summary>
-        /// Конструктор
+        /// Конструктор класса.
         /// </summary>
         public RecordsDataAccess()
         {
@@ -30,14 +34,14 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Количество записей
+        /// Количество записей.
         /// </summary>
         public int CountRecords { get => Records.Count; }
        
         /// <summary>
-        /// Метод для получения информации о записи
+        /// Метод для получения информации о записи.
         /// </summary>
-        /// <returns> список, включающий пути до фотографий и дату создания фотографии </returns>
+        /// <returns> Список, включающий пути до фотографий и дату создания фотографий. </returns>
         public List<string> GetInfoRecord()
         {
             var tempRecord = Records[Records.Count - 1];
@@ -49,6 +53,10 @@ namespace MobileAppPhoto
         /// <summary>
         /// Добавляет новый объект Record в набор Records.
         /// </summary>
+        /// <param name="name"> Название проудукта. </param>
+        /// <param name="composition"> Состав продукта. </param>
+        /// <param name="pathToName"> Путь до фотографии с названием. </param>
+        /// <param name="pathToComposition"> Путь до фотографии с составом. </param>
         public void AddNewRecord(string name, string composition, string pathToName, string pathToComposition)
         {
             Records.Add(new Record
@@ -62,10 +70,10 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Получение экземпляра объекта по id
+        /// Получение экземпляра объекта по id.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id"> Номер записи, которую необходимо получить из БД. </param>
+        /// <returns> Запись из БД по указанному id. </returns>
         public Record GetRecord(int id)
         {
             lock (collisionLock)
@@ -74,12 +82,13 @@ namespace MobileAppPhoto
             }
         }
 
-        #region Методы сохранения записей в БД
+        #region Методы для сохранения записей в БД
         /// <summary>
-        /// Вставка или обновление одного экземпляра объекта Record в зависимости от наличия у него идентификатора класса Record
+        /// Вставка или обновление одного экземпляра объекта Record в зависимости 
+        /// от наличия у него идентификатора класса Record (Id).
         /// </summary>
-        /// <param name="recordInstance"></param>
-        /// <returns></returns>
+        /// <param name="recordInstance"> Экземпляр класса Record. </param>
+        /// <returns> Номер ряда, в который записан экземпляр класса Record. </returns>
         public int SaveRecord(Record recordInstance)
         {
             lock (collisionLock)
@@ -97,7 +106,7 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Вставка или обновление всех экземпляров Record
+        /// Вставка или обновление всех экземпляров Record.
         /// </summary>
         public void SaveAllRecords()
         {
@@ -120,10 +129,10 @@ namespace MobileAppPhoto
 
         #region Методы удаления записей из БД
         /// <summary>
-        /// Удаляет указанный экземпляр из БД и списка Records
+        /// Удаляет указанный экземпляр из БД и списка Records.
         /// </summary>
-        /// <param name="recordInstance"></param>
-        /// <returns></returns>
+        /// <param name="recordInstance"> Удаляемый экземпляр класса Record. </param>
+        /// <returns> Номер строки, с которой была удалена запись. </returns>
         public int DeleteRecord(Record recordInstance)
         {
             var id = recordInstance.Id;
@@ -139,7 +148,7 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Удаляет все объкты из таблицы
+        /// Удаляет все объкты из таблицы.
         /// </summary>
         public void DeleteAllRecords()
         {

@@ -4,6 +4,10 @@ using System.ComponentModel;
 
 namespace MobileAppPhoto
 {
+    /// <summary>
+    /// Класс для сохранения информации о названии продукта, его составе,
+    /// путях до фотографий и дате создания фотографий.
+    /// </summary>
     [Table("Users")]
     public class Record : INotifyPropertyChanged
     {
@@ -13,10 +17,14 @@ namespace MobileAppPhoto
         private string _pathToImageComposition;
         private string _pathToImageName;
         private DateTime _date;
+
+        /// <summary>
+        /// Событие для уведомления об изменении свойств класса.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Id записи в таблице
+        /// Id записи в таблице.
         /// </summary>
         [PrimaryKey, AutoIncrement]
         public int Id
@@ -30,7 +38,7 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Дата создания фотографии
+        /// Дата создания фотографий.
         /// </summary>
         public DateTime DateOfPhoto
         {
@@ -43,10 +51,9 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Название продукта
+        /// Название продукта.
         /// </summary>
         [NotNull]
-        //[Column("Name")]
         public string ProductName
         {
             get => _productName;
@@ -58,10 +65,9 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Состав продукта
+        /// Состав продукта.
         /// </summary>
         [NotNull]
-        //[Column("Composition")]
         public string ProductComposition
         {
             get => _productComposition;
@@ -73,7 +79,7 @@ namespace MobileAppPhoto
         }
                      
         /// <summary>
-        /// Путь до фотографии, на которой находится состав продукта
+        /// Путь до фотографии, на которой находится состав продукта.
         /// </summary>
         public string PathToImageComposition
         {
@@ -86,7 +92,7 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Путь до фотографии, на которой находится название продукта 
+        /// Путь до фотографии, на которой находится название продукта.
         /// </summary>
         public string PathToImageName
         {
@@ -98,6 +104,10 @@ namespace MobileAppPhoto
             }
         }
 
+        /// <summary>
+        /// Вызвает событие при изменении значения свойства.
+        /// </summary>
+        /// <param name="propertyName"> Имя изменяемого свойства. </param>
         private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

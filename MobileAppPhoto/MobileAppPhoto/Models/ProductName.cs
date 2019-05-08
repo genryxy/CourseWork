@@ -5,19 +5,22 @@ using System.IO;
 
 namespace MobileAppPhoto
 {
+    /// <summary>
+    /// Класс для работы с текстом для определения названия продукта.
+    /// </summary>
     public class ProductName
     {
-        // Не забыть при загрузке файла в свойствах поменять "Действие при сборке" на "Andoid asset"
-        private AssetManager assets = Android.App.Application.Context.Assets;
-        private Stream stream = Android.App.Application.Context.Assets.Open("productName.txt");
+        // При загрузке файла в свойствах поменять "Действие при сборке" на "Andoid asset".
+        private readonly AssetManager assets = Android.App.Application.Context.Assets;
+        private readonly Stream stream = Android.App.Application.Context.Assets.Open("productName.txt");
 
         /// <summary>
-        /// Множество, содержащее названия продуктов
+        /// Множество, содержащее названия продуктов.
         /// </summary>
         public HashSet<string> AllName { get; set; } = new HashSet<string>();
 
         /// <summary>
-        /// Конструктор
+        /// Конструктор класса.
         /// </summary>
         public ProductName()
         {
@@ -25,16 +28,17 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Проверяет наличие слова в множестве, хранящем названия продуктов
+        /// Проверяет наличие слова в множестве, хранящем названия продуктов.
+        /// Возвращает текст с фотографии в нужном формате.
         /// </summary>
-        /// <param name="detectText"> проверяемое слово </param>
-        /// <returns> null - отсутствует, иначе - найденное слово </returns>
+        /// <param name="detectText"> Распознанный текст. </param>
+        /// <returns> Название продукта. </returns>
         public string SearchWordInHashset(string detectText)
         {
             string[] arrWords = detectText.Split(new string[] { " ", ":", ".", "\n", "\t" },
                 StringSplitOptions.RemoveEmptyEntries);
             string res = string.Empty;
-            // Вывод текста без проверки наличия в файле с названиями продуктов.
+            // Вывод текста без проверки наличия в множестве с названиями продуктов.
             foreach (var word in arrWords)
             {
                 res += word.ToLower().Trim() + " ";
@@ -44,7 +48,7 @@ namespace MobileAppPhoto
                 res = "_";
             }
 
-            // Проверка наличия названия продукта в файле с названиями продуктов.
+            // Проверка наличия названия продукта в множестве с названиями продуктов.
             /*foreach (var word in arrWords)
             {
                 if (AllName.Contains(word.ToLower().Trim()))
@@ -52,12 +56,12 @@ namespace MobileAppPhoto
                     return word.ToLower().Trim();
                 }
             }
-            return "название";*/
+            return "_";*/
             return res;
         }
 
         /// <summary>
-        /// Заполняет множество словами из текстового файла
+        /// Заполняет множество словами из текстового файла.
         /// </summary>
         private void CreateHashset()
         {
@@ -66,13 +70,14 @@ namespace MobileAppPhoto
             {
                 using (StreamReader sr = new StreamReader(stream))
                 {
-                    while ((word = sr.ReadLine()) != null)
+                    while (!sr.EndOfStream)
                     {
+                        word = sr.ReadLine();
                         AllName.Add(word.Trim().ToLower());
                     }
                 }
             }
-            catch (Exception e) { }
+            catch (Exception) { }
         }
     }
 }

@@ -1,0 +1,678 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MobileAppPhoto</name>
+    </assembly>
+    <members>
+        <member name="T:MobileAppPhoto.IDatabaseConnection">
+            <summary>
+            Интерфейс для подключения к БД (позволяет получать путь до БД
+            с использованием платформо-зависимого кода).
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.IDatabaseConnection.DbConnection">
+            <summary>
+            Метод для получения пути до БД.
+            </summary>
+            <returns> Соединение с БД. </returns>
+        </member>
+        <member name="T:MobileAppPhoto.Record">
+            <summary>
+            Класс для сохранения информации о названии продукта, его составе,
+            путях до фотографий и дате создания фотографий.
+            </summary>
+        </member>
+        <member name="E:MobileAppPhoto.Record.PropertyChanged">
+            <summary>
+            Событие для уведомления об изменении свойств класса.
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.Record.Id">
+            <summary>
+            Id записи в таблице.
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.Record.DateOfPhoto">
+            <summary>
+            Дата создания фотографий.
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.Record.ProductName">
+            <summary>
+            Название продукта.
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.Record.ProductComposition">
+            <summary>
+            Состав продукта.
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.Record.PathToImageComposition">
+            <summary>
+            Путь до фотографии, на которой находится состав продукта.
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.Record.PathToImageName">
+            <summary>
+            Путь до фотографии, на которой находится название продукта.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.Record.OnPropertyChanged(System.String)">
+            <summary>
+            Вызвает событие при изменении значения свойства.
+            </summary>
+            <param name="propertyName"> Имя изменяемого свойства. </param>
+        </member>
+        <member name="T:MobileAppPhoto.RecordsDataAccess">
+            <summary>
+            Класс для доступа к данным из БД.
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.RecordsDataAccess.Records">
+            <summary>
+            Коллекция записей, хранящихся в БД. Тип ObservableCollection 
+            позволяет известить внешние объекты о том, что коллекция была изменена.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.RecordsDataAccess.#ctor">
+            <summary>
+            Конструктор класса.
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.RecordsDataAccess.CountRecords">
+            <summary>
+            Количество записей.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.RecordsDataAccess.GetInfoRecord">
+            <summary>
+            Метод для получения информации о записи.
+            </summary>
+            <returns> Список, включающий пути до фотографий и дату создания фотографий. </returns>
+        </member>
+        <member name="M:MobileAppPhoto.RecordsDataAccess.AddNewRecord(System.String,System.String,System.String,System.String)">
+            <summary>
+            Добавляет новый объект Record в набор Records.
+            </summary>
+            <param name="name"> Название проудукта. </param>
+            <param name="composition"> Состав продукта. </param>
+            <param name="pathToName"> Путь до фотографии с названием. </param>
+            <param name="pathToComposition"> Путь до фотографии с составом. </param>
+        </member>
+        <member name="M:MobileAppPhoto.RecordsDataAccess.GetRecord(System.Int32)">
+            <summary>
+            Получение экземпляра объекта по id.
+            </summary>
+            <param name="id"> Номер записи, которую необходимо получить из БД. </param>
+            <returns> Запись из БД по указанному id. </returns>
+        </member>
+        <member name="M:MobileAppPhoto.RecordsDataAccess.SaveRecord(MobileAppPhoto.Record)">
+            <summary>
+            Вставка или обновление одного экземпляра объекта Record в зависимости 
+            от наличия у него идентификатора класса Record (Id).
+            </summary>
+            <param name="recordInstance"> Экземпляр класса Record. </param>
+            <returns> Номер ряда, в который записан экземпляр класса Record. </returns>
+        </member>
+        <member name="M:MobileAppPhoto.RecordsDataAccess.SaveAllRecords">
+            <summary>
+            Вставка или обновление всех экземпляров Record.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.RecordsDataAccess.DeleteRecord(MobileAppPhoto.Record)">
+            <summary>
+            Удаляет указанный экземпляр из БД и списка Records.
+            </summary>
+            <param name="recordInstance"> Удаляемый экземпляр класса Record. </param>
+            <returns> Номер строки, с которой была удалена запись. </returns>
+        </member>
+        <member name="M:MobileAppPhoto.RecordsDataAccess.DeleteAllRecords">
+            <summary>
+            Удаляет все объкты из таблицы.
+            </summary>
+        </member>
+        <member name="T:MobileAppPhoto.GoogleVisonAPI">
+            <summary>
+            Класс для работы Google Vision API для распознавания
+            текста с фотографии.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.GoogleVisonAPI.#ctor">
+            <summary>
+            Конструктор класса.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.GoogleVisonAPI.DetectTextFromImage(System.String)">
+            <summary>
+            Распознаёт текст с фотографии. 
+            </summary>
+            <returns> Текст, который был распознан на фотографии. </returns>
+        </member>
+        <member name="M:MobileAppPhoto.GoogleVisonAPI.GetCredentials">
+            <summary>
+            Получает необходимые для использования Google API права.
+            </summary>
+        </member>
+        <member name="T:MobileAppPhoto.Grouping`2">
+            <summary>
+            Объект, представляющий сгруппированные элементы для списка.
+            </summary>
+            <typeparam name="K"> Ключ, по которому группируют. </typeparam>
+            <typeparam name="T"> Коллекция, элементы которой имеют одинаковый ключ. </typeparam>
+        </member>
+        <member name="P:MobileAppPhoto.Grouping`2.Key">
+            <summary>
+            Значение, по которому группируются элементы.
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.Grouping`2.IsVisible">
+            <summary>
+            Отображается ли название группы.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.Grouping`2.#ctor(`0,System.Collections.Generic.IEnumerable{`1})">
+            <summary>
+            Конструктор класса.
+            </summary>
+            <param name="key"> Значение, по которому группируются элементы. </param>
+            <param name="items"> Коллекция, элементы которой имеют одинаковый ключ. </param>
+        </member>
+        <member name="T:MobileAppPhoto.MicrosoftAPI">
+            <summary>
+            Класс для работы Google Vision API для распознавания
+            текста с фотографии.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.MicrosoftAPI.#ctor">
+            <summary>
+            Конструктор класса.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.MicrosoftAPI.MakeOCRRequest(System.String)">
+            <summary>
+            Записывает в файл текст, распознанный с указанного изображения с помощью API REST.
+            </summary>
+            <param name="imageFilePath"> Путь до фотографии. </param>
+        </member>
+        <member name="M:MobileAppPhoto.MicrosoftAPI.DetectTextFromImage(System.String)">
+            <summary>
+            Читает файл с распознанным текстом (строки в формате JSON).
+            </summary>
+            <param name="imageFilePath"> Путь до фотографии. </param>
+            <returns> Текст с фотографии. </returns>
+        </member>
+        <member name="M:MobileAppPhoto.MicrosoftAPI.GetImageAsByteArray(System.String)">
+            <summary>
+            Возвращает содержимое указанного файла в виде массива байтов.
+            </summary>
+            <param name="imageFilePath"> Путь до фотографии для чтения. </param>
+            <returns> Двоичный массив содержимого файла. </returns>
+        </member>
+        <member name="T:MobileAppPhoto.ProductComposition">
+            <summary>
+            Класс для работы с текстом для определения состава продукта.
+            </summary>
+        </member>
+        <member name="F:MobileAppPhoto.ProductComposition.composition">
+            <summary>
+            Слова, которые могу обозначать пищевую ценность. 
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.ProductComposition.#ctor">
+            <summary>
+            Конструктор класса.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.ProductComposition.SearchValuesCompos(System.String)">
+            <summary>
+            Извлекает из текста данные о составе продукта.
+            </summary>
+            <param name="detectText"> Распознанный текст с фотографии. </param>
+            <returns> Строка со значениями белков, жиров, углеводов. </returns>
+        </member>
+        <member name="T:MobileAppPhoto.ProductName">
+            <summary>
+            Класс для работы с текстом для определения названия продукта.
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.ProductName.AllName">
+            <summary>
+            Множество, содержащее названия продуктов.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.ProductName.#ctor">
+            <summary>
+            Конструктор класса.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.ProductName.SearchWordInHashset(System.String)">
+            <summary>
+            Проверяет наличие слова в множестве, хранящем названия продуктов.
+            Возвращает текст с фотографии в нужном формате.
+            </summary>
+            <param name="detectText"> Распознанный текст. </param>
+            <returns> Название продукта. </returns>
+        </member>
+        <member name="M:MobileAppPhoto.ProductName.CreateHashset">
+            <summary>
+            Заполняет множество словами из текстового файла.
+            </summary>
+        </member>
+        <member name="T:MobileAppPhoto.RadioOption">
+            <summary>
+            Класс для представления варианта ответа при выборе API.
+            </summary>
+        </member>
+        <member name="E:MobileAppPhoto.RadioOption.PropertyChanged">
+            <summary>
+            Событие для уведомления об изменении свойств класса.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.RadioOption.#ctor(System.String,System.Boolean,MobileAppPhoto.RadioCategory)">
+            <summary>
+            Конструктор класса.
+            </summary>
+            <param name="title"> Вариант ответа. </param>
+            <param name="isSelected"> Выбран ли данный вариант. </param>
+            <param name="category"> Ключ для определения принадлежности записи к конкретной группе. </param>
+        </member>
+        <member name="P:MobileAppPhoto.RadioOption.Category">
+            <summary>
+            Значение, по которому группируются записи.
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.RadioOption.Title">
+            <summary>
+            Заголовок (текст, который будет выведен в качестве варианта ответа).
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.RadioOption.IsSelected">
+            <summary>
+            Выбрана ли данная запись.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.RadioOption.NotifyPropertyChanged(System.String)">
+            <summary>
+            Вызвает событие при изменении значения свойства.
+            </summary>
+            <param name="propertyName"> Имя изменяемого свойства. </param>
+        </member>
+        <member name="T:MobileAppPhoto.RadioCategory">
+            <summary>
+            Перечисление, содержащее возможные значения ключей для сортировки по группам.
+            </summary>
+        </member>
+        <member name="F:MobileAppPhoto.RadioCategory.API">
+            <summary>
+            Группа для представления вариантов API.
+            </summary>
+        </member>
+        <member name="T:MobileAppPhoto.Properties.Resources">
+            <summary>
+              Класс ресурса со строгой типизацией для поиска локализованных строк и т.д.
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.Properties.Resources.ResourceManager">
+            <summary>
+              Возвращает кэшированный экземпляр ResourceManager, использованный этим классом.
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.Properties.Resources.Culture">
+            <summary>
+              Перезаписывает свойство CurrentUICulture текущего потока для всех
+              обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.Properties.Resources.cat">
+            <summary>
+              Поиск локализованного ресурса типа System.Byte[].
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.Properties.Resources.delete">
+            <summary>
+              Поиск локализованного ресурса типа System.Byte[].
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.Properties.Resources.deleteAll">
+            <summary>
+              Поиск локализованного ресурса типа System.Byte[].
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.Properties.Resources.help">
+            <summary>
+              Поиск локализованного ресурса типа System.Byte[].
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.Properties.Resources.info">
+            <summary>
+              Поиск локализованного ресурса типа System.Byte[].
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.Properties.Resources.save">
+            <summary>
+              Поиск локализованного ресурса типа System.Byte[].
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.Properties.Resources.settings">
+            <summary>
+              Поиск локализованного ресурса типа System.Byte[].
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.Properties.Resources.statistic">
+            <summary>
+              Поиск локализованного ресурса типа System.Byte[].
+            </summary>
+        </member>
+        <member name="T:MobileAppPhoto.DatabasePage">
+            <summary>
+            Класс для просмотра содержмого БД.
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.DatabasePage.DataAccess">
+            <summary>
+            Ссылка на экзмепляр класса RecordsDataAccess для работы с БД.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.DatabasePage.#ctor(MobileAppPhoto.RecordsDataAccess,System.Int32)">
+            <summary>
+            Конструктор класса.
+            </summary>
+            <param name="dataAccess"> Ссылка на экзмепляр класса RecordsDataAccess для работы с БД. </param>
+            <param name="countRecords"> Количество выводимых записей. </param>
+        </member>
+        <member name="M:MobileAppPhoto.DatabasePage.BtnReturn_Clicked(System.Object,System.EventArgs)">
+            <summary>
+            Обработчик события. Возвращает на предыдущую страницу.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="T:MobileAppPhoto.EditPage">
+            <summary>
+            Класс для создания страницы для редактирования полученных значений.
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.EditPage.ProdName">
+            <summary>
+            Название продукта.
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.EditPage.ProdCompos">
+            <summary>
+            Состав продукта.
+            </summary>
+        </member>
+        <member name="E:MobileAppPhoto.EditPage.GetPreviousPage">
+            <summary>
+            Событие, на которое будет подписан метод из класса UserPage 
+            для сохранения внесённых изменений.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.EditPage.#ctor(System.String,System.String,System.Action)">
+            <summary>
+            Конструктор класса.
+            </summary>
+            <param name="prodName"> Название продукта. </param>
+            <param name="prodCompos"> Состав продукта. </param>
+            <param name="onGetPreviousPage"> Метод для сохранения записи. </param>
+        </member>
+        <member name="M:MobileAppPhoto.EditPage.WriteValuesInCorrectOrder(System.String[],System.String[])">
+            <summary>
+            Записывает значения пищевой ценности в следующем порядке: белки, жиры, углеводы.
+            </summary>
+            <param name="compositionValues"> Исходный массив. </param>
+            <param name="correctOrderValues"> Массив значений в правильном порядке. </param>
+        </member>
+        <member name="M:MobileAppPhoto.EditPage.BtnConfirmEdit_Clicked(System.Object,System.EventArgs)">
+            <summary>
+            Обработчик события. При получении подтверждении на сохранение проверяет введенные
+            данные. Если всё корректно, то изменения сохраняются.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:MobileAppPhoto.EditPage.DoubleNotNullEntryCheck(System.Object,System.EventArgs)">
+            <summary>
+            Проверяет ячейку на число и не пустоту.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <returns> true - введено число, false - иная последовательность. </returns>
+        </member>
+        <member name="T:MobileAppPhoto.HelpPage">
+            <summary>
+            Класс для вывода инструкции по использованию приложения.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.HelpPage.#ctor">
+            <summary>
+            Конструктор класса.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.HelpPage.BtnReturn_Clicked(System.Object,System.EventArgs)">
+            <summary>
+            Обработчик события. Возвращает на главную страницу.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="T:MobileAppPhoto.InfoPage">
+            <summary>
+            Класс для предоставления дополнительной информации о приложении.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.InfoPage.#ctor">
+            <summary>
+            Конструктор класса.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.InfoPage.BtnReturn_Clicked(System.Object,System.EventArgs)">
+            <summary>
+            Обработчик события. Возвращает на главную страницу.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="T:MobileAppPhoto.SettingsPage">
+            <summary>
+            Класс для изменения настроек приложения.
+            </summary>
+        </member>
+        <member name="F:MobileAppPhoto.SettingsPage.radioOptions">
+            <summary>
+            Коллекция возможных вариантов ответа.
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.SettingsPage.SelectedAPI">
+            <summary>
+            Выбранное при помощи RadioButton значение.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.SettingsPage.#ctor(System.String)">
+            <summary>
+            Конструктор класса.
+            </summary>
+            <param name="selectedAPI"> Название выбранного API. </param>
+        </member>
+        <member name="M:MobileAppPhoto.SettingsPage.lstViewRadio_ItemTapped(System.Object,Xamarin.Forms.ItemTappedEventArgs)">
+            <summary>
+            Вызывается при нажатии на вариант ответа. Меняет значение свойства IsSelected у элементов.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:MobileAppPhoto.SettingsPage.lstViewRadio_ItemSelected(System.Object,Xamarin.Forms.SelectedItemChangedEventArgs)">
+            <summary>
+            Очищает выбранный элемент, чтобы он не подсвечивался долго.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:MobileAppPhoto.SettingsPage.BtnReturn_Clicked(System.Object,System.EventArgs)">
+            <summary>
+            Обработчик события. Возвращает на главную страницу.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:MobileAppPhoto.SettingsPage.Initialize">
+            <summary>
+            Составляет список вариантов ответа для выбора API.
+            </summary>
+        </member>
+        <member name="T:MobileAppPhoto.UsersPage">
+            <summary>
+            Класс главной страницы пользователя. Доступ ко всем функциям
+            приложения осуществляется с данной страницы.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.#ctor">
+            <summary>
+            Конструктор класса.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.BtnTakePhoto_Clicked(System.Object,System.EventArgs)">
+            <summary>
+            Обработчик события. Позволяет сделать 2 фотографии.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.BtnPickPhoto_Clicked(System.Object,System.EventArgs)">
+            <summary>
+            Обработчик события. Даёт возможность выбрать 2 фотографии из существующих.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.GetMediaFileAsync">
+            <summary>
+            Открывает камеру и позволяет пользователю сфотографировать, затем сохраняет файл в указанную директорию.
+            </summary>
+            <returns> Созданная фотография. </returns>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.PickMediaFileAsync">
+            <summary>
+            Даёт возможность выбрать фотографию из существующих.
+            </summary>
+            <returns> Выбранная фотография. </returns>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.OnAppearing">
+            <summary>
+            Событие, генерируемое при выводе страницы.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.OnViewOneClick(System.Object,System.EventArgs)">
+            <summary>
+            Посмотреть последнюю запись, которая содержится в БД.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.OnViewTwoClick(System.Object,System.EventArgs)">
+            <summary>
+            Посмотреть 2 последних записи, которые содержатся в БД.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.OnViewThreeClick(System.Object,System.EventArgs)">
+            <summary>
+            Посмотреть 3 последних записи, которые содержатся в БД.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.OnViewFourClick(System.Object,System.EventArgs)">
+            <summary>
+            Посмотреть 4 последних записи, которые содержатся в БД.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.BtnViewAll_Clicked(System.Object,System.EventArgs)">
+            <summary>
+            Посмотреть все записи, которые содержатся в БД.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.OnSaveRecord">
+            <summary>
+            Обработчик события. Добавляет запись в БД по окончании редактирования.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.OnSaveClick(System.Object,System.EventArgs)">
+            <summary>
+            Обработчик события. Сохраняет любые отложенные изменения.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.OnRemoveClick(System.Object,System.EventArgs)">
+            <summary>
+            Обработчик события. Удаляет текущую запись.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.BtnGetInfo_Clicked(System.Object,System.EventArgs)">
+            <summary>
+            Обработчик события. Получить дополнительную информацию о приложении.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.BtnChangeSettings_Clicked(System.Object,System.EventArgs)">
+            <summary>
+            Обработчик события. Открыть страницу для изменения настроек.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.BtnGetHelp_Clicked(System.Object,System.EventArgs)">
+            <summary>
+            Обработчик события. Получить инструкцию по использованию приложением.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.BtnRemoveAll_Clicked(System.Object,System.EventArgs)">
+            <summary>
+            Обработчик события. Удаляет всех пользователей. Используется 
+            объект DisplayAlert, чтобы запросить подтверждение у пользователя.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.MakeAPIRequest(System.String@,Plugin.Media.Abstractions.MediaFile)">
+            <summary>
+            Делает соответствующий API запрос в зависимости от значения selectedAPI.
+            </summary>
+            <param name="text"> Текст, извлеченный с фотографии (передаётся с ref). </param>
+            <param name="file"> Фотография. </param>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.CheckConnection">
+            <summary>
+            Проверяет состояние подключения к интернету.
+            </summary>
+            <returns> true - есть подключение, false - отсутствует. </returns>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.CheckSelectionStatus">
+            <summary>
+            Проверяет выбранный для использования API.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.ResetValues">
+            <summary>
+            Устанавливает исходные значения переменных.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.UsersPage.WaitProcessingPhoto(System.Boolean)">
+            <summary>
+            Блокирует кнопки и выводит информацию во время обработки фотографии.
+            </summary>
+            <param name="isEnabled"> Обрабатывается ли фотография. </param>
+        </member>
+    </members>
+</doc>

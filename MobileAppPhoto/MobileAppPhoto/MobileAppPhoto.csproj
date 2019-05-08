@@ -7,7 +7,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <DocumentationFile></DocumentationFile>
+    <DocumentationFile>D:\HSE\прога\попытки курсовой\MobileAppPhoto\MobileAppPhoto\MobileAppPhoto\MobileAppPhoto.xml</DocumentationFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
 
   <ItemGroup>

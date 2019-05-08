@@ -7,25 +7,31 @@ using Xamarin.Forms.Xaml;
 
 namespace MobileAppPhoto
 {
+    /// <summary>
+    /// Класс для изменения настроек приложения.
+    /// </summary>
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SettingsPage : ContentPage
     {
         /// <summary>
-        /// Коллекция возможных вариантов ответа
+        /// Коллекция возможных вариантов ответа.
         /// </summary>
-        private ObservableCollection<Grouping<string, RadioOption>> radioOptions = new ObservableCollection<Grouping<string, RadioOption>>();
+        private ObservableCollection<Grouping<string, RadioOption>> radioOptions =
+            new ObservableCollection<Grouping<string, RadioOption>>();
 
         /// <summary>
-        /// Выбранное при помощи radio button значение 
+        /// Выбранное при помощи RadioButton значение.
         /// </summary>
         public string SelectedAPI { get; private set; } = "Google API";
 
         /// <summary>
-        /// Конструктор
+        /// Конструктор класса.
         /// </summary>
-        public SettingsPage()
+        /// <param name="selectedAPI"> Название выбранного API. </param>
+        public SettingsPage(string selectedAPI)
         {
             InitializeComponent();
+            SelectedAPI = selectedAPI;
             Initialize();
         }
 
@@ -39,10 +45,10 @@ namespace MobileAppPhoto
             if (!(e.Item is RadioOption item))
                 return;
 
-            // Проверка на то, что выбран только один элемент
+            // Проверка на то, что выбран только один элемент.
             foreach (var group in radioOptions)
             {
-                if(group.Contains(item))
+                if (group.Contains(item))
                 {
                     foreach (var s in group.Where(x => x.IsSelected))
                     {
@@ -55,7 +61,7 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Очищает выбранный элемент, чтобы он не подсвечивался долго
+        /// Очищает выбранный элемент, чтобы он не подсвечивался долго.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -74,12 +80,16 @@ namespace MobileAppPhoto
             await Navigation.PopAsync();
         }
 
+        /// <summary>
+        /// Составляет список вариантов ответа для выбора API.
+        /// </summary>
         private void Initialize()
         {
+            var isSelected = SelectedAPI == "Google API";
             var items = new List<RadioOption>()
             {
-                new RadioOption("Google API", true),
-                new RadioOption("Microsoft API")
+                new RadioOption("Google API", isSelected),
+                new RadioOption("Microsoft API", !isSelected)
             };
 
             // Копирует элементы в группы

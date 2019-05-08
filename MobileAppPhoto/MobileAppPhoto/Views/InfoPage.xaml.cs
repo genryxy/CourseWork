@@ -5,13 +5,19 @@ using Xamarin.Forms.Xaml;
 
 namespace MobileAppPhoto
 {
+    /// <summary>
+    /// Класс для предоставления дополнительной информации о приложении.
+    /// </summary>
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class InfoPage : ContentPage
-	{
-		public InfoPage ()
-		{
-			InitializeComponent ();
-		}
+    public partial class InfoPage : ContentPage
+    {
+        /// <summary>
+        /// Конструктор класса.
+        /// </summary>
+		public InfoPage()
+        {
+            InitializeComponent();
+        }
 
         /// <summary>
         /// Обработчик события. Возвращает на главную страницу.

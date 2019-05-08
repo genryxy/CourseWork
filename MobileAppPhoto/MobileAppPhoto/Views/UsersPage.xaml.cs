@@ -10,6 +10,10 @@ using Xamarin.Forms.Xaml;
 
 namespace MobileAppPhoto
 {
+    /// <summary>
+    /// Класс главной страницы пользователя. Доступ ко всем функциям
+    /// приложения осуществляется с данной страницы.
+    /// </summary>
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UsersPage : MasterDetailPage
     {
@@ -32,19 +36,24 @@ namespace MobileAppPhoto
         private MicrosoftAPI microsoftAPI;
         private ProductName productName;
         private ProductComposition productComposition;
-        private MediaFile fileProdName, fileProdComposition;
+        private MediaFile _fileProdName, _fileProdComposition;
         private EditPage edtPage;
         private DatabasePage dbPage;
         private SettingsPage settingPage;
-        private string strProductName = "НазваниеПродукта", strProductCompos = "_:0;_:0;_:0;";
-        private string selectedAPI = "Google API";
+        private string _strProductName = "НазваниеПродукта";
+        private string _strProductCompos = "_:0;_:0;_:0;";
+        private string _selectedAPI = "Google API";
+        private string _text = string.Empty;
 
+        /// <summary>
+        /// Конструктор класса.
+        /// </summary>
         public UsersPage()
         {
             InitializeComponent();
             BackgroundColor = Color.White;
 
-            // Экземпляр RecordDataAccess Class, используемый для связывания с данными и доступа к данным
+            // Экземпляр RecordDataAccess, используемый для связывания с данными и доступа к данным.
             dataAccess = new RecordsDataAccess();
             googleVision = new GoogleVisonAPI();
             productName = new ProductName();
@@ -65,11 +74,9 @@ namespace MobileAppPhoto
                 await DisplayAlert(warning, internetAccess, ok);
                 return;
             }
-            string text = string.Empty;
-            strProductName = "НазваниеПродукта";
-            strProductCompos = ":;:;:;";
+            ResetValues();
 
-            // Проверка доступности камеры
+            // Проверка доступности камеры.
             if (!CrossMedia.Current.IsCameraAvailable)
             {
                 await DisplayAlert(warning, notAccessCamera, ok);
@@ -77,29 +84,29 @@ namespace MobileAppPhoto
             }
 
             await DisplayAlert(notify, photoNameRequirement, ok);
-            fileProdName = await GetMediaFileAsync();
-            // Была ли сделана фотография
-            if (fileProdName == null)
+            _fileProdName = await GetMediaFileAsync();
+            // Была ли сделана фотография.
+            if (_fileProdName == null)
             {
                 WaitProcessingPhoto(true);
                 return;
             }
             CheckSelectionStatus();
-            MakeAPIRequest(ref text, fileProdName);
-            strProductName = productName.SearchWordInHashset(text);
+            MakeAPIRequest(ref _text, _fileProdName);
+            _strProductName = productName.SearchWordInHashset(_text);
 
             await DisplayAlert(notify, photoComposRequirement, ok);
-            fileProdComposition = await GetMediaFileAsync();
-            // Была ли сделана фотография
-            if (fileProdComposition == null)
+            _fileProdComposition = await GetMediaFileAsync();
+            // Была ли сделана фотография.
+            if (_fileProdComposition == null)
             {
                 WaitProcessingPhoto(true);
                 return;
             }
-            MakeAPIRequest(ref text, fileProdComposition);
-            strProductCompos = productComposition.SearchValuesCompos(text);
+            MakeAPIRequest(ref _text, _fileProdComposition);
+            _strProductCompos = productComposition.SearchValuesCompos(_text);
 
-            await Navigation.PushAsync(edtPage = new EditPage(strProductName, strProductCompos, OnSaveRecord));
+            await Navigation.PushAsync(edtPage = new EditPage(_strProductName, _strProductCompos, OnSaveRecord));
             WaitProcessingPhoto(true);
             await DisplayAlert(notify, edtPage.ProdName + " " + edtPage.ProdCompos, ok);
         }
@@ -116,12 +123,9 @@ namespace MobileAppPhoto
                 await DisplayAlert(warning, internetAccess, ok);
                 return;
             }
+            ResetValues();
 
-            string text = string.Empty;
-            strProductName = "НазваниеПродукта";
-            strProductCompos = ":;:;:;";
-
-            // Проверка доступности выбора фотографий
+            // Проверка доступности выбора фотографий.
             if (!CrossMedia.Current.IsTakePhotoSupported)
             {
                 await DisplayAlert(warning, notAccessPick, ok);
@@ -129,57 +133,39 @@ namespace MobileAppPhoto
             }
 
             await DisplayAlert(notify, photoNameRequirement, ok);
-            fileProdName = await PickMediaFileAsync();
-            // Была ли выбрана фотография
-            if (fileProdName == null)
+            _fileProdName = await PickMediaFileAsync();
+            // Была ли выбрана фотография.
+            if (_fileProdName == null)
             {
                 WaitProcessingPhoto(true);
                 return;
             }
             CheckSelectionStatus();
-            MakeAPIRequest(ref text, fileProdName);
-            strProductName = productName.SearchWordInHashset(text);
+            MakeAPIRequest(ref _text, _fileProdName);
+            _strProductName = productName.SearchWordInHashset(_text);
 
             await DisplayAlert(notify, photoComposRequirement, ok);
-            fileProdComposition = await PickMediaFileAsync();
-            // Была ли выбрана фотография
-            if (fileProdComposition == null)
+            _fileProdComposition = await PickMediaFileAsync();
+            // Была ли выбрана фотография.
+            if (_fileProdComposition == null)
             {
                 WaitProcessingPhoto(true);
                 return;
             }
-            MakeAPIRequest(ref text, fileProdComposition);
-            strProductCompos = productComposition.SearchValuesCompos(text);
+            MakeAPIRequest(ref _text, _fileProdComposition);
+            _strProductCompos = productComposition.SearchValuesCompos(_text);
 
-            await Navigation.PushAsync(edtPage = new EditPage(strProductName, strProductCompos, OnSaveRecord));
+            await Navigation.PushAsync(edtPage = new EditPage(_strProductName, _strProductCompos, OnSaveRecord));
             WaitProcessingPhoto(true);
             await DisplayAlert(notify, edtPage.ProdName + " " + edtPage.ProdCompos, ok);
         }
         #endregion
 
-        /// <summary>
-        /// Делает соответствующий API запрос в зависимости от значения selectedAPI
-        /// </summary>
-        /// <param name="text"> Текст, извлеченный с фотографии (передаётся с ref) </param>
-        /// <param name="file"> Фотография </param>
-        private void MakeAPIRequest(ref string text, MediaFile file)
-        {
-            if (selectedAPI == "Google API" || selectedAPI.Length > 9)
-            {
-                googleVision.PathToImage = file.Path;
-                text = googleVision.DetectTextFromImage();
-            }
-            else
-            {
-                text = microsoftAPI.DetectTextFromImage(file.Path);
-            }
-        }
-
         #region Методы для получения фотографии
         /// <summary>
-        /// Открывает камеру и позволяет пользователю сфотографировать, затем сохраняет файл в указанную директорию
+        /// Открывает камеру и позволяет пользователю сфотографировать, затем сохраняет файл в указанную директорию.
         /// </summary>
-        /// <returns> созданная фотография </returns>
+        /// <returns> Созданная фотография. </returns>
         private async Task<MediaFile> GetMediaFileAsync()
         {
             WaitProcessingPhoto(false);
@@ -198,9 +184,9 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Даёт возможность выбрать фотографию из существующих
+        /// Даёт возможность выбрать фотографию из существующих.
         /// </summary>
-        /// <returns> выбранная фотография </returns>
+        /// <returns> Выбранная фотография. </returns>
         private async Task<MediaFile> PickMediaFileAsync()
         {
             WaitProcessingPhoto(false);
@@ -210,53 +196,15 @@ namespace MobileAppPhoto
             });
             return file;
         }
-        #endregion
+        #endregion        
 
         /// <summary>
-        /// Проверяет выбранный для использования API
-        /// </summary>
-        private void CheckSelectionStatus()
-        {
-            if (settingPage != null)
-            {
-                selectedAPI = settingPage.SelectedAPI;
-            }
-        }
-
-        private void OnViewRecords()
-        {
-            // do sth
-        }
-
-        /// <summary>
-        /// Блокирует кнопки и выводит информацию во время обработки фотографии.
-        /// </summary>
-        /// <param name="isEnabled"> обрабатывается ли фотография </param>
-        private void WaitProcessingPhoto(bool isEnabled)
-        {
-            btnTakePhoto.IsEnabled = isEnabled;
-            btnPickPhoto.IsEnabled = isEnabled;
-            lblWaiting.IsVisible = !isEnabled;
-            ViewOne.IsEnabled = isEnabled;
-            ViewTwo.IsEnabled = isEnabled;
-            ViewThree.IsEnabled = isEnabled;
-            ViewFour.IsEnabled = isEnabled;
-            btnViewAll.IsEnabled = isEnabled;
-            btnGetHelp.IsEnabled = isEnabled;
-            btnGetInfo.IsEnabled = isEnabled;
-            btnChangeSettings.IsEnabled = isEnabled;
-            Remove.IsEnabled = isEnabled;
-            btnGetInfo.IsEnabled = isEnabled;
-            btnRemoveAll.IsEnabled = isEnabled;
-        }
-
-        /// <summary>
-        /// Событие, генерируемое при выводе страницы
+        /// Событие, генерируемое при выводе страницы.
         /// </summary>
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            // Экземпляр RecordDataAccess является источником привязки к данным
+            // Экземпляр RecordDataAccess является источником привязки к данным.
             BindingContext = dataAccess;
             if (dataAccess != null && dataAccess.CountRecords > 0)
             {
@@ -274,26 +222,56 @@ namespace MobileAppPhoto
         }
 
         #region Просмотр записей БД
+        /// <summary>
+        /// Посмотреть последнюю запись, которая содержится в БД.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void OnViewOneClick(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(dbPage = new DatabasePage(dataAccess, 1, OnViewRecords));
+            await Navigation.PushAsync(dbPage = new DatabasePage(dataAccess, 1));
         }
 
+        /// <summary>
+        /// Посмотреть 2 последних записи, которые содержатся в БД.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void OnViewTwoClick(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(dbPage = new DatabasePage(dataAccess, 2, OnViewRecords));
+            await Navigation.PushAsync(dbPage = new DatabasePage(dataAccess, 2));
         }
 
+        /// <summary>
+        /// Посмотреть 3 последних записи, которые содержатся в БД.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void OnViewThreeClick(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(dbPage = new DatabasePage(dataAccess, 3, OnViewRecords));
+            await Navigation.PushAsync(dbPage = new DatabasePage(dataAccess, 3));
         }
 
+        /// <summary>
+        /// Посмотреть 4 последних записи, которые содержатся в БД.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void OnViewFourClick(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(dbPage = new DatabasePage(dataAccess, 4, OnViewRecords));
+            await Navigation.PushAsync(dbPage = new DatabasePage(dataAccess, 4));
         }
 
+        /// <summary>
+        /// Посмотреть все записи, которые содержатся в БД.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void BtnViewAll_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(dbPage = new DatabasePage(dataAccess, dataAccess.CountRecords));
+
+        }
         #endregion
 
         #region Обработчики событий
@@ -303,12 +281,12 @@ namespace MobileAppPhoto
         private void OnSaveRecord()
         {
             dataAccess.AddNewRecord(edtPage.ProdName, edtPage.ProdCompos,
-                fileProdName.Path, fileProdComposition.Path);
+                _fileProdName.Path, _fileProdComposition.Path);
             OnSaveClick(this, new EventArgs());
         }
 
         /// <summary>
-        /// Сохраняем любые отложенные изменения
+        /// Обработчик события. Сохраняет любые отложенные изменения.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -318,14 +296,13 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Удаляем текущую запись. Если она есть в базе данных, то будет удален и оттуда.
+        /// Обработчик события. Удаляет текущую запись.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private async void OnRemoveClick(object sender, EventArgs e)
         {
-            var currentRecord = RecordsView.SelectedItem as Record;
-            if (currentRecord != null)
+            if (RecordsView.SelectedItem is Record currentRecord)
             {
                 var result = await DisplayAlert(confirmation, fullRemoval, ok, cancel);
                 if (result)
@@ -336,7 +313,7 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Получить дополнительную информацию о приложении
+        /// Обработчик события. Получить дополнительную информацию о приложении.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -346,28 +323,18 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Открыть страницу для изменения настроек
+        /// Обработчик события. Открыть страницу для изменения настроек.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private async void BtnChangeSettings_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(settingPage = new SettingsPage());
+            CheckSelectionStatus();
+            await Navigation.PushAsync(settingPage = new SettingsPage(_selectedAPI));
         }
 
         /// <summary>
-        /// Посмотреть все записи, которые содержатся в БД
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void BtnViewAll_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(dbPage = new DatabasePage(dataAccess, dataAccess.CountRecords, OnViewRecords));
-
-        }
-
-        /// <summary>
-        /// Получить инструкцию по использованию приложением
+        /// Обработчик события. Получить инструкцию по использованию приложением.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -377,7 +344,8 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Удаляет всех пользователей. Используется объект DisplayAlert, чтобы запросить подтверждение у пользователя.
+        /// Обработчик события. Удаляет всех пользователей. Используется 
+        /// объект DisplayAlert, чтобы запросить подтверждение у пользователя.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -397,19 +365,76 @@ namespace MobileAppPhoto
         }
         #endregion
 
+        #region Вспомогательные методы
+        /// <summary>
+        /// Делает соответствующий API запрос в зависимости от значения selectedAPI.
+        /// </summary>
+        /// <param name="text"> Текст, извлеченный с фотографии (передаётся с ref). </param>
+        /// <param name="file"> Фотография. </param>
+        private void MakeAPIRequest(ref string text, MediaFile file)
+        {
+            if (_selectedAPI == "Google API" || _selectedAPI.Length > 9)
+            {
+                text = googleVision.DetectTextFromImage(file.Path);
+            }
+            else
+            {
+                text = microsoftAPI.DetectTextFromImage(file.Path);
+            }
+        }
+
         /// <summary>
         /// Проверяет состояние подключения к интернету.
         /// </summary>
-        /// <returns> true - есть подключение, false - отсутствует </returns>
+        /// <returns> true - есть подключение, false - отсутствует. </returns>
         private bool CheckConnection()
         {
-            if (CrossConnectivity.Current != null && CrossConnectivity.Current.ConnectionTypes != null
-                && CrossConnectivity.Current.IsConnected)
-            {
-                //var connectionType = CrossConnectivity.Current.ConnectionTypes.FirstOrDefault();                
-                return true;
-            }
-            return false;
+            return (CrossConnectivity.Current != null) && (CrossConnectivity.Current.ConnectionTypes != null)
+                && CrossConnectivity.Current.IsConnected;
         }
+
+        /// <summary>
+        /// Проверяет выбранный для использования API.
+        /// </summary>
+        private void CheckSelectionStatus()
+        {
+            if (settingPage != null)
+            {
+                _selectedAPI = settingPage.SelectedAPI;
+            }
+        }
+
+        /// <summary>
+        /// Устанавливает исходные значения переменных.
+        /// </summary>
+        private void ResetValues()
+        {
+            _text = string.Empty;
+            _strProductName = "НазваниеПродукта";
+            _strProductCompos = "_:0;_:0;_:0;";
+        }
+
+        /// <summary>
+        /// Блокирует кнопки и выводит информацию во время обработки фотографии.
+        /// </summary>
+        /// <param name="isEnabled"> Обрабатывается ли фотография. </param>
+        private void WaitProcessingPhoto(bool isEnabled)
+        {
+            btnTakePhoto.IsEnabled = isEnabled;
+            btnPickPhoto.IsEnabled = isEnabled;
+            lblWaiting.IsVisible = !isEnabled;
+            ViewOne.IsEnabled = isEnabled;
+            ViewTwo.IsEnabled = isEnabled;
+            ViewThree.IsEnabled = isEnabled;
+            ViewFour.IsEnabled = isEnabled;
+            btnViewAll.IsEnabled = isEnabled;
+            btnGetHelp.IsEnabled = isEnabled;
+            btnGetInfo.IsEnabled = isEnabled;
+            btnChangeSettings.IsEnabled = isEnabled;
+            Remove.IsEnabled = isEnabled;
+            btnGetInfo.IsEnabled = isEnabled;
+            btnRemoveAll.IsEnabled = isEnabled;
+        }
+        #endregion
     }
 }

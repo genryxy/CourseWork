@@ -8,18 +8,17 @@ using Android.Content.Res;
 
 namespace MobileAppPhoto
 {
+    /// <summary>
+    /// Класс для работы Google Vision API для распознавания
+    /// текста с фотографии.
+    /// </summary>
     public class GoogleVisonAPI
     {
         GoogleCredential credential;
-        Channel channel;
-        
-        /// <summary>
-        /// Путь до фотографии
-        /// </summary>
-        public string PathToImage { get; set; }
+        Channel channel;        
 
         /// <summary>
-        /// Конструктор
+        /// Конструктор класса.
         /// </summary>
         public GoogleVisonAPI()
         {
@@ -27,16 +26,16 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Распознаёт текст с фотографии
+        /// Распознаёт текст с фотографии. 
         /// </summary>
-        /// <returns> распознанный текст </returns>
-        public string DetectTextFromImage()
+        /// <returns> Текст, который был распознан на фотографии. </returns>
+        public string DetectTextFromImage(string imageFilePath)
         {
             string msg = string.Empty;
             try
             {
                 var client = ImageAnnotatorClient.Create(channel);
-                var image = Image.FromFile(PathToImage);
+                var image = Image.FromFile(imageFilePath);
                 IReadOnlyList<EntityAnnotation> textAnnotations = client.DetectText(image);
 
                 foreach (EntityAnnotation text in textAnnotations)
@@ -53,16 +52,16 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Получает необходимые права
+        /// Получает необходимые для использования Google API права.
         /// </summary>
         private void GetCredentials()
         {
             try
             {
-                // Получение пути до файла
+                // Получение пути до файла.
                 AssetManager assets = Android.App.Application.Context.Assets;
                 var stream = Android.App.Application.Context.Assets.Open("hseOcrPrivateKey.json");
-                // Получение прав путём чтения json-файла с приватным ключом
+                // Получение прав путём чтения json-файла с приватным ключом.
                 credential = GoogleCredential.FromStream(stream);
                 channel = new Channel(ImageAnnotatorClient.DefaultEndpoint.Host,
                     ImageAnnotatorClient.DefaultEndpoint.Port, credential.ToChannelCredentials());

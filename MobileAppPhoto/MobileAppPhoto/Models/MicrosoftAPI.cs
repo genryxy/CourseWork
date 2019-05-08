@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace MobileAppPhoto
 {
+    /// <summary>
+    /// Класс для работы Google Vision API для распознавания
+    /// текста с фотографии.
+    /// </summary>
     public class MicrosoftAPI
     {
         const string subscriptionKey = "c2271daf468a4c7ca9344bd4ac282fde";
@@ -14,52 +18,49 @@ namespace MobileAppPhoto
         const string pathToResultString = "text.txt";
 
         /// <summary>
-        /// Конструктор
+        /// Конструктор класса.
         /// </summary>
         public MicrosoftAPI() { }
 
         /// <summary>
-        /// Записывает в файл текст, распознанный с указанного изображения с помощью API REST
+        /// Записывает в файл текст, распознанный с указанного изображения с помощью API REST.
         /// </summary>
-        /// <param name="imageFilePath"> Путь до фотографии </param>
+        /// <param name="imageFilePath"> Путь до фотографии. </param>
         private static async Task MakeOCRRequest(string imageFilePath)
         {
             try
             {
                 HttpClient client = new HttpClient();
-                // Заголовок запроса
+                // Заголовок запроса.
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
 
                 // Параметры запроса. Язык определяется автоматически. 
-                // detectOrientation=true, поэтому корректирует ориентацию текста перед его распознаванием
+                // detectOrientation=true, поэтому корректирует ориентацию текста перед его распознаванием.
                 string requestParameters = "language=unk&detectOrientation=true";
-                // Создание запроса
+                // Создание запроса.
                 string uri = uriBase + requestParameters;
                 HttpResponseMessage response;
 
-                // Получение содержимого фотографии в виде двоичного массива
                 byte[] byteData = GetImageAsByteArray(imageFilePath);
-                // Добавляет массив байтов в тело запроса
                 using (ByteArrayContent content = new ByteArrayContent(byteData))
                 {
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-                    // Асинхронный вызов REST API метода
+                    // Асинхронный вызов REST API метода.
                     response = await client.PostAsync(uri, content);
                 }
 
-                // Асинхронное получение JSON-ответа
                 string contentString = await response.Content.ReadAsStringAsync();
-                // Записывает ответ в файл в формате JSON
+                // Записывает ответ в файл в формате JSON.
                 File.WriteAllText(pathToResultString, JToken.Parse(contentString).ToString());
             }
             catch (Exception) { }
         }
 
         /// <summary>
-        /// Читает файл с распознанным текстом (строки в формате JSON)
+        /// Читает файл с распознанным текстом (строки в формате JSON).
         /// </summary>
-        /// <param name="imageFilePath"> Путь до фотографии </param>
-        /// <returns> Текст с фотографии </returns>
+        /// <param name="imageFilePath"> Путь до фотографии. </param>
+        /// <returns> Текст с фотографии. </returns>
         public string DetectTextFromImage(string imageFilePath)
         {
             MakeOCRRequest(imageFilePath).Wait();
@@ -93,8 +94,8 @@ namespace MobileAppPhoto
         /// <summary>
         /// Возвращает содержимое указанного файла в виде массива байтов.
         /// </summary>
-        /// <param name="imageFilePath"> Путь до фотографии для чтения </param>
-        /// <returns> Двоичный массив содержимого файла </returns>
+        /// <param name="imageFilePath"> Путь до фотографии для чтения. </param>
+        /// <returns> Двоичный массив содержимого файла. </returns>
         static byte[] GetImageAsByteArray(string imageFilePath)
         {
             try

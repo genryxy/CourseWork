@@ -3,17 +3,25 @@ using System.Runtime.CompilerServices;
 
 namespace MobileAppPhoto
 {
+    /// <summary>
+    /// Класс для представления варианта ответа при выборе API.
+    /// </summary>
     public class RadioOption : INotifyPropertyChanged
     {
         private bool _isSelected;
 
         /// <summary>
-        /// Конструктор
+        /// Событие для уведомления об изменении свойств класса.
         /// </summary>
-        /// <param name="title"> Заголовок, то есть вариант ответа </param>
-        /// <param name="isSelected"> Выбрана ли данная запись </param>
-        /// <param name="category"> Ключ для определения принадлежности записи к конкретной группе </param>
-        public RadioOption(string title, bool isSelected = false, RadioCategory category = RadioCategory.Variants)
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Конструктор класса.
+        /// </summary>
+        /// <param name="title"> Вариант ответа. </param>
+        /// <param name="isSelected"> Выбран ли данный вариант. </param>
+        /// <param name="category"> Ключ для определения принадлежности записи к конкретной группе. </param>
+        public RadioOption(string title, bool isSelected = false, RadioCategory category = RadioCategory.API)
         {
             Category = category;
             Title = title;
@@ -21,15 +29,15 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Значение, по которому группируются записи
+        /// Значение, по которому группируются записи.
         /// </summary>
         public RadioCategory Category { get; private set; }
         /// <summary>
-        /// Заголовок
+        /// Заголовок (текст, который будет выведен в качестве варианта ответа).
         /// </summary>
         public string Title { get; private set; }
         /// <summary>
-        /// Выбрана ли данная запись
+        /// Выбрана ли данная запись.
         /// </summary>
         public bool IsSelected
         {
@@ -39,25 +47,30 @@ namespace MobileAppPhoto
                 if(value != _isSelected)
                 {
                     _isSelected = value;
-                    NotifyPropertyChanged();
+                    NotifyPropertyChanged(nameof(IsSelected));
                 }
             }
         }
 
-        //  CallerMemberName - Позволяет получить имя метода или свойства, вызывающего метод.
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        /// <summary>
+        /// Вызвает событие при изменении значения свойства.
+        /// </summary>
+        /// <param name="propertyName"> Имя изменяемого свойства. </param>
+        private void NotifyPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;        
     }
 
     /// <summary>
-    /// Перечисление, содержащее возможные значения ключей для сортировки
+    /// Перечисление, содержащее возможные значения ключей для сортировки по группам.
     /// </summary>
     public enum RadioCategory
     {
-        Variants
+        /// <summary>
+        /// Группа для представления вариантов API.
+        /// </summary>
+        API
     }
 }
