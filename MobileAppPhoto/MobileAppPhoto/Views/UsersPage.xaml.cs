@@ -18,17 +18,18 @@ namespace MobileAppPhoto
     public partial class UsersPage : MasterDetailPage
     {
         #region Константные строки
-        private const string confirmation = "Подтверждение";
-        private const string cancel = "Отмена";
-        private const string ok = "ОК";
-        private const string fullRemoval = "Вы уверены? Данные нельзя будет восстановить.";
-        private const string internetAccess = "Необходимо подключение к интернету";
-        private const string notAccessPick = "К сожалению, выбор фотографий невозможен";
-        private const string notAccessCamera = "К сожалению, камера недоступна";
-        private const string notify = "Оповещение";
-        private const string photoNameRequirement = "Основная часть фотографии должна включать название продукта";
-        private const string photoComposRequirement = "Основная часть фотографии должна включать состав продукта";
-        private const string warning = "Предупреждение!";
+        const string confirmation = "Подтверждение";
+        const string cancel = "Отмена";
+        const string ok = "ОК";
+        const string fullRemoval = "Вы уверены? Данные нельзя будет восстановить.";
+        const string internetAccess = "Необходимо подключение к интернету";
+        const string notAccessPick = "К сожалению, выбор фотографий невозможен";
+        const string notAccessCamera = "К сожалению, камера недоступна";
+        const string notify = "Оповещение";
+        const string notSelected = "Фотография не была загружена";
+        const string photoNameRequirement = "Основная часть фотографии должна включать название продукта";
+        const string photoComposRequirement = "Основная часть фотографии должна включать состав продукта";
+        const string warning = "Предупреждение!";
         #endregion
 
         private RecordsDataAccess dataAccess;
@@ -88,7 +89,14 @@ namespace MobileAppPhoto
             // Была ли сделана фотография.
             if (_fileProdName == null)
             {
+                await DisplayAlert(warning, notSelected, ok);
                 WaitProcessingPhoto(true);
+                return;
+            }
+            if (!CheckConnection())
+            {
+                WaitProcessingPhoto(true);
+                await DisplayAlert(warning, internetAccess, ok);
                 return;
             }
             CheckSelectionStatus();
@@ -100,7 +108,14 @@ namespace MobileAppPhoto
             // Была ли сделана фотография.
             if (_fileProdComposition == null)
             {
+                await DisplayAlert(warning, notSelected, ok);
                 WaitProcessingPhoto(true);
+                return;
+            }
+            if (!CheckConnection())
+            {
+                WaitProcessingPhoto(true);
+                await DisplayAlert(warning, internetAccess, ok);
                 return;
             }
             MakeAPIRequest(ref _text, _fileProdComposition);
@@ -137,7 +152,14 @@ namespace MobileAppPhoto
             // Была ли выбрана фотография.
             if (_fileProdName == null)
             {
+                await DisplayAlert(warning, notSelected, ok);
                 WaitProcessingPhoto(true);
+                return;
+            }
+            if (!CheckConnection())
+            {
+                WaitProcessingPhoto(true);
+                await DisplayAlert(warning, internetAccess, ok);
                 return;
             }
             CheckSelectionStatus();
@@ -149,7 +171,14 @@ namespace MobileAppPhoto
             // Была ли выбрана фотография.
             if (_fileProdComposition == null)
             {
+                await DisplayAlert(warning, notSelected, ok);
                 WaitProcessingPhoto(true);
+                return;
+            }
+            if (!CheckConnection())
+            {
+                WaitProcessingPhoto(true);
+                await DisplayAlert(warning, internetAccess, ok);
                 return;
             }
             MakeAPIRequest(ref _text, _fileProdComposition);
@@ -379,8 +408,8 @@ namespace MobileAppPhoto
             }
             else
             {
-                microsoftAPI.MakeOCRRequest(file.Path).Wait();
-                text = microsoftAPI.ResultText;
+                MicrosoftAPI.MakeOCRRequest(file.Path).Wait();
+                text = MicrosoftAPI.ResultText;
             }
         }
 

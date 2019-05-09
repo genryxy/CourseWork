@@ -23,7 +23,8 @@ namespace MobileAppPhoto
 
         Entry _nameEntry, _proteinsEntry, _fatsEntry, _carbsEntry;
         Label _currStatus;
-        string[] compositonValues, correctOrderValues = new string[3];
+        string[] compositonValues;
+        string[] correctOrderValues = {"0", "0", "0"};
 
         /// <summary>
         /// Название продукта.
@@ -107,6 +108,7 @@ namespace MobileAppPhoto
             _nameEntry = new Entry
             {
                 Text = prodName,
+                Placeholder = nameProduct,
                 TextColor = Color.Black
             };
             _proteinsEntry = new Entry
@@ -172,13 +174,9 @@ namespace MobileAppPhoto
                     {
                         correctOrderValues[1] = compositionValues[i + 1];
                     }
-                    else if (str != "_")
+                    else if (str.Contains("лево"))
                     {
                         correctOrderValues[2] = compositionValues[i + 1];
-                    }
-                    else
-                    {
-                        correctOrderValues[i / 2] = compositionValues[i + 1];
                     }
                 }
             }

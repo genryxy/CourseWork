@@ -35,29 +35,33 @@ namespace MobileAppPhoto
         /// <returns> Название продукта. </returns>
         public string SearchWordInHashset(string detectText)
         {
-            string[] arrWords = detectText.Split(new string[] { " ", ":", ".", "\n", "\t" },
-                StringSplitOptions.RemoveEmptyEntries);
-            string res = string.Empty;
-            // Вывод текста без проверки наличия в множестве с названиями продуктов.
-            foreach (var word in arrWords)
+            if (detectText != null)
             {
-                res += word.ToLower().Trim() + " ";
-            }
-            if (res == " ")
-            {
-                res = "_";
-            }
-
-            // Проверка наличия названия продукта в множестве с названиями продуктов.
-            /*foreach (var word in arrWords)
-            {
-                if (AllName.Contains(word.ToLower().Trim()))
+                string[] arrWords = detectText.Split(new string[] { " ", ":", ".", "\n", "\t" },
+                    StringSplitOptions.RemoveEmptyEntries);
+                string res = string.Empty;
+                // Вывод текста без проверки наличия в множестве с названиями продуктов.
+                foreach (var word in arrWords)
                 {
-                    return word.ToLower().Trim();
+                    res += word.ToLower().Trim() + " ";
                 }
+                if (res == " ")
+                {
+                    res = "_";
+                }
+
+                // Проверка наличия названия продукта в множестве с названиями продуктов.
+                /*foreach (var word in arrWords)
+                {
+                    if (AllName.Contains(word.ToLower().Trim()))
+                    {
+                        return word.ToLower().Trim();
+                    }
+                }
+                return "_";*/
+                return res;
             }
-            return "_";*/
-            return res;
+            return "_";
         }
 
         /// <summary>

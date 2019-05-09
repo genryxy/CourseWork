@@ -19,11 +19,11 @@ namespace MobileAppPhoto
         /// <summary>
         /// Ответ, записанный в формате JSON.
         /// </summary>
-        private string DetectedText { get; set; }
+        private static string DetectedText { get; set; }
         /// <summary>
         /// Текст, распознанный с фотографии.
         /// </summary>
-        public string ResultText { get; private set; }
+        public static string ResultText { get; private set; }
 
         /// <summary>
         /// Конструктор класса.
@@ -35,7 +35,7 @@ namespace MobileAppPhoto
         /// с указанного изображения с помощью API REST.
         /// </summary>
         /// <param name="imageFilePath"> Путь до фотографии. </param>
-        public async Task MakeOCRRequest(string imageFilePath)
+        public static async Task MakeOCRRequest(string imageFilePath)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace MobileAppPhoto
                 {
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                     // Асинхронный вызов REST API метода.
-                    response = await client.PostAsync(uri, content).ConfigureAwait(false);
+                    response = await client.PostAsync(uri, content).ConfigureAwait(false); ;
                 }
                 string contentString = await response.Content.ReadAsStringAsync();
                 DetectedText = JToken.Parse(contentString).ToString();
@@ -67,7 +67,7 @@ namespace MobileAppPhoto
         /// <summary>
         /// Вытаскивает слова из JSON ответа и записывает их в переменную. 
         /// </summary>
-        public void GetWordsFromHttpResponse()
+        public static void GetWordsFromHttpResponse()
         {
             string res = string.Empty;
             string[] wordsInLine;
