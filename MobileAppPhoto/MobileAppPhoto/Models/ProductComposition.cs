@@ -9,10 +9,13 @@ namespace MobileAppPhoto
     public class ProductComposition
     {
         /// <summary>
-        /// Слова, которые могу обозначать пищевую ценность. 
+        /// Слова, которые могут обозначать пищевую ценность. 
         /// </summary>
         private HashSet<string> composition = new HashSet<string>(new string[] { "белки", "белков", "белок", "жир",
-            "белка", "жиры", "жиров", "жира", "углеводы", "углеводов", "углевода", "бел", "углево", "угле", "улеводы"});
+            "белка", "жиры", "жиров", "жира", "углеводы", "углеводов", "углевода", "бел", "углево", "угле", "улеводы",
+            "еводы", "еводов", "евод", "леводы", "леводов", "левод", "елка", "елков", "елок", "елко"});
+        private readonly string[] _splitWords = {"не", ".", "•", " ", ":", "\t", "\n", "г,", "г.", "-", "—", "t", "r", ";",
+                 "более", "менее", "больше", "меньше", "превышает", "ниже", "превышать", "щенные жир", "может"};
 
         /// <summary>
         /// Конструктор класса.
@@ -29,9 +32,7 @@ namespace MobileAppPhoto
             string answ = string.Empty;
             if (detectText != null)
             {
-                var words = detectText.Split(new string[] {"не ", ".", "•", " ", ":", "\t", "\n", "г,", "г.", "-", "—", "t", "r", ";",
-                 "более", "менее", "больше", "меньше", "превышает", "ниже", "превышать", "насыщенные жир", "щенные жир"
-            }, StringSplitOptions.RemoveEmptyEntries);
+                var words = detectText.Split(_splitWords, StringSplitOptions.RemoveEmptyEntries);
                 string temp = string.Empty;
                 for (int i = 0; i < words.Length; i++)
                 {

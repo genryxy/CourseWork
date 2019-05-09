@@ -224,7 +224,7 @@
         </member>
         <member name="F:MobileAppPhoto.ProductComposition.composition">
             <summary>
-            Слова, которые могу обозначать пищевую ценность. 
+            Слова, которые могут обозначать пищевую ценность. 
             </summary>
         </member>
         <member name="M:MobileAppPhoto.ProductComposition.#ctor">

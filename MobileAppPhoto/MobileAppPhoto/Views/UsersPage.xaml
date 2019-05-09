@@ -33,7 +33,7 @@
                     IsVisible="False"
                     Text="Подождите, фотография обрабатывается"
                     TextColor="Red" />
-                <ScrollView>
+                <ScrollView MinimumHeightRequest="324">
                     <StackLayout>
                         <Label x:Name="date" />
                         <Image x:Name="imageName" />

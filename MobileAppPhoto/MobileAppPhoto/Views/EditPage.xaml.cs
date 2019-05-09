@@ -166,7 +166,7 @@ namespace MobileAppPhoto
                 for (int i = 0; i < compositionValues.Length % 7; i += 2)
                 {
                     string str = compositionValues[i].ToLower().Trim();
-                    if (str.Contains("бел"))
+                    if (str.Contains("ел"))
                     {
                         correctOrderValues[0] = compositionValues[i + 1];
                     }
@@ -174,7 +174,7 @@ namespace MobileAppPhoto
                     {
                         correctOrderValues[1] = compositionValues[i + 1];
                     }
-                    else if (str.Contains("лево"))
+                    else if (str.Contains("ево"))
                     {
                         correctOrderValues[2] = compositionValues[i + 1];
                     }
