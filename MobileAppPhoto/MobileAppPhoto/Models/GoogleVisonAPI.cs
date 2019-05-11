@@ -44,7 +44,6 @@ namespace MobileAppPhoto
                     {
                         return text.Description;
                     }
-                    break;
                 }
             }
             catch (Exception) { }

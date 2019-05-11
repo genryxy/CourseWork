@@ -57,8 +57,7 @@ namespace MobileAppPhoto
                     // Асинхронный вызов REST API метода.
                     response = await client.PostAsync(uri, content).ConfigureAwait(false); ;
                 }
-                string contentString = await response.Content.ReadAsStringAsync();
-                DetectedText = JToken.Parse(contentString).ToString();
+                DetectedText = await response.Content.ReadAsStringAsync();
                 GetWordsFromHttpResponse();
             }
             catch (Exception) { }
@@ -93,7 +92,7 @@ namespace MobileAppPhoto
         /// Возвращает содержимое указанного файла в виде массива байтов.
         /// </summary>
         /// <param name="imageFilePath"> Путь до фотографии для чтения. </param>
-        /// <returns> Двоичный массив содержимого файла. </returns>
+        /// <returns> Массив байтов содержимого файла. </returns>
         static byte[] GetImageAsByteArray(string imageFilePath)
         {
             try

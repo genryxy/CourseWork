@@ -215,7 +215,7 @@
             Возвращает содержимое указанного файла в виде массива байтов.
             </summary>
             <param name="imageFilePath"> Путь до фотографии для чтения. </param>
-            <returns> Двоичный массив содержимого файла. </returns>
+            <returns> Массив байтов содержимого файла. </returns>
         </member>
         <member name="T:MobileAppPhoto.ProductComposition">
             <summary>

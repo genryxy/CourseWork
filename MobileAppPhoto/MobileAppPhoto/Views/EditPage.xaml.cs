@@ -19,7 +19,7 @@ namespace MobileAppPhoto
         const string nameProduct = "Название продукта";
         const string proteins = "Белки";
         const string textColor = "#1B4F72";
-        const string saveChanges = "Сохранить изменения";
+        const string saveRecord = "Добавить в базу данных";
 
         Entry _nameEntry, _proteinsEntry, _fatsEntry, _carbsEntry;
         Label _currStatus;
@@ -131,7 +131,7 @@ namespace MobileAppPhoto
             };
             Button btnConfirmEdit = new Button
             {
-                Text = saveChanges,
+                Text = saveRecord,
                 BackgroundColor = Color.FromHex(backColor),
                 TextColor = Color.FromHex(textColor)
             };
@@ -216,8 +216,7 @@ namespace MobileAppPhoto
             var currentEntry = (Entry)sender;
 
             return !double.TryParse(currentEntry.Text.Trim().Replace(',', '.'),
-                NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign,
-                CultureInfo.InvariantCulture, out double _);
+                NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out double _);
         }
     }
 }

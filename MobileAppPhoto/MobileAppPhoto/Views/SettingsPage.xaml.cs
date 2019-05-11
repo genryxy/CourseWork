@@ -92,7 +92,7 @@ namespace MobileAppPhoto
                 new RadioOption("Microsoft API", !isSelected)
             };
 
-            // Копирует элементы в группы
+            // Копирует элементы в группы.
             var sorted = from item in items
                          group item by item.Category into radioGroups
                          select new Grouping<string, RadioOption>("Варианты:", radioGroups);
