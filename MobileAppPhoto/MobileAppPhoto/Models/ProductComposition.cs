@@ -11,7 +11,7 @@ namespace MobileAppPhoto
         /// <summary>
         /// Слова, которые могут обозначать пищевую ценность. 
         /// </summary>
-        private HashSet<string> composition = new HashSet<string>(new string[] { "белки", "белков", "белок", "жир",
+        private HashSet<string> _composition = new HashSet<string>(new string[] { "белки", "белков", "белок", "жир",
             "белка", "жиры", "жиров", "жира", "углеводы", "углеводов", "углевода", "бел", "углево", "угле", "улеводы",
             "еводы", "еводов", "евод", "леводы", "леводов", "левод", "елка", "елков", "елок", "елко"});
         private readonly string[] _splitWords = {"не", ".", "•", " ", ":", "\t", "\n", "г,", "г.", "-", "—", "t", "r", ";",
@@ -36,7 +36,7 @@ namespace MobileAppPhoto
                 string temp = string.Empty;
                 for (int i = 0; i < words.Length; i++)
                 {
-                    if (composition.Contains(words[i].ToLower()))
+                    if (_composition.Contains(words[i].ToLower()))
                     {
                         if (words.Length - i > 1)
                         {

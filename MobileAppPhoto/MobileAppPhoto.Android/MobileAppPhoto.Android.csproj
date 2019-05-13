@@ -103,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\hseOcrPrivateKey.json" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />

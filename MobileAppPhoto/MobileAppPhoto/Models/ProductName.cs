@@ -17,14 +17,14 @@ namespace MobileAppPhoto
         /// <summary>
         /// Множество, содержащее названия продуктов.
         /// </summary>
-        public HashSet<string> AllName { get; set; } = new HashSet<string>();
+        private HashSet<string> AllName { get; set; } = new HashSet<string>();
 
         /// <summary>
         /// Конструктор класса.
         /// </summary>
         public ProductName()
         {
-            CreateHashset();
+            //CreateHashset();
         }
 
         /// <summary>

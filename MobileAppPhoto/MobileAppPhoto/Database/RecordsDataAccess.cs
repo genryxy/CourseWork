@@ -24,6 +24,11 @@ namespace MobileAppPhoto
         public ObservableCollection<Record> Records { get; private set; }
 
         /// <summary>
+        /// Количество записей.
+        /// </summary>
+        public int CountRecords { get => Records.Count; } 
+
+        /// <summary>
         /// Конструктор класса.
         /// </summary>
         public RecordsDataAccess()
@@ -32,11 +37,6 @@ namespace MobileAppPhoto
             database.CreateTable<Record>();
             Records = new ObservableCollection<Record>(database.Table<Record>());
         }
-
-        /// <summary>
-        /// Количество записей.
-        /// </summary>
-        public int CountRecords { get => Records.Count; }
        
         /// <summary>
         /// Метод для получения информации о записи.
@@ -51,7 +51,7 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Добавляет новый объект Record в набор Records.
+        /// Добавляет новый объект Record в коллекцию Records.
         /// </summary>
         /// <param name="name"> Название проудукта. </param>
         /// <param name="composition"> Состав продукта. </param>
@@ -148,7 +148,7 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Удаляет все объкты из таблицы.
+        /// Удаляет все объекты из таблицы.
         /// </summary>
         public void DeleteAllRecords()
         {

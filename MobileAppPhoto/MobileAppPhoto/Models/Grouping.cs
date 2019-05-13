@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 namespace MobileAppPhoto
 {
     /// <summary>
-    /// Объект, представляющий сгруппированные элементы для списка.
+    /// Класс, представляющий сгруппированные элементы для списка.
     /// </summary>
     /// <typeparam name="K"> Ключ, по которому группируют. </typeparam>
     /// <typeparam name="T"> Коллекция, элементы которой имеют одинаковый ключ. </typeparam>
@@ -17,7 +17,7 @@ namespace MobileAppPhoto
         /// <summary>
         /// Отображается ли название группы.
         /// </summary>
-        public bool IsVisible { get; set; } = true;
+        public bool IsVisible { get; private set; } = true;
 
         /// <summary>
         /// Конструктор класса.

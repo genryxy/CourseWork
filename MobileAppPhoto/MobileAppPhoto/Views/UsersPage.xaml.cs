@@ -123,7 +123,7 @@ namespace MobileAppPhoto
 
             await Navigation.PushAsync(edtPage = new EditPage(_strProductName, _strProductCompos, OnSaveRecord));
             WaitProcessingPhoto(true);
-            await DisplayAlert(notify, edtPage.ProdName + " " + edtPage.ProdCompos, ok);
+            await DisplayAlert(notify, edtPage.ProdName + " " + edtPage.ProdComposition, ok);
         }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace MobileAppPhoto
 
             await Navigation.PushAsync(edtPage = new EditPage(_strProductName, _strProductCompos, OnSaveRecord));
             WaitProcessingPhoto(true);
-            await DisplayAlert(notify, edtPage.ProdName + " " + edtPage.ProdCompos, ok);
+            await DisplayAlert(notify, edtPage.ProdName + " " + edtPage.ProdComposition, ok);
         }
         #endregion
 
@@ -213,6 +213,7 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
+        /// Открывает галерею для выбора фотографии.
         /// Даёт возможность выбрать фотографию из существующих.
         /// </summary>
         /// <returns> Выбранная фотография. </returns>
@@ -228,7 +229,7 @@ namespace MobileAppPhoto
         #endregion        
 
         /// <summary>
-        /// Событие, генерируемое при выводе страницы.
+        /// Обработчик событий, генерируемый при выводе страницы.
         /// </summary>
         protected override void OnAppearing()
         {
@@ -309,7 +310,7 @@ namespace MobileAppPhoto
         /// </summary>
         private void OnSaveRecord()
         {
-            dataAccess.AddNewRecord(edtPage.ProdName, edtPage.ProdCompos,
+            dataAccess.AddNewRecord(edtPage.ProdName, edtPage.ProdComposition,
                 _fileProdName.Path, _fileProdComposition.Path);
             OnSaveClick(this, new EventArgs());
         }
@@ -325,7 +326,7 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Обработчик события. Удаляет текущую запись.
+        /// Обработчик события. Удаляет выбранную запись.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -342,7 +343,8 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Обработчик события. Получить дополнительную информацию о приложении.
+        /// Обработчик события. Загружает новую страницу, 
+        /// содержащую дополнительной информацией о приложении.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -352,7 +354,7 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Обработчик события. Открыть страницу для изменения настроек.
+        /// Обработчик события. Открывает страницу для изменения настроек.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -363,7 +365,8 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Обработчик события. Получить инструкцию по использованию приложением.
+        /// Обработчик события. Загружает новую страницу, 
+        /// содержащую инструкцию по использованию приложением.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

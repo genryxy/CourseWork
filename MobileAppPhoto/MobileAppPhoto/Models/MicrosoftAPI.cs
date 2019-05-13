@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace MobileAppPhoto
 {
     /// <summary>
-    /// Класс для работы Google Vision API для распознавания
+    /// Класс для работы Microsoft Computer Vision API для распознавания
     /// текста с фотографии.
     /// </summary>
     public class MicrosoftAPI
@@ -21,7 +21,7 @@ namespace MobileAppPhoto
         /// </summary>
         private static string DetectedText { get; set; }
         /// <summary>
-        /// Текст, распознанный с фотографии.
+        /// Текст, распознанный на фотографии.
         /// </summary>
         public static string ResultText { get; private set; }
 
@@ -31,8 +31,8 @@ namespace MobileAppPhoto
         public MicrosoftAPI() { }
 
         /// <summary>
-        /// Записывает в свойство DetectedText текст, распознанный 
-        /// с указанного изображения с помощью API REST.
+        /// Записывает в свойство DetectedText текст, распознанный с помощью API REST
+        /// с указанного изображения .
         /// </summary>
         /// <param name="imageFilePath"> Путь до фотографии. </param>
         public static async Task MakeOCRRequest(string imageFilePath)
@@ -66,7 +66,7 @@ namespace MobileAppPhoto
         /// <summary>
         /// Вытаскивает слова из JSON ответа и записывает их в переменную. 
         /// </summary>
-        public static void GetWordsFromHttpResponse()
+        private static void GetWordsFromHttpResponse()
         {
             string res = string.Empty;
             string[] wordsInLine;
@@ -93,7 +93,7 @@ namespace MobileAppPhoto
         /// </summary>
         /// <param name="imageFilePath"> Путь до фотографии для чтения. </param>
         /// <returns> Массив байтов содержимого файла. </returns>
-        static byte[] GetImageAsByteArray(string imageFilePath)
+        private static byte[] GetImageAsByteArray(string imageFilePath)
         {
             try
             {

@@ -53,7 +53,7 @@ namespace MobileAppPhoto
         }
 
         /// <summary>
-        /// Вызвает событие при изменении значения свойства.
+        /// Вызывает событие при изменении значения свойства.
         /// </summary>
         /// <param name="propertyName"> Имя изменяемого свойства. </param>
         private void NotifyPropertyChanged(string propertyName)

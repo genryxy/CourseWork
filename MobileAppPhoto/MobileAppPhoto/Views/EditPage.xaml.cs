@@ -33,7 +33,7 @@ namespace MobileAppPhoto
         /// <summary>
         /// Состав продукта.
         /// </summary>
-        public string ProdCompos { get; private set; }
+        public string ProdComposition { get; private set; }
         /// <summary>
         /// Событие, на которое будет подписан метод из класса UserPage 
         /// для сохранения внесённых изменений.
@@ -53,7 +53,7 @@ namespace MobileAppPhoto
             BackgroundColor = Color.White;
             GetPreviousPage += onGetPreviousPage;
             ProdName = prodName;
-            ProdCompos = prodCompos;
+            ProdComposition = prodCompos;
             ScrollView scrollView = new ScrollView();
             StackLayout stackLayout = new StackLayout();
             Grid grid = new Grid
@@ -199,7 +199,7 @@ namespace MobileAppPhoto
             else
             {
                 ProdName = _nameEntry.Text;
-                ProdCompos = $"{proteins}:{_proteinsEntry.Text}; {fats}:{_fatsEntry.Text}; {carbohydrates}:{_carbsEntry.Text};";
+                ProdComposition = $"{proteins}:{_proteinsEntry.Text}; {fats}:{_fatsEntry.Text}; {carbohydrates}:{_carbsEntry.Text};";
                 GetPreviousPage?.Invoke();
                 await Navigation.PopAsync();
             }

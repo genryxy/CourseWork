@@ -6,7 +6,7 @@ using Xamarin.Forms.Xaml;
 namespace MobileAppPhoto
 {
     /// <summary>
-    /// Класс для просмотра содержмого БД.
+    /// Класс для просмотра содержимого БД.
     /// </summary>
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DatabasePage : ContentPage
@@ -18,7 +18,7 @@ namespace MobileAppPhoto
         const string backColor = "#BDC3C7";
 
         /// <summary>
-        /// Ссылка на экзмепляр класса RecordsDataAccess для работы с БД.
+        /// Ссылка на экземпляр класса RecordsDataAccess для работы с БД.
         /// </summary>
         private RecordsDataAccess DataAccess { get; set; }
 

@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MobileAppPhoto.Record">
+    <Position X="0.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACACAQAAgAAAAAZABAAAAAgAAAAAAAAAAAgAAIAFA=</HashCode>
+      <FileName>Database\Record.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MobileAppPhoto.RecordsDataAccess">
+    <Position X="2.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAABAAgAAAABAAAAAQAAAABAAAAABAIQAAAAgQAA=</HashCode>
+      <FileName>Database\RecordsDataAccess.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MobileAppPhoto.GoogleVisonAPI">
+    <Position X="2.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAIAAAAAAAAAAAAAAAAABAAgAAAAAAAAA=</HashCode>
+      <FileName>Models\GoogleVisonAPI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MobileAppPhoto.Grouping&lt;K, T&gt;">
+    <Position X="10.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Grouping.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MobileAppPhoto.MicrosoftAPI">
+    <Position X="4.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAIAAAggAAAAAAAAAAAAIAAAAAAAJAAAAAAAAA=</HashCode>
+      <FileName>Models\MicrosoftAPI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MobileAppPhoto.ProductComposition">
+    <Position X="10.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAgAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ProductComposition.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MobileAppPhoto.ProductName">
+    <Position X="10.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAABAAAAAAAAAAKAACAAAAAAAAAA=</HashCode>
+      <FileName>Models\ProductName.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MobileAppPhoto.RadioOption">
+    <Position X="10.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEMAAAAAAAACAgAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Models\RadioOption.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MobileAppPhoto.DatabasePage">
+    <Position X="4.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAACAAAAAAgAAAACAEBAAAAAAA=</HashCode>
+      <FileName>Views\DatabasePage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MobileAppPhoto.EditPage">
+    <Position X="8.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAgBAAAAAAIAAAAAKAAAEAEwAAgAAAEAYoAAAEA=</HashCode>
+      <FileName>Views\EditPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MobileAppPhoto.HelpPage">
+    <Position X="2.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Views\HelpPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MobileAppPhoto.InfoPage">
+    <Position X="4.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Views\InfoPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MobileAppPhoto.SettingsPage">
+    <Position X="8.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAQQAAAAAAACBBAAAAAAAA=</HashCode>
+      <FileName>Views\SettingsPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MobileAppPhoto.UsersPage">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QBBFBAACUQkBQFgEAgAeAAgoAAAQIAAIQYgAwaADgSA=</HashCode>
+      <FileName>Views\UsersPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="MobileAppPhoto.IDatabaseConnection">
+    <Position X="2.5" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Database\IDatabaseConnection.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="MobileAppPhoto.RadioCategory">
+    <Position X="12" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\RadioOption.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
