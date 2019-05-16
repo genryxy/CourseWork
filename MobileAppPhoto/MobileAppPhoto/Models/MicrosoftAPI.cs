@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -26,6 +25,11 @@ namespace MobileAppPhoto
         public static string ResultText { get; private set; }
 
         /// <summary>
+        /// Ответ, получаемый при вызове API.
+        /// </summary>
+        private static HttpResponseMessage Response { get; set; }
+
+        /// <summary>
         /// Конструктор класса.
         /// </summary>
         public MicrosoftAPI() { }
@@ -48,19 +52,26 @@ namespace MobileAppPhoto
                 string requestParameters = "language=unk&detectOrientation=true";
                 // Создание запроса.
                 string uri = uriBase + requestParameters;
-                HttpResponseMessage response;
+
 
                 byte[] byteData = GetImageAsByteArray(imageFilePath);
                 using (ByteArrayContent content = new ByteArrayContent(byteData))
                 {
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                     // Асинхронный вызов REST API метода.
-                    response = await client.PostAsync(uri, content).ConfigureAwait(false); ;
+                    Response = await client.PostAsync(uri, content).ConfigureAwait(false); ;
                 }
-                DetectedText = await response.Content.ReadAsStringAsync();
-                GetWordsFromHttpResponse();
             }
             catch (Exception) { }
+        }
+
+        /// <summary>
+        /// Сохраняет распознанные значения. Вызывается из класса UserPage.
+        /// </summary>
+        public async static void OnDetectTextMicrosoft()
+        {
+            DetectedText = await Response.Content.ReadAsStringAsync();
+            GetWordsFromHttpResponse();
         }
 
         /// <summary>

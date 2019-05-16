@@ -163,7 +163,7 @@ namespace MobileAppPhoto
         {
             try
             {
-                for (int i = 0; i < compositionValues.Length % 7; i += 2)
+                for (int i = 0; i < compositionValues.Length; i += 2)
                 {
                     string str = compositionValues[i].ToLower().Trim();
                     if (str.Contains("ел"))

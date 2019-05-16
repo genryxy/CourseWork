@@ -59,7 +59,7 @@
         </member>
         <member name="M:MobileAppPhoto.Record.OnPropertyChanged(System.String)">
             <summary>
-            Вызвает событие при изменении значения свойства.
+            Вызывает событие при изменении значения свойства.
             </summary>
             <param name="propertyName"> Имя изменяемого свойства. </param>
         </member>
@@ -74,14 +74,14 @@
             позволяет известить внешние объекты о том, что коллекция была изменена.
             </summary>
         </member>
-        <member name="M:MobileAppPhoto.RecordsDataAccess.#ctor">
-            <summary>
-            Конструктор класса.
-            </summary>
-        </member>
         <member name="P:MobileAppPhoto.RecordsDataAccess.CountRecords">
             <summary>
             Количество записей.
+            </summary>
+        </member>
+        <member name="M:MobileAppPhoto.RecordsDataAccess.#ctor">
+            <summary>
+            Конструктор класса.
             </summary>
         </member>
         <member name="M:MobileAppPhoto.RecordsDataAccess.GetInfoRecord">
@@ -92,7 +92,7 @@
         </member>
         <member name="M:MobileAppPhoto.RecordsDataAccess.AddNewRecord(System.String,System.String,System.String,System.String)">
             <summary>
-            Добавляет новый объект Record в набор Records.
+            Добавляет новый объект Record в коллекцию Records.
             </summary>
             <param name="name"> Название проудукта. </param>
             <param name="composition"> Состав продукта. </param>
@@ -128,7 +128,7 @@
         </member>
         <member name="M:MobileAppPhoto.RecordsDataAccess.DeleteAllRecords">
             <summary>
-            Удаляет все объкты из таблицы.
+            Удаляет все объекты из таблицы.
             </summary>
         </member>
         <member name="T:MobileAppPhoto.GoogleVisonAPI">
@@ -155,7 +155,7 @@
         </member>
         <member name="T:MobileAppPhoto.Grouping`2">
             <summary>
-            Объект, представляющий сгруппированные элементы для списка.
+            Класс, представляющий сгруппированные элементы для списка.
             </summary>
             <typeparam name="K"> Ключ, по которому группируют. </typeparam>
             <typeparam name="T"> Коллекция, элементы которой имеют одинаковый ключ. </typeparam>
@@ -179,7 +179,7 @@
         </member>
         <member name="T:MobileAppPhoto.MicrosoftAPI">
             <summary>
-            Класс для работы Google Vision API для распознавания
+            Класс для работы Microsoft Computer Vision API для распознавания
             текста с фотографии.
             </summary>
         </member>
@@ -190,7 +190,12 @@
         </member>
         <member name="P:MobileAppPhoto.MicrosoftAPI.ResultText">
             <summary>
-            Текст, распознанный с фотографии.
+            Текст, распознанный на фотографии.
+            </summary>
+        </member>
+        <member name="P:MobileAppPhoto.MicrosoftAPI.Response">
+            <summary>
+            Ответ, получаемый при вызове API.
             </summary>
         </member>
         <member name="M:MobileAppPhoto.MicrosoftAPI.#ctor">
@@ -200,10 +205,15 @@
         </member>
         <member name="M:MobileAppPhoto.MicrosoftAPI.MakeOCRRequest(System.String)">
             <summary>
-            Записывает в свойство DetectedText текст, распознанный 
-            с указанного изображения с помощью API REST.
+            Записывает в свойство DetectedText текст, распознанный с помощью API REST
+            с указанного изображения .
             </summary>
             <param name="imageFilePath"> Путь до фотографии. </param>
+        </member>
+        <member name="M:MobileAppPhoto.MicrosoftAPI.OnDetectTextMicrosoft">
+            <summary>
+            Сохраняет распознанные значения. Вызывается из класса UserPage.
+            </summary>
         </member>
         <member name="M:MobileAppPhoto.MicrosoftAPI.GetWordsFromHttpResponse">
             <summary>
@@ -222,7 +232,7 @@
             Класс для работы с текстом для определения состава продукта.
             </summary>
         </member>
-        <member name="F:MobileAppPhoto.ProductComposition.composition">
+        <member name="F:MobileAppPhoto.ProductComposition._composition">
             <summary>
             Слова, которые могут обозначать пищевую ценность. 
             </summary>
@@ -302,7 +312,7 @@
         </member>
         <member name="M:MobileAppPhoto.RadioOption.NotifyPropertyChanged(System.String)">
             <summary>
-            Вызвает событие при изменении значения свойства.
+            Вызывает событие при изменении значения свойства.
             </summary>
             <param name="propertyName"> Имя изменяемого свойства. </param>
         </member>
@@ -374,12 +384,12 @@
         </member>
         <member name="T:MobileAppPhoto.DatabasePage">
             <summary>
-            Класс для просмотра содержмого БД.
+            Класс для просмотра содержимого БД.
             </summary>
         </member>
         <member name="P:MobileAppPhoto.DatabasePage.DataAccess">
             <summary>
-            Ссылка на экзмепляр класса RecordsDataAccess для работы с БД.
+            Ссылка на экземпляр класса RecordsDataAccess для работы с БД.
             </summary>
         </member>
         <member name="M:MobileAppPhoto.DatabasePage.#ctor(MobileAppPhoto.RecordsDataAccess,System.Int32)">
@@ -406,7 +416,7 @@
             Название продукта.
             </summary>
         </member>
-        <member name="P:MobileAppPhoto.EditPage.ProdCompos">
+        <member name="P:MobileAppPhoto.EditPage.ProdComposition">
             <summary>
             Состав продукта.
             </summary>
@@ -562,13 +572,14 @@
         </member>
         <member name="M:MobileAppPhoto.UsersPage.PickMediaFileAsync">
             <summary>
+            Открывает галерею для выбора фотографии.
             Даёт возможность выбрать фотографию из существующих.
             </summary>
             <returns> Выбранная фотография. </returns>
         </member>
         <member name="M:MobileAppPhoto.UsersPage.OnAppearing">
             <summary>
-            Событие, генерируемое при выводе страницы.
+            Обработчик событий, генерируемый при выводе страницы.
             </summary>
         </member>
         <member name="M:MobileAppPhoto.UsersPage.OnViewOneClick(System.Object,System.EventArgs)">
@@ -620,28 +631,30 @@
         </member>
         <member name="M:MobileAppPhoto.UsersPage.OnRemoveClick(System.Object,System.EventArgs)">
             <summary>
-            Обработчик события. Удаляет текущую запись.
+            Обработчик события. Удаляет выбранную запись.
             </summary>
             <param name="sender"></param>
             <param name="e"></param>
         </member>
         <member name="M:MobileAppPhoto.UsersPage.BtnGetInfo_Clicked(System.Object,System.EventArgs)">
             <summary>
-            Обработчик события. Получить дополнительную информацию о приложении.
+            Обработчик события. Загружает новую страницу, 
+            содержащую дополнительной информацией о приложении.
             </summary>
             <param name="sender"></param>
             <param name="e"></param>
         </member>
         <member name="M:MobileAppPhoto.UsersPage.BtnChangeSettings_Clicked(System.Object,System.EventArgs)">
             <summary>
-            Обработчик события. Открыть страницу для изменения настроек.
+            Обработчик события. Открывает страницу для изменения настроек.
             </summary>
             <param name="sender"></param>
             <param name="e"></param>
         </member>
         <member name="M:MobileAppPhoto.UsersPage.BtnGetHelp_Clicked(System.Object,System.EventArgs)">
             <summary>
-            Обработчик события. Получить инструкцию по использованию приложением.
+            Обработчик события. Загружает новую страницу, 
+            содержащую инструкцию по использованию приложением.
             </summary>
             <param name="sender"></param>
             <param name="e"></param>

@@ -46,6 +46,7 @@ namespace MobileAppPhoto
         private string _selectedAPI = "Google API";
         private string _text = string.Empty;
 
+        private event Action DetectTextMicrosoft;
         /// <summary>
         /// Конструктор класса.
         /// </summary>
@@ -60,6 +61,7 @@ namespace MobileAppPhoto
             productName = new ProductName();
             productComposition = new ProductComposition();
             microsoftAPI = new MicrosoftAPI();
+            DetectTextMicrosoft = MicrosoftAPI.OnDetectTextMicrosoft;
         }
 
         #region Полный цикл работы с фотографиями
@@ -339,6 +341,7 @@ namespace MobileAppPhoto
                 {
                     dataAccess.DeleteRecord(currentRecord);
                 }
+                OnAppearing();
             }
         }
 
@@ -412,6 +415,7 @@ namespace MobileAppPhoto
             else
             {
                 MicrosoftAPI.MakeOCRRequest(file.Path).Wait();
+                DetectTextMicrosoft?.Invoke();
                 text = MicrosoftAPI.ResultText;
             }
         }

@@ -12,7 +12,8 @@
                     x:Name="RecordsView"
                     BackgroundColor="#EAEDED"
                     ItemsSource="{Binding Path=Records}"
-                    ListView.RowHeight="150">
+                    ListView.RowHeight="150"
+                    MinimumHeightRequest="300">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -33,27 +34,31 @@
                     IsVisible="False"
                     Text="Подождите, фотография обрабатывается"
                     TextColor="Red" />
-                <ScrollView MinimumHeightRequest="324">
+                <ScrollView MinimumHeightRequest="300">
                     <StackLayout>
                         <Label x:Name="date" />
                         <Image x:Name="imageName" />
                         <Image x:Name="imageCompos" />
                     </StackLayout>
                 </ScrollView>
-                <StackLayout>
-                    <Button
-                        x:Name="btnTakePhoto"
-                        BackgroundColor="{StaticResource btnGray}"
-                        Clicked="BtnTakePhoto_Clicked"
-                        Text="Сфотографировать"
-                        TextColor="{StaticResource textBlue}" />
-                    <Button
-                        x:Name="btnPickPhoto"
-                        BackgroundColor="{StaticResource btnGray}"
-                        Clicked="BtnPickPhoto_Clicked"
-                        Text="Выбрать 2 фотографии"
-                        TextColor="{StaticResource textBlue}" />
-                </StackLayout>
+                <ScrollView MinimumHeightRequest="95">
+                    <StackLayout>
+                        <Button
+                            x:Name="btnTakePhoto"
+                            BackgroundColor="{StaticResource btnGray}"
+                            Clicked="BtnTakePhoto_Clicked"
+                            HeightRequest="45"
+                            Text="Сфотографировать"
+                            TextColor="{StaticResource textBlue}" />
+                        <Button
+                            x:Name="btnPickPhoto"
+                            BackgroundColor="{StaticResource btnGray}"
+                            Clicked="BtnPickPhoto_Clicked"
+                            HeightRequest="45"
+                            Text="Выбрать 2 фотографии"
+                            TextColor="{StaticResource textBlue}" />
+                    </StackLayout>
+                </ScrollView>
             </StackLayout>
 
             <ContentPage.ToolbarItems>
